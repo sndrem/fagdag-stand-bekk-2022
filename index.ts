@@ -75,6 +75,13 @@ function tilfeldigTallMellom(min: number, max: number): number {
   console.log(colors.green("Ferdig med konvertering i Sqip!"));
   const original = fs.statSync(nedlastetBildePath);
   const resultat = fs.statSync("./result.svg");
+  console.log(
+    colors.italic(
+      `Du kan se resultatet fra Sqip her: ${path.dirname(
+        __filename
+      )}/result.svg`
+    )
+  );
   const originalStorrelse = regnUtStorrelseIMB(original);
   const nyStorrelse = regnUtStorrelseIMB(resultat);
   console.log(`Original størrelse i MB: ${originalStorrelse.toFixed(2)}`);

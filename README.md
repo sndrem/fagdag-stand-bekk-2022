@@ -5,7 +5,7 @@ Denne koden tar og søker etter en term hos [Unsplash](https://unsplash.com/) og
 ## Kom i gang
 For å kjøre koden trenger man et access token fra [Unsplash Developer](https://unsplash.com/developers). Når det er ordnet kjører du `./init.sh`. Når det er gjort legger du til access token for Unsplash-API'et i .env-filen.
 
-Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen.
+Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen. Du kan se konvertert bilde ved å åpne filen `result.svg`.
 
 ## Biblioteker i bruk
 * [node-fetch](https://www.npmjs.com/package/node-fetch) for å kunne kjøre fetch-kall i Node
