@@ -23,7 +23,7 @@ function tilfeldigTallMellom(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
-function lagreFilTilMappe(destination: string, content?: Buffer) {
+function lagreFilTilMappe(destination: string, content: any) {
   fs.writeFileSync(destination, content);
 }
 
@@ -88,7 +88,7 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
 }
 
 async function main() {
-  const query = "fall";
+  const query = "cake";
   await fetchFromUnsplashAndRunThroughSqip(query);
 }
 
