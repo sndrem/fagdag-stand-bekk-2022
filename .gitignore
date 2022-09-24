@@ -4,3 +4,4 @@ images
 *.jpeg
 *.jpg
 *.svg
+.DS_STORE
