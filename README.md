@@ -9,6 +9,8 @@ UNSPLASH_ACCESS_KEY=<DIN ACCESS KEY>
 UNSPLASH_SECRET_KEY=<DIN SECRET KEY>
 ```
 
+Opprett så en mappe med navn images her i prosjektet. Dette er for å ha et sted å lagre bildene man laster ned.
+
 Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen.
 
 ## Biblioteker i bruk
