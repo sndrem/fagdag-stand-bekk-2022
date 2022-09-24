@@ -8,7 +8,9 @@ export async function downloadImage(url: string, filepath: string) {
       maxHeaderSize: undefined,
     });
 
-    console.log(`Result from saved image: ${result.filename}`);
+    console.log(
+      `Resultat fra nedlasting og lagring av bilde: ${result.filename}`
+    );
   } catch (error) {
     console.log("Klarte ikke lagre bilde", error);
   }

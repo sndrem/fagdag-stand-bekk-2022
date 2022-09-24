@@ -3,13 +3,7 @@
 Denne koden tar og søker etter en term hos [Unsplash](https://unsplash.com/) og får returnert 10 bilder. Den tar så et tilfeldig bilde i listen, lagrer det i `/images/`-mappen. Sqip tar så og konverterer bilde til svg og resultatet av størrelsebesparing blir vist i terminalen.
 
 ## Kom i gang
-For å kjøre koden trenger man et access token fra [Unsplash Developer](https://unsplash.com/developers). Når det er ordnet oppretter du en .env-fil og legger til 
-```
-UNSPLASH_ACCESS_KEY=<DIN ACCESS KEY>
-UNSPLASH_SECRET_KEY=<DIN SECRET KEY>
-```
-
-Opprett så en mappe med navn images her i prosjektet. Dette er for å ha et sted å lagre bildene man laster ned.
+For å kjøre koden trenger man et access token fra [Unsplash Developer](https://unsplash.com/developers). Når det er ordnet kjører du `./init.sh`. Når det er gjort legger du til access token for Unsplash-API'et i .env-filen.
 
 Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen.
 

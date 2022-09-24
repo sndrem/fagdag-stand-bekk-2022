@@ -6,7 +6,6 @@ import * as nodeFetch from "node-fetch";
 const serverApi = createApi({
   accessKey: process.env.UNSPLASH_ACCESS_KEY!,
   fetch: nodeFetch as unknown as typeof fetch,
-  //...other fetch options
 });
 
 const searchPhotos = async (query: string) => {
