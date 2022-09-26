@@ -22,16 +22,19 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full bg-regn">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+      <body className="m-auto flex h-full w-5/6 flex-col content-center items-center">
+        <main className="m-auto flex w-5/6 flex-col content-center items-center">
+          <h1 className="text-3xl">Hello Fagdag-stand 👋</h1>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </main>
       </body>
     </html>
   );

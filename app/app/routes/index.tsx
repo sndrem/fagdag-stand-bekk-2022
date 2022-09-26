@@ -1,7 +1,12 @@
+import { Link, Outlet } from "@remix-run/react";
+
 export default function Index() {
   return (
-    <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
-      <h1 className="text-3xl">Hello Fagdag-stand 👋</h1>
+    <main className="m-auto flex w-5/6 flex-col content-center items-center">
+      <Link className="underline" to="/search">
+        Søk på Unsplash
+      </Link>
+      <Outlet />
     </main>
   );
 }
