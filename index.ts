@@ -59,6 +59,7 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
 
   const result = (await sqip({
     input: nedlastetBildePath,
+    width: -1,
     plugins: [
       {
         name: "sqip-plugin-primitive",
@@ -88,7 +89,7 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
 }
 
 async function main() {
-  const query = "cake";
+  const query = "animals";
   await fetchFromUnsplashAndRunThroughSqip(query);
 }
 
