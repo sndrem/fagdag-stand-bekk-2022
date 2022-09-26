@@ -59,7 +59,6 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
 
   const result = (await sqip({
     input: nedlastetBildePath,
-    width: -1,
     plugins: [
       {
         name: "sqip-plugin-primitive",
