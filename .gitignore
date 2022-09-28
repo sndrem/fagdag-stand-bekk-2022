@@ -5,5 +5,7 @@ images
 *.jpg
 *.svg
 .DS_STORE
+
+# Parcel
 dist
 .cache
