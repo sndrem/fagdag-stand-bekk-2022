@@ -1,9 +1,9 @@
-import {sqip, SqipResult} from "sqip";
+import { sqip, SqipResult } from "sqip";
 import * as fs from "fs";
-import {searchPhotos} from "./services/unsplash";
-import {downloadImage} from "./services/imageDownloadService";
+import { searchPhotos } from "./services/unsplash";
+import { downloadImage } from "./services/imageDownloadService";
 import path from "path";
-import {log} from "./utils/logger";
+import { log } from "./utils/logger";
 
 function regnUtStorrelseIMB(fil: fs.Stats): number {
   return fil.size / (1024 * 1024);
@@ -40,10 +40,12 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
   const tilfeldigValgtBilde =
     unsplashResponse?.response?.results[tilfeldigTall];
   const destUrl = (tilfeldigValgtBilde?.urls.raw ?? "") + ".png";
+
   const nedlastetBildePath = `${path.dirname(__filename)}/images/${query}.png`;
   log.success("Laster ned bilde...");
   await downloadImage(destUrl, nedlastetBildePath);
   log.success(`Bilde er lastet ned og kan sees her: ${nedlastetBildePath}`);
+
   const options = {
     numberOfPrimitives: 500,
     mode: 1,
@@ -70,13 +72,16 @@ async function fetchFromUnsplashAndRunThroughSqip(query: string) {
 
   lagreFilTilMappe("./result.svg", result.content);
   log.success("Ferdig med konvertering i Sqip!");
+
   const original = fs.statSync(nedlastetBildePath);
   const resultat = fs.statSync("./result.svg");
   log.success(
     `Du kan se resultatet fra Sqip her: ${path.dirname(__filename)}/result.svg`
   );
+
   const originalStorrelse = regnUtStorrelseIMB(original);
   const nyStorrelse = regnUtStorrelseIMB(resultat);
+
   log.success(`Original størrelse i MB: ${originalStorrelse.toFixed(2)}`);
   log.success(`Ny størrelse i MB: ${nyStorrelse.toFixed(10)}`);
   log.success(
