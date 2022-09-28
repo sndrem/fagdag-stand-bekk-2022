@@ -1,7 +1,8 @@
 {
   "type": "commonjs",
   "scripts": {
-    "postinstall": "sh ./init.sh"
+    "postinstall": "sh ./init.sh",
+    "prepare": "husky install"
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -17,6 +18,12 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.2",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
     "ts-node": "^10.9.1"
+  },
+  "lint-staged": {
+    "*.{js,ts,css,md,json}": "prettier --write"
   }
 }
