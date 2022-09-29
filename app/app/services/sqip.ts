@@ -27,15 +27,37 @@ async function lagreFilTilMappe(destination: string, content: any) {
   await fsPromise.writeFile(destination, content);
 }
 
-export async function fetchFromUnsplashAndRunThroughSqip(id: string) {
-  const timestamp = 0;
-  log.success(`Søker etter bilder av: ${id}`);
-  const unsplashResponse = await getPhotoById(id);
+async function optionalHentSvg(photoId: string): Promise<Buffer | undefined> {
+  return await fsPromise.readFile(
+    `${path.dirname(__dirname)}/public/images/${photoId}.png`
+  );
+}
+
+async function optionalHentMetadata(
+  photoId: string
+): Promise<string | undefined> {
+  try {
+    return await fsPromise.readFile(
+      `${path.dirname(__dirname)}/public/metadata/${photoId}.json`,
+      "utf-8"
+    );
+  } catch (error) {
+    return Promise.resolve(undefined);
+  }
+}
+
+export async function fetchFromUnsplashAndRunThroughSqip(photoId: string) {
+  const metadataFinnesFraFor = await optionalHentMetadata(photoId);
+
+  if (metadataFinnesFraFor) return JSON.parse(metadataFinnesFraFor);
+
+  log.success(`Søker etter bilder av: ${photoId}`);
+  const unsplashResponse = await getPhotoById(photoId);
 
   const destUrl = (unsplashResponse?.response?.urls.raw ?? "") + ".png";
   const nedlastetBildePath = `${path.dirname(
     __dirname
-  )}/public/images/${id}-${timestamp}.png`;
+  )}/public/images/${photoId}.png`;
   log.success("Laster ned bilde...");
   await downloadImage(destUrl, nedlastetBildePath);
   log.success(`Bilde er lastet ned og kan sees her: ${nedlastetBildePath}`);
@@ -65,7 +87,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(id: string) {
 
   const resultatSvgPath = `${path.dirname(
     __dirname
-  )}/public/images/${id}-${timestamp}.svg`;
+  )}/public/images/${photoId}.svg`;
   await lagreFilTilMappe(resultatSvgPath, result.content);
   log.success("Ferdig med konvertering i Sqip!");
   const original = await fsPromise.stat(nedlastetBildePath);
@@ -80,11 +102,16 @@ export async function fetchFromUnsplashAndRunThroughSqip(id: string) {
     nyStorrelse
   ).toFixed(2);
   log.success(`Du har spart: ${prosentSpart}%`);
-  return {
+  const jsonResult = {
     originalStorrelse,
     nyStorrelse: nyStorrelse.toFixed(10),
     prosentSpart,
     nedlastetBildePath: path.join("images", path.basename(nedlastetBildePath)),
     resultatSvgPath: path.join("images", path.basename(resultatSvgPath)),
   };
+  await fsPromise.writeFile(
+    `${path.dirname(__dirname)}/public/metadata/${photoId}.json`,
+    JSON.stringify(jsonResult)
+  );
+  return jsonResult;
 }

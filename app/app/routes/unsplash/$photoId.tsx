@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { fetchFromUnsplashAndRunThroughSqip } from "../../services/sqip";
@@ -12,48 +12,47 @@ interface KonverteringData {
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const unsplashId = params.unsplashId;
+  const photoId = params.photoId;
 
-  if (!unsplashId) {
+  if (!photoId) {
     throw json({ message: "Unsplash id er tom" }, 409);
   }
 
   const resultatFraKonvertering = await fetchFromUnsplashAndRunThroughSqip(
-    unsplashId
+    photoId
   );
   return json({ result: resultatFraKonvertering }, 200);
 };
 
 export default function UnsplashUrl() {
   const data = useLoaderData<{ result: KonverteringData }>();
-  console.log(data.result);
   return (
     <>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          height: "500px",
-        }}
-      >
+      <div className="grid grid-cols-2 gap-20 text-center">
         <div>
-          <h1>Originalbilde</h1>
-          <img
-            className="h-1/3"
-            src={`/${data.result.nedlastetBildePath}`}
-            alt="Originalbilde"
-          />
+          <h1 className="font-bold">Originalbilde</h1>
+          <p>
+            Original størrelse på bilde:{" "}
+            {parseInt(data.result.originalStorrelse).toFixed(2)} MB
+          </p>
+          <img src={`/${data.result.nedlastetBildePath}`} alt="Originalbilde" />
         </div>
         <div>
-          <h1>SVG etter konvertering</h1>
+          <h1 className="font-bold">SVG etter konvertering</h1>
+          <p>Ny størrelse på bilde: {data.result.nyStorrelse} MB</p>
           <img
-            className="h-1/3"
             src={`/${data.result.resultatSvgPath}`}
             alt="SVG av originalbilde"
           />
         </div>
       </div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <div className="m-5">
+        <p className="text-2xl">Du sparer {data.result.prosentSpart} %</p>
+      </div>
+
+      <Link className="rounded-md bg-accent py-5 px-10" to="/search">
+        Nytt søk
+      </Link>
     </>
   );
 }

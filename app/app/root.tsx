@@ -27,9 +27,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="m-auto flex h-full w-5/6 flex-col content-center items-center">
-        <main className="m-auto flex w-5/6 flex-col content-center items-center">
-          <h1 className="text-3xl">Hello Fagdag-stand 👋</h1>
+      <body className="h-full">
+        <header className="mb-10 w-full bg-accent py-10 px-5">
+          <p>Bildeoptimalisering med trekanter</p>
+        </header>
+        <main className="m-auto flex h-full w-5/6 flex-col content-center items-center">
           <Outlet />
           <ScrollRestoration />
           <Scripts />
