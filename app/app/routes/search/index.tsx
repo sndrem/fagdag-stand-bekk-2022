@@ -46,10 +46,7 @@ export default function UnsplashSearchRoute() {
       <div className="grid grid-cols-5 gap-10">
         {actionData?.response?.results.map((img) => {
           return (
-            <Link
-              key={img.id}
-              to={`/unsplash/${encodeURIComponent(img.urls.regular)}`}
-            >
+            <Link key={img.id} to={`/unsplash/${encodeURIComponent(img.id)}`}>
               <img alt={img.alt_description} src={img.urls.regular} />
             </Link>
           );
