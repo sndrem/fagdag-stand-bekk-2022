@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
-import {createApi} from "unsplash-js";
+import { createApi } from "unsplash-js";
 import * as nodeFetch from "node-fetch";
 
 const serverApi = createApi({
@@ -19,4 +19,4 @@ const searchPhotos = async (query: string) => {
   }
 };
 
-export {searchPhotos};
+export { searchPhotos };
