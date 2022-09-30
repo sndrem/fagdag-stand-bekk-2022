@@ -9,9 +9,22 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import appStylesheetUrl from "./styles/app.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: appStylesheetUrl },
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+    },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap",
+      rel: "stylesheet",
+    },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
@@ -22,12 +35,12 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en" className="h-full bg-regn">
+    <html lang="en" className="h-full bg-background">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
+      <body className="h-full font-newzald text-lg">
         <header className="mb-10 w-full bg-accent py-10 px-5">
           <p>Bildeoptimalisering med trekanter</p>
         </header>

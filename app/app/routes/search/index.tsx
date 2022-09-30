@@ -52,21 +52,58 @@ export default function UnsplashSearchRoute() {
           />
           <button
             type="submit"
-            className="mt-5 block rounded-lg bg-accent px-52 py-10"
+            className="mt-5 block rounded-lg bg-accent px-52 py-2"
           >
             Søk
           </button>
         </div>
       </form>
-      <div className="grid grid-cols-5 gap-10">
+      <div className="grid grid-cols-4 gap-5">
         {actionData?.response?.results.map((img) => {
           return (
-            <Link key={img.id} to={`/unsplash/${encodeURIComponent(img.id)}`}>
-              <img alt={img.alt_description} src={img.urls.regular} />
-            </Link>
+            <ImageLink
+              key={img.id}
+              id={img.id}
+              src={img.urls.regular}
+              altText={img.alt_description}
+              photoBy={img.user.name}
+              attributionLink={img.links.download}
+            />
           );
         })}
       </div>
     </>
+  );
+}
+
+function ImageLink({
+  src,
+  id,
+  altText = "",
+  photoBy,
+  attributionLink,
+}: {
+  src: string;
+  id: string;
+  altText?: string;
+  photoBy: string;
+  attributionLink: string;
+}) {
+  return (
+    <div className="flex flex-col">
+      <Link prefetch="intent" to={`/unsplash/${encodeURIComponent(id)}`}>
+        <img
+          className="max-h-full w-full object-cover"
+          alt={altText}
+          src={src}
+        />
+      </Link>
+      <small>
+        Foto av {photoBy} -{" "}
+        <a href={attributionLink} download>
+          Last ned
+        </a>
+      </small>
+    </div>
   );
 }
