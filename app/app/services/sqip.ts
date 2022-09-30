@@ -4,7 +4,7 @@ import fsPromise from "fs/promises";
 import path from "path";
 import type { SqipResult } from "sqip";
 import { sqip } from "sqip";
-import { downloadImage } from "../../../services/imageDownloadService";
+import { downloadImage } from "./imageDownloadService";
 import { getPhotoById } from "./unsplash";
 
 export const log = {
