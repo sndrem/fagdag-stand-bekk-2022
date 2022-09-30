@@ -1,7 +1,6 @@
 .env
 node_modules
 images
-*.jpeg
-*.jpg
-*.svg
+metadata
 .DS_STORE
+.cache
