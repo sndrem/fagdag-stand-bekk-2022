@@ -1,0 +1,50 @@
+body {
+  color: white;
+  padding: 2rem 4rem;
+  background-color: #262626;
+  font-family: system-ui;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 100rem;
+}
+
+.webkamera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#webkamera-feed {
+  background-color: black;
+  width: 100%;
+}
+
+#webkamera-knapp {
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+}
+
+#webkamera-canvas {
+  display: none;
+}
+
+#webkamera-output {
+  display: inline-block;
+  background-color: black;
+  width: 100%;
+}
+
+#webkamera-bilde {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+/*# sourceMappingURL=/client.77de5100.css.map */

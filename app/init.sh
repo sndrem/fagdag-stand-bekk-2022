@@ -1,8 +1,14 @@
 #!/bin/bash
-IMAGE_FOLDER=images
+IMAGE_FOLDER=public/images
 if [ ! -d "$IMAGE_FOLDER" ]; then
-    echo "📸 Oppretter mappen '/images'"
-    mkdir images
+    echo "📸 Oppretter mappen '/public/images'"
+    mkdir public/images
+fi
+
+METADATA_FOLDER=public/metadata
+if [ ! -d "$METADATA_FOLDER" ]; then
+    echo "🛡 Oppretter mappen '/public/metadata'"
+    mkdir public/metadata
 fi
 
 # Sjekk om .env-fil eksisterer fra før

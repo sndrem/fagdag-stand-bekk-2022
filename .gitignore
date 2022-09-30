@@ -3,3 +3,4 @@ node_modules
 images
 metadata
 .DS_STORE
+.cache
