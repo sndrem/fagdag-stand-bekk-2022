@@ -85,7 +85,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
 
   const resultatSvgPath = `${path.dirname(
     __dirname
-  )}/public/images/${photoId}.svg`;
+  )}/public/images/${photoId}-${options.numberOfPrimitives}.svg`;
   await lagreFilTilMappe(resultatSvgPath, result.content);
   log.success("Ferdig med konvertering i Sqip!");
   const original = await fsPromise.stat(nedlastetBildePath);

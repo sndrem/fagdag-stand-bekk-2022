@@ -28,7 +28,6 @@ export default function UnsplashUrl() {
   }
 
   const unsplash = data.result.unsplashResponse.response;
-  console.log(unsplash);
 
   return (
     <div className="flex flex-col items-center">
