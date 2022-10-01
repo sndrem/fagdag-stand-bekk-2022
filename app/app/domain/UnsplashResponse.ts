@@ -15,7 +15,7 @@ interface Response {
   results: Result[];
 }
 
-interface Result {
+export interface Result {
   id: string;
   created_at: string;
   updated_at: string;

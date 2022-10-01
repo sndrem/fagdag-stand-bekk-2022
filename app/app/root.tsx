@@ -9,9 +9,13 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import appStylesheetUrl from "./styles/app.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: appStylesheetUrl },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
@@ -22,13 +26,13 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en" className="h-full bg-regn">
+    <html lang="en" className="h-full bg-background">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-full">
-        <header className="mb-10 w-full bg-accent py-10 px-5">
+      <body className="h-full font-din text-lg">
+        <header className="mb-10 w-full bg-regn py-10 px-5">
           <p>Bildeoptimalisering med trekanter</p>
         </header>
         <main className="m-auto flex h-full w-5/6 flex-col content-center items-center">
