@@ -25,10 +25,17 @@ export default function UnsplashSearchRoute() {
 
   if (transition.state === "loading") {
     return (
-      <p>
-        Henter bilde fra Unsplash, knasker det gjennom Sqip og spytter ut svg.
-        Vennligst vent...
-      </p>
+      <>
+        <p>
+          Henter bilde fra Unsplash, knasker det gjennom Sqip og spytter ut svg.
+          Vennligst vent...
+        </p>
+        <img
+          className="mt-10 h-64 rounded-lg bg-white shadow-lg"
+          src="/loader.gif"
+          alt=""
+        />
+      </>
     );
   }
 
