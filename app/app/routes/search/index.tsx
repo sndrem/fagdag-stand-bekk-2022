@@ -3,6 +3,7 @@ import { json } from "@remix-run/server-runtime";
 import type { ActionFunction } from "@remix-run/server-runtime";
 import { searchPhotos } from "../../services/unsplash";
 import type { UnsplashResponse } from "../../domain/UnsplashResponse";
+import { PhotoAttribution } from "../../components/PhotoAttribution";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -59,6 +60,71 @@ export default function UnsplashSearchRoute() {
         </div>
       </form>
       <div className="grid grid-cols-4 gap-5">
+        {/* <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        />
+        <ImageLink
+          id={""}
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+          altText={"img.alt_description"}
+          photoBy={"img.user.name"}
+          attributionLink={"img.links.download"}
+          userProfileLink={"testing.com"}
+        /> */}
+
         {actionData?.response?.results.map((img) => {
           return (
             <ImageLink
@@ -67,7 +133,8 @@ export default function UnsplashSearchRoute() {
               src={img.urls.regular}
               altText={img.alt_description}
               photoBy={img.user.name}
-              attributionLink={img.links.download}
+              attributionLink={img.links.html}
+              userProfileLink={img.user.links.html}
             />
           );
         })}
@@ -82,28 +149,29 @@ function ImageLink({
   altText = "",
   photoBy,
   attributionLink,
+  userProfileLink,
 }: {
   src: string;
   id: string;
   altText?: string;
   photoBy: string;
   attributionLink: string;
+  userProfileLink: string;
 }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       <Link prefetch="intent" to={`/unsplash/${encodeURIComponent(id)}`}>
         <img
-          className="max-h-full w-full object-cover"
+          className="h-96 w-96 object-cover shadow-lg"
           alt={altText}
           src={src}
         />
       </Link>
-      <small>
-        Foto av {photoBy} -{" "}
-        <a href={attributionLink} download>
-          Last ned
-        </a>
-      </small>
+      <PhotoAttribution
+        attributionLink={attributionLink}
+        photoBy={photoBy}
+        userProfileLink={userProfileLink}
+      />
     </div>
   );
 }

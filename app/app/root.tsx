@@ -15,15 +15,6 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     { rel: "stylesheet", href: appStylesheetUrl },
-    { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    {
-      rel: "preconnect",
-      href: "https://fonts.gstatic.com",
-    },
-    {
-      href: "https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap",
-      rel: "stylesheet",
-    },
   ];
 };
 
@@ -40,8 +31,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-full font-newzald text-lg">
-        <header className="mb-10 w-full bg-accent py-10 px-5">
+      <body className="h-full font-din text-lg">
+        <header className="mb-10 w-full bg-regn py-10 px-5">
           <p>Bildeoptimalisering med trekanter</p>
         </header>
         <main className="m-auto flex h-full w-5/6 flex-col content-center items-center">

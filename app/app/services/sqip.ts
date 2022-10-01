@@ -4,6 +4,8 @@ import fsPromise from "fs/promises";
 import path from "path";
 import type { SqipResult } from "sqip";
 import { sqip } from "sqip";
+import { ApiResponse } from "unsplash-js/dist/helpers/response";
+import { Full } from "unsplash-js/dist/methods/photos/types";
 import { downloadImage } from "./imageDownloadService";
 import { getPhotoById } from "./unsplash";
 
@@ -27,12 +29,6 @@ async function lagreFilTilMappe(destination: string, content: any) {
   await fsPromise.writeFile(destination, content);
 }
 
-async function optionalHentSvg(photoId: string): Promise<Buffer | undefined> {
-  return await fsPromise.readFile(
-    `${path.dirname(__dirname)}/public/images/${photoId}.png`
-  );
-}
-
 async function optionalHentMetadata(
   photoId: string
 ): Promise<string | undefined> {
@@ -46,7 +42,18 @@ async function optionalHentMetadata(
   }
 }
 
-export async function fetchFromUnsplashAndRunThroughSqip(photoId: string) {
+export interface ConversionResponse {
+  originalStorrelse: string;
+  nyStorrelse: string;
+  prosentSpart: string;
+  nedlastetBildePath: string;
+  resultatSvgPath: string;
+  unsplashResponse: ApiResponse<Full> | undefined;
+}
+
+export async function fetchFromUnsplashAndRunThroughSqip(
+  photoId: string
+): Promise<ConversionResponse> {
   const metadataFinnesFraFor = await optionalHentMetadata(photoId);
 
   if (metadataFinnesFraFor) return JSON.parse(metadataFinnesFraFor);
@@ -103,11 +110,12 @@ export async function fetchFromUnsplashAndRunThroughSqip(photoId: string) {
   ).toFixed(2);
   log.success(`Du har spart: ${prosentSpart}%`);
   const jsonResult = {
-    originalStorrelse,
+    originalStorrelse: originalStorrelse.toString(),
     nyStorrelse: nyStorrelse.toFixed(10),
     prosentSpart,
     nedlastetBildePath: path.join("images", path.basename(nedlastetBildePath)),
     resultatSvgPath: path.join("images", path.basename(resultatSvgPath)),
+    unsplashResponse,
   };
   await fsPromise.writeFile(
     `${path.dirname(__dirname)}/public/metadata/${photoId}.json`,

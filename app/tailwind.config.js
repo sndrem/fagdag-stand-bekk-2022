@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         newzald: "newzald",
+        din: ["din", "sans-serif"],
       },
       colors: {
         regn: "#BCCEDD",

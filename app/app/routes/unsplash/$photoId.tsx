@@ -1,15 +1,11 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import { fetchFromUnsplashAndRunThroughSqip } from "../../services/sqip";
-
-interface KonverteringData {
-  originalStorrelse: string;
-  nyStorrelse: string;
-  prosentSpart: string;
-  nedlastetBildePath: string;
-  resultatSvgPath: string;
-}
+import { PhotoAttribution } from "../../components/PhotoAttribution";
+import {
+  ConversionResponse,
+  fetchFromUnsplashAndRunThroughSqip,
+} from "../../services/sqip";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const photoId = params.photoId;
@@ -25,7 +21,14 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function UnsplashUrl() {
-  const data = useLoaderData<{ result: KonverteringData }>();
+  const data = useLoaderData<{ result: ConversionResponse }>();
+
+  if (data.result.unsplashResponse?.type !== "success") {
+    return null;
+  }
+
+  const unsplash = data.result.unsplashResponse.response;
+
   return (
     <>
       <div className="grid grid-cols-2 gap-20 text-center">
@@ -36,6 +39,11 @@ export default function UnsplashUrl() {
             {parseInt(data.result.originalStorrelse).toFixed(2)} MB
           </p>
           <img src={`/${data.result.nedlastetBildePath}`} alt="Originalbilde" />
+          <PhotoAttribution
+            attributionLink={unsplash.links.html}
+            photoBy={unsplash.user.name}
+            userProfileLink={unsplash.user.links.html}
+          />
         </div>
         <div>
           <h1 className="font-bold">SVG etter konvertering</h1>
