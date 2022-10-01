@@ -28,9 +28,10 @@ export default function UnsplashUrl() {
   }
 
   const unsplash = data.result.unsplashResponse.response;
+  console.log(unsplash);
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <div className="grid grid-cols-2 gap-20 text-center">
         <div>
           <h1 className="font-bold">Originalbilde</h1>
@@ -39,6 +40,10 @@ export default function UnsplashUrl() {
             {parseInt(data.result.originalStorrelse).toFixed(2)} MB
           </p>
           <img src={`/${data.result.nedlastetBildePath}`} alt="Originalbilde" />
+          <p>
+            {unsplash.exif.aperture} / {unsplash.exif.exposure_time} -{" "}
+            {unsplash.exif.model}
+          </p>
           <PhotoAttribution
             attributionLink={unsplash.links.html}
             photoBy={unsplash.user.name}
@@ -61,6 +66,6 @@ export default function UnsplashUrl() {
       <Link className="rounded-md bg-accent py-5 px-10" to="/search">
         Nytt søk
       </Link>
-    </>
+    </div>
   );
 }
