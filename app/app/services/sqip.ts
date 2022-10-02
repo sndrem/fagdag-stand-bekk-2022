@@ -10,6 +10,7 @@ import { downloadImage } from "./imageDownloadService";
 import { getPhotoById } from "./unsplash";
 
 import { prisma } from "../lib/db.server";
+import { Konvertering } from "@prisma/client";
 
 export const log = {
   success: (message: string) => console.log(colors.green(message)),
@@ -31,7 +32,7 @@ async function lagreFilTilMappe(destination: string, content: any) {
   await fsPromise.writeFile(destination, content);
 }
 
-export interface ConversionResponse {
+export interface Metadata {
   originalStorrelse: string;
   nyStorrelse: string;
   prosentSpart: string;
@@ -42,12 +43,18 @@ export interface ConversionResponse {
 
 export async function fetchFromUnsplashAndRunThroughSqip(
   photoId: string
-): Promise<ConversionResponse> {
+): Promise<Konvertering> {
   const metadataFinnesFraFor = await prisma.konvertering.findFirst({
     where: { unsplashId: photoId },
   });
 
-  if (metadataFinnesFraFor) return JSON.parse(metadataFinnesFraFor?.metadata);
+  if (metadataFinnesFraFor) {
+    const metadata = JSON.parse(metadataFinnesFraFor.metadata) as Metadata;
+    return {
+      ...metadataFinnesFraFor,
+      ...metadata,
+    };
+  }
 
   log.success(`Søker etter bilder av: ${photoId}`);
   const unsplashResponse = await getPhotoById(photoId);
@@ -108,7 +115,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
     resultatSvgPath: path.join("images", path.basename(resultatSvgPath)),
     unsplashResponse,
   };
-  await prisma.konvertering.create({
+  const konverteringsresultater = await prisma.konvertering.create({
     data: {
       unsplashId: unsplashResponse?.response?.id!!,
       metadata: JSON.stringify(jsonResult),
@@ -119,5 +126,5 @@ export async function fetchFromUnsplashAndRunThroughSqip(
       pathSvgBilde: jsonResult.resultatSvgPath,
     },
   });
-  return jsonResult;
+  return konverteringsresultater;
 }
