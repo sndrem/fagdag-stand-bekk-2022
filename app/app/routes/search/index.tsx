@@ -25,22 +25,26 @@ export default function UnsplashSearchRoute() {
 
   if (transition.state === "loading") {
     return (
-      <p>
-        Henter bilde fra Unsplash, knasker det gjennom Sqip og spytter ut svg.
-        Vennligst vent...
-      </p>
+      <div className="flex flex-col items-center">
+        <p>
+          Henter bilde fra Unsplash, knasker det gjennom Sqip og spytter ut svg.
+          Vennligst vent...
+        </p>
+        <img
+          className="mt-10 h-64 rounded-lg bg-white shadow-lg"
+          src="/sauelaster.gif"
+          alt=""
+        />
+      </div>
     );
   }
 
   return (
-    <>
-      <Link className="underline" to="..">
-        Forsiden
-      </Link>
+    <div className="flex flex-col items-center">
       <form method="post" action="/search?index" className="w-3/5">
         <div className="my-5 flex flex-col items-center">
           <label htmlFor="query" className="my-2">
-            Søk hos{" "}
+            Søk via{" "}
             <a className="underline" href="https://unsplash.com/">
               Unsplash
             </a>
@@ -139,7 +143,7 @@ export default function UnsplashSearchRoute() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -160,7 +164,7 @@ function ImageLink({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <Link prefetch="intent" to={`/unsplash/${encodeURIComponent(id)}`}>
+      <Link to={`/unsplash/${encodeURIComponent(id)}`}>
         <img
           className="h-96 w-96 object-cover shadow-lg"
           alt={altText}

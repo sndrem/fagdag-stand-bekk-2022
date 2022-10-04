@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -33,9 +34,11 @@ export default function App() {
       </head>
       <body className="h-full font-din text-lg">
         <header className="mb-10 w-full bg-regn py-10 px-5">
-          <p>Bildeoptimalisering med trekanter</p>
+          <Link to="/">
+            <p>Bildeoptimalisering med trekanter</p>
+          </Link>
         </header>
-        <main className="m-auto flex h-full w-5/6 flex-col content-center items-center">
+        <main className="m-auto h-full w-5/6">
           <Outlet />
           <ScrollRestoration />
           <Scripts />

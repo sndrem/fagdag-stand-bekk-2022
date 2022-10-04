@@ -5,12 +5,6 @@ if [ ! -d "$IMAGE_FOLDER" ]; then
     mkdir public/images
 fi
 
-METADATA_FOLDER=public/metadata
-if [ ! -d "$METADATA_FOLDER" ]; then
-    echo "🛡 Oppretter mappen '/public/metadata'"
-    mkdir public/metadata
-fi
-
 # Sjekk om .env-fil eksisterer fra før
 echo "🤫 Sjekker om .env-fil eksisterer fra før..."
 FILE=.env

@@ -12,6 +12,18 @@ For å kjøre koden trenger man et access token fra [Unsplash Developer](https:/
 
 Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen. Du kan se konvertert bilde ved å åpne filen `result.svg`.
 
+## Prisma - databaseklient
+
+Vi bruker sqllite som database.
+
+For å resette databasen kjør `npx prisma migrate reset`. PS: Dette sletter alle dataene i databasen.
+
+### Endre skjema
+
+Endringer i skjema gjøres i filen `/prisma/schema.prisma`.
+Når endringene er utført må man kjøre `npx prisma db push`.
+Kjør også `npx prisma generate` for å få klienten oppdatert
+
 ## Biblioteker i bruk
 
 - [node-fetch](https://www.npmjs.com/package/node-fetch) for å kunne kjøre fetch-kall i Node

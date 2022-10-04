@@ -27,21 +27,22 @@
     "/public/build"
   ],
   "dependencies": {
+    "@prisma/client": "^4.4.0",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
     "@remix-run/serve": "^1.7.2",
     "@remix-run/server-runtime": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
+    "image-downloader": "^4.3.0",
     "isbot": "^3.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tiny-invariant": "^1.2.0",
-    "image-downloader": "^4.3.0",
     "sqip": "^1.0.0-alpha.38",
     "sqip-plugin-data-uri": "^1.0.0-alpha.39",
     "sqip-plugin-primitive": "^1.0.0-alpha.40",
     "sqip-plugin-svgo": "^1.0.0-alpha.40",
+    "tiny-invariant": "^1.2.0",
     "unsplash-js": "^7.0.15"
   },
   "devDependencies": {
@@ -72,6 +73,7 @@
     "postcss": "^8.4.16",
     "prettier": "2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
+    "prisma": "^4.4.0",
     "start-server-and-test": "^1.14.0",
     "tailwindcss": "^3.1.8",
     "ts-node": "^10.9.1",
