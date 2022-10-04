@@ -2,7 +2,7 @@ import colors from "colors";
 import type { Stats } from "fs";
 import fsPromise from "fs/promises";
 import path from "path";
-import type { SqipResult } from "sqip";
+import type { SqipPluginOptions, SqipResult } from "sqip";
 import { sqip } from "sqip";
 import { ApiResponse } from "unsplash-js/dist/helpers/response";
 import { Full } from "unsplash-js/dist/methods/photos/types";
@@ -69,6 +69,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
   const options = {
     numberOfPrimitives: 500,
     mode: 1,
+    rep: 100,
     blur: 0,
   };
   log.success(

@@ -28,7 +28,10 @@ export default function Index() {
                 <Link key={data.id} to={`/unsplash/${data.unsplashId}`}>
                   <img
                     className="h-96 w-96 bg-black object-cover p-2 shadow-lg"
-                    alt={metadata?.alt_description}
+                    alt={
+                      metadata?.alt_description ??
+                      "Bilde av en tidligere konvertering"
+                    }
                     src={data.pathSvgBilde}
                   />
                 </Link>

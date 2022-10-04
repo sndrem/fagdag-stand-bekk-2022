@@ -23,6 +23,7 @@ export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Fagdag-stand",
   viewport: "width=device-width,initial-scale=1",
+  description: "Tjeneste som konverterer bilder til svg-bilder via Sqip",
 });
 
 export default function App() {
