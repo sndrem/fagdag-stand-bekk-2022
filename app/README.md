@@ -14,7 +14,7 @@ Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgj
 
 ## Prisma - databaseklient
 
-Vi bruker sqllite som database.
+Vi bruker sqllite som database. Man må sette miljøvariabelen `DATABASE_URL="file:./dev.db"` i .env-filen for koble til Sqllite-databasen.
 
 For å resette databasen kjør `npx prisma migrate reset`. PS: Dette sletter alle dataene i databasen.
 
