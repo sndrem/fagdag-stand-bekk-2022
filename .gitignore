@@ -1,6 +1,8 @@
-.env
 node_modules
-images
-metadata
-.DS_STORE
-.cache
+
+/build
+/public/build
+.env
+.cache/*
+
+/app/styles/tailwind.css
