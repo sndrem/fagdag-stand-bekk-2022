@@ -4,13 +4,15 @@ import fsPromise from "fs/promises";
 import path from "path";
 import type { SqipPluginOptions, SqipResult } from "sqip";
 import { sqip } from "sqip";
-import { ApiResponse } from "unsplash-js/dist/helpers/response";
-import { Full } from "unsplash-js/dist/methods/photos/types";
+import type { ApiResponse } from "unsplash-js/dist/helpers/response";
+import type { Full } from "unsplash-js/dist/methods/photos/types";
 import { downloadImage } from "./imageDownloadService";
 import { getPhotoById } from "./unsplash";
 
 import { prisma } from "../lib/db.server";
 import { Konvertering } from "@prisma/client";
+
+const fs = require("fs");
 
 export const log = {
   success: (message: string) => console.log(colors.green(message)),
@@ -40,6 +42,53 @@ export interface Metadata {
   resultatSvgPath: string;
   unsplashResponse: ApiResponse<Full> | undefined;
 }
+
+export const uploadPhotoAndRunConvertWithSqip = async (
+  imageBase64: string
+): Promise<{ resultatSvgPath: string }> => {
+  const opplastetBildePath = lastOppBilde(imageBase64);
+
+  const options = {
+    numberOfPrimitives: 200,
+    mode: 1,
+    rep: 100,
+    blur: 0,
+  };
+
+  const result = (await sqip({
+    input: opplastetBildePath,
+    plugins: [
+      {
+        name: "sqip-plugin-primitive",
+        options,
+      },
+      "sqip-plugin-svgo",
+    ],
+  })) as Partial<SqipResult>;
+
+  console.log("RESULTAT:", result);
+
+  const resultatSvgPath = `${path.dirname(
+    __dirname
+  )}/public/images/webkamera.svg`;
+
+  await lagreFilTilMappe(resultatSvgPath, result.content);
+
+  return {
+    resultatSvgPath,
+  };
+};
+
+const lastOppBilde = (imageBase64: string) => {
+  const data = imageBase64.replace(/^data:image\/png;base64,/, "");
+  const uploadPath = `${path.dirname(__dirname)}/public/images/webkamera.png`;
+
+  fs.writeFile(uploadPath, data, "base64", (err: string) => {
+    console.log(err);
+  });
+
+  return uploadPath;
+};
 
 export async function fetchFromUnsplashAndRunThroughSqip(
   photoId: string
