@@ -18,6 +18,9 @@ export default function Index() {
             <Link className="underline" to="/search">
                 Søk via Unsplash
             </Link>
+            <Link className="underline" to="/webkamera">
+                Bruk webkamera
+            </Link>
             {loaderData.length ? (
                 <>
                     <h2 className="mt-20 mb-5">Tidligere konverteringer</h2>
