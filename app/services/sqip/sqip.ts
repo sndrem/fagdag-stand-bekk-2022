@@ -1,21 +1,16 @@
 import { downloadImage } from "../imageDownloadService";
 import { getPhotoById } from "../unsplash";
 import { prisma } from "../../lib/db.server";
-import { sqip, SqipCliOptionDefinition } from "sqip";
-import fsPromise from "fs/promises";
+import { sqip } from "sqip";
 import path from "path";
+import { beregnStatistikk } from "./statistikk";
+import { log } from "../log";
 
+import type { PrimitiveOptions } from "./types";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
 import type { Konvertering } from "@prisma/client";
 import type { SqipResult } from "sqip";
-import { regnUtBesparelseIProsent, regnUtStorrelseIMB } from "./statistikk";
-import { log } from "../log";
-import { PrimitiveOptions, SqipOptions } from "./types";
-
-async function lagreFilTilMappe(destination: string, content: any) {
-    await fsPromise.writeFile(destination, content);
-}
 
 export interface Metadata {
     originalStorrelse: string;
@@ -34,10 +29,12 @@ const defaultOptions: PrimitiveOptions = {
 
 export const convertToPrimitives = async (
     imagePath: string,
+    outputImagePath: string,
     primitiveOptions: PrimitiveOptions = defaultOptions
 ): Promise<SqipResult> => {
     return (await sqip({
         input: imagePath,
+        output: outputImagePath,
         plugins: [
             {
                 name: "sqip-plugin-primitive",
@@ -64,17 +61,19 @@ export async function fetchFromUnsplashAndRunThroughSqip(
     }
 
     log.success(`Søker etter bilder av: ${photoId}`);
+
     const unsplashResponse = await getPhotoById(photoId);
 
     const destUrl = (unsplashResponse?.response?.urls.raw ?? "") + ".png";
-    const nedlastetBildePath = `${path.dirname(
-        __dirname
-    )}/public/images/${photoId}.png`;
+    const bildePath = `${path.dirname(__dirname)}/public/images`;
+    const nedlastetBildePath = `${bildePath}/${photoId}.png`;
+
     log.success("Laster ned bilde...");
     await downloadImage(destUrl, nedlastetBildePath);
     log.success(`Bilde er lastet ned og kan sees her: ${nedlastetBildePath}`);
 
     let options = defaultOptions;
+    const resultatSvgPath = `${bildePath}/${photoId}-${options.numberOfPrimitives}.svg`;
 
     log.success(
         `Kjører bilde gjennom Sqip med følgende parameter: ${JSON.stringify(
@@ -84,29 +83,20 @@ export async function fetchFromUnsplashAndRunThroughSqip(
         )}`
     );
 
-    const result = await convertToPrimitives(nedlastetBildePath);
+    await convertToPrimitives(nedlastetBildePath, resultatSvgPath);
 
-    const resultatSvgPath = `${path.dirname(
-        __dirname
-    )}/public/images/${photoId}-${options.numberOfPrimitives}.svg`;
-    await lagreFilTilMappe(resultatSvgPath, result.content);
     log.success("Ferdig med konvertering i Sqip!");
-    const original = await fsPromise.stat(nedlastetBildePath);
-    const resultat = await fsPromise.stat(resultatSvgPath);
 
-    const originalStorrelse = regnUtStorrelseIMB(original);
-    const nyStorrelse = regnUtStorrelseIMB(resultat);
-    log.success(`Original størrelse i MB: ${originalStorrelse.toFixed(2)}`);
-    log.success(`Ny størrelse i MB: ${nyStorrelse.toFixed(10)}`);
-    const prosentSpart = regnUtBesparelseIProsent(
-        originalStorrelse,
-        nyStorrelse
-    ).toFixed(2);
+    const { originalStørrelse, nyStørrelse, prosentSpart } =
+        await beregnStatistikk(nedlastetBildePath, resultatSvgPath);
+
+    log.success(`Original størrelse i MB: ${originalStørrelse.toFixed(2)}`);
+    log.success(`Ny størrelse i MB: ${nyStørrelse.toFixed(10)}`);
     log.success(`Du har spart: ${prosentSpart}%`);
 
     const jsonResult = {
-        originalStorrelse: originalStorrelse.toString(),
-        nyStorrelse: nyStorrelse.toFixed(10),
+        originalStorrelse: nyStørrelse.toString(),
+        nyStorrelse: nyStørrelse.toFixed(10),
         prosentSpart,
         nedlastetBildePath: path.join(
             "images",
@@ -127,5 +117,6 @@ export async function fetchFromUnsplashAndRunThroughSqip(
             pathSvgBilde: jsonResult.resultatSvgPath,
         },
     });
+
     return konverteringsresultater;
 }

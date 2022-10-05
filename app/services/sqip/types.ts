@@ -65,9 +65,9 @@ export type PrimitiveOptions = {
     numberOfPrimitives: number;
     mode: PrimitiveMode;
     rep: number;
-    alpha: number;
-    background: string;
-    cores: number;
+    alpha?: number;
+    background?: string;
+    cores?: number;
 };
 
 export type SvgoOptions = {
