@@ -23,9 +23,26 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function UnsplashUrl() {
   const data = useLoaderData<{ result: Konvertering }>();
+
   const metadata = JSON.parse(data.result.metadata) as Metadata;
 
   const unsplash = metadata.unsplashResponse?.response;
+
+  if (!data) {
+    return (
+      <div className="flex flex-col items-center">
+        <p>
+          Henter bilde fra Unsplash, knasker det gjennom Sqip og spytter ut svg.
+          Vennligst vent...
+        </p>
+        <img
+          className="mt-10 h-64 rounded-lg bg-white shadow-lg"
+          src="/sauelaster.gif"
+          alt=""
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center">
