@@ -26,8 +26,8 @@ Kjør også `npx prisma generate` for å få klienten oppdatert
 
 ## Biblioteker i bruk
 
-- [node-fetch](https://www.npmjs.com/package/node-fetch) for å kunne kjøre fetch-kall i Node
-- [colors](https://www.npmjs.com/package/colors) for fargerikt output i terminalen
-- [image-downloader](https://www.npmjs.com/package/image-downloader) for å enkelt laste ned bilder fra internett
-- [sqip](https://github.com/axe312ger/sqip) for konvertering til svg
-- [unsplash-js](https://github.com/unsplash/unsplash-js) for enkel kommunikasjon med Unsplash sitt API
+-   [node-fetch](https://www.npmjs.com/package/node-fetch) for å kunne kjøre fetch-kall i Node
+-   [colors](https://www.npmjs.com/package/colors) for fargerikt output i terminalen
+-   [image-downloader](https://www.npmjs.com/package/image-downloader) for å enkelt laste ned bilder fra internett
+-   [sqip](https://github.com/axe312ger/sqip) for konvertering til svg
+-   [unsplash-js](https://github.com/unsplash/unsplash-js) for enkel kommunikasjon med Unsplash sitt API

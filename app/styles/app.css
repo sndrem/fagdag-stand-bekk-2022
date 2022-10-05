@@ -1,9 +1,9 @@
 @font-face {
-  font-family: "newzald";
-  src: url("./Newzald-Book.otf");
+    font-family: "newzald";
+    src: url("./Newzald-Book.otf");
 }
 
 @font-face {
-  font-family: "din";
-  src: url("./din-web-regular.ttf") format("ttf");
+    font-family: "din";
+    src: url("./din-web-regular.ttf") format("ttf");
 }
