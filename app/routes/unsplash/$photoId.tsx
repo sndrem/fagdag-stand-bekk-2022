@@ -2,10 +2,8 @@ import type { Konvertering } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import {
-    fetchFromUnsplashAndRunThroughSqip,
-    Metadata,
-} from "~/services/sqip/fraUnsplash";
+import type { Metadata } from "~/services/sqip/fraUnsplash";
+import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 
 export const loader: LoaderFunction = async ({ params }) => {
