@@ -1,23 +1,19 @@
-import { json } from "@remix-run/server-runtime";
 import { useEffect, useRef, useState } from "react";
-import type { ActionFunction } from "@remix-run/server-runtime";
-import { uploadImageAndConvertToPrimitives } from "~/services/sqip/fraWebkamera";
+import { Form, useTransition } from "@remix-run/react";
 import styles from "~/styles/webkamera.css";
+import Sauelaster from "~/components/Sauelaster";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
-export const action: ActionFunction = async ({ request }) => {
-    const formData = await request.formData();
-    const query = formData.get("image")?.toString();
-
-    if (query) {
-        const results = await uploadImageAndConvertToPrimitives(query);
-
-        return json(results);
-    }
-};
+enum Mode {
+    TaBilde,
+    BrukBildeEllerTaNyttBilde,
+}
 
 const WebkameraRoute = () => {
+    const [mode, setMode] = useState<Mode>(Mode.TaBilde);
+    const transition = useTransition();
+
     const [width] = useState<number>(1920);
     const [height, setHeight] = useState<number>(0);
 
@@ -80,27 +76,58 @@ const WebkameraRoute = () => {
                 const data = canvas.toDataURL("image/png");
 
                 image.setAttribute("src", data);
+
                 setImageSrc(data);
+                setMode(Mode.BrukBildeEllerTaNyttBilde);
             }
         }
     };
 
+    const taNyttBilde = () => {
+        setMode(Mode.TaBilde);
+    };
+
+    if (transition.state === "submitting") {
+        return <Sauelaster />;
+    }
+
+    const bildeClassName = mode === Mode.TaBilde ? "skjult" : undefined;
+    const videoClassName = mode === Mode.TaBilde ? undefined : "skjult";
+
     return (
-        <div>
-            <video ref={videoRef}>Webkamera er ikke tilgjengelig 😭</video>
-            <button onClick={onTakePicture}>Ta bilde 📸</button>
+        <div className="webkamera">
             <canvas ref={canvasRef} />
-            <div>
-                <img ref={imageRef} alt="Bilde tatt med webkamera" />
+
+            <div className="feed">
+                <video ref={videoRef} className={videoClassName}>
+                    Webkamera er ikke tilgjengelig 😭
+                </video>
+
+                <div className={bildeClassName}>
+                    <img ref={imageRef} alt="Bilde tatt med webkamera" />
+                </div>
             </div>
 
-            <img src="/images/webkamera.svg" alt="Generert bilde" />
+            {mode === Mode.TaBilde && (
+                <button className="webkamera-ta-bilde" onClick={onTakePicture}>
+                    Knips bilde 📸
+                </button>
+            )}
 
-            {imageSrc && (
-                <form method="post" action="/webkamera">
-                    <input name="image" defaultValue={imageSrc} />
-                    <button type="submit">Bruk bilde</button>
-                </form>
+            {mode === Mode.BrukBildeEllerTaNyttBilde && (
+                <>
+                    <Form method="post" action="/webkamera/resultat">
+                        <input
+                            type="hidden"
+                            name="image"
+                            defaultValue={imageSrc || ""}
+                        />
+                        <button type="submit">Bruk bilde ✅</button>
+                        <button type="button" onClick={taNyttBilde}>
+                            Ta nytt bilde 😉
+                        </button>
+                    </Form>
+                </>
             )}
         </div>
     );

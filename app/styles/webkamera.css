@@ -1,3 +1,40 @@
 canvas {
     display: none;
 }
+
+.webkamera,
+.webkamera-resultat {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.feed > * {
+    background: #1f1f1f;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+}
+
+.feed img {
+    object-fit: cover;
+}
+
+.skjult {
+    display: none;
+}
+
+.webkamera button,
+.webkamera-resultat .nytt-bilde-knapp {
+    align-self: center;
+    font-family: "DIN OT";
+    font-size: 3rem;
+    padding: 2rem 3rem;
+    background-color: peachpuff;
+    border-radius: 0.25rem;
+}
+
+.webkamera form {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}

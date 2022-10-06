@@ -1,5 +1,5 @@
 import path from "path";
-import { convertToPrimitives } from "./sqip";
+import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
 import fs from "fs";
 import { log } from "../log";
 
@@ -17,7 +17,11 @@ export const uploadImageAndConvertToPrimitives = async (
 
     log.success("Genererer primitiver for webkamera-bilde ...");
 
-    await convertToPrimitives(opplastetBildePath, generatedImagePath);
+    await convertToPrimitives(opplastetBildePath, generatedImagePath, {
+        ...defaultPrimitiveOptions,
+        numberOfPrimitives: 100,
+        rep: 1,
+    });
 
     return {
         generatedImagePath,
