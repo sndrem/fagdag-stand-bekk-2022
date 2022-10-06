@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["empty-module:../lib/db.server", "../../../app/routes/index.tsx"],
+  "sourcesContent": ["module.exports = {};", "import { Konvertering } from \"@prisma/client\";\nimport { Link, Outlet, useLoaderData } from \"@remix-run/react\";\nimport { json, LoaderFunction } from \"@remix-run/server-runtime\";\nimport { prisma } from \"../lib/db.server\";\n\nexport const loader: LoaderFunction = async () => {\n  const tidligereBilder = prisma.konvertering.findMany({ take: 50 });\n\n  return json(tidligereBilder);\n};\n\nexport default function Index() {\n  const loaderData = useLoaderData<Konvertering>();\n  console.log(loaderData);\n  return (\n    <main className=\"m-auto flex w-5/6 flex-col content-center items-center\">\n      <Link className=\"underline\" to=\"/search\">\n        S\u00F8k p\u00E5 Unsplash\n      </Link>\n      <Outlet />\n    </main>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;;;;AAAA;AAAA;AAAA,WAAO,UAAU,CAAC;AAAA;AAAA;;;ACGlB,gBAAuB;AAHvB;AAWe,SAAR,QAAyB;AAC9B,QAAM,aAAa,cAA4B;AAC/C,UAAQ,IAAI,UAAU;AACtB,SACE,mDAAC;AAAA,IAAK,WAAU;AAAA,IACd;AAAA,yDAAC;AAAA,QAAK,WAAU;AAAA,QAAY,IAAG;AAAA,QAAU;AAAA,SAAzC;AAAA;AAAA;AAAA;AAAA,aAEA;AAAA,MACA,mDAAC,YAAD;AAAA;AAAA;AAAA;AAAA,aAAQ;AAAA;AAAA,KAJV;AAAA;AAAA;AAAA;AAAA,SAKA;AAEJ;",
+  "names": []
+}

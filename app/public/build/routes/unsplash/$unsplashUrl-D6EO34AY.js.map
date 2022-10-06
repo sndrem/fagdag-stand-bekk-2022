@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/unsplash/$unsplashUrl.tsx"],
+  "sourcesContent": ["import { useParams } from \"@remix-run/react\";\n\nexport default function UnsplashUrl() {\n  const url = useParams().unsplashUrl;\n  return <img src={url} alt=\"Bilde\" />;\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;AAEe,SAAR,cAA+B;AACpC,QAAM,MAAM,UAAU,EAAE;AACxB,SAAO,mDAAC;AAAA,IAAI,KAAK;AAAA,IAAK,KAAI;AAAA,KAAnB;AAAA;AAAA;AAAA;AAAA,SAA2B;AACpC;",
+  "names": []
+}

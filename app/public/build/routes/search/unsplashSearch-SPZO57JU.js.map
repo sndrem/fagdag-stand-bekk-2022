@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/search/unsplashSearch.tsx"],
+  "sourcesContent": ["import { ActionFunction, json } from \"@remix-run/server-runtime\";\n\nexport const action: ActionFunction = async ({ request }) => {\n  const formData = await request.formData();\n  const query = formData.get(\"query\");\n  // TODO Send data til unsplash-api og f\u00E5 returnert data\n  return json({ hello: \"world\" });\n};\n\nexport default function UnsplashSearchRoute() {\n  return (\n    <form method=\"post\" action=\"/?index\">\n      <div className=\"my-5 flex flex-col items-center\">\n        <label htmlFor=\"query\">S\u00F8k hos Unsplash</label>\n        <input\n          type=\"text\"\n          name=\"query\"\n          placeholder=\"S\u00F8k p\u00E5 engelsk\"\n          className=\"rounded-lg p-2\"\n        />\n        <button\n          type=\"submit\"\n          className=\"mt-2 block w-full rounded-lg bg-accent\"\n        >\n          S\u00F8k\n        </button>\n      </div>\n    </form>\n  );\n}\n"],
+  "mappings": ";;;;;;;;AAAA;AASe,SAAR,sBAAuC;AAC5C,SACE,mDAAC;AAAA,IAAK,QAAO;AAAA,IAAO,QAAO;AAAA,IACzB,6DAAC;AAAA,MAAI,WAAU;AAAA,MACb;AAAA,2DAAC;AAAA,UAAM,SAAQ;AAAA,UAAQ;AAAA,WAAvB;AAAA;AAAA;AAAA;AAAA,eAAuC;AAAA,QACvC,mDAAC;AAAA,UACC,MAAK;AAAA,UACL,MAAK;AAAA,UACL,aAAY;AAAA,UACZ,WAAU;AAAA,WAJZ;AAAA;AAAA;AAAA;AAAA,eAKA;AAAA,QACA,mDAAC;AAAA,UACC,MAAK;AAAA,UACL,WAAU;AAAA,UACX;AAAA,WAHD;AAAA;AAAA;AAAA;AAAA,eAKA;AAAA;AAAA,OAbF;AAAA;AAAA;AAAA;AAAA,WAcA;AAAA,KAfF;AAAA;AAAA;AAAA;AAAA,SAgBA;AAEJ;",
+  "names": []
+}

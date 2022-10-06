@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/search/index.tsx"],
+  "sourcesContent": ["export default function Search() {\n  return <p>Hello World</p>;\n}\n"],
+  "mappings": ";;;;;;;;AAAA;AAAe,SAAR,SAA0B;AAC/B,SAAO,mDAAC;AAAA,IAAE;AAAA,KAAH;AAAA;AAAA;AAAA;AAAA,SAAc;AACvB;",
+  "names": []
+}

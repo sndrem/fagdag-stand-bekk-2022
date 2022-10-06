@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/components/PhotoAttribution.tsx"],
+  "sourcesContent": ["interface Props {\n  userProfileLink: string;\n  photoBy: string;\n  attributionLink: string;\n}\n\nexport function PhotoAttribution({\n  userProfileLink,\n  photoBy,\n  attributionLink,\n}: Props) {\n  return (\n    <small>\n      Foto av{\" \"}\n      <a className=\"underline\" href={userProfileLink}>\n        {\" \"}\n        {photoBy}{\" \"}\n      </a>{\" \"}\n      fra{\" \"}\n      <a className=\"underline\" href={attributionLink}>\n        Unsplash\n      </a>{\" \"}\n    </small>\n  );\n}\n"],
+  "mappings": ";;;;;;;;AAAA;AAMO,SAAS,iBAAiB;AAAA,EAC/B;AAAA,EACA;AAAA,EACA;AACF,GAAU;AACR,SACE,mDAAC;AAAA,IAAM;AAAA;AAAA,MACG;AAAA,MACR,mDAAC;AAAA,QAAE,WAAU;AAAA,QAAY,MAAM;AAAA,QAC5B;AAAA;AAAA,UACA;AAAA,UAAS;AAAA;AAAA,SAFZ;AAAA;AAAA;AAAA;AAAA,aAGA;AAAA,MAAK;AAAA,MAAI;AAAA,MACL;AAAA,MACJ,mDAAC;AAAA,QAAE,WAAU;AAAA,QAAY,MAAM;AAAA,QAAiB;AAAA,SAAhD;AAAA;AAAA;AAAA;AAAA,aAEA;AAAA,MAAK;AAAA;AAAA,KATP;AAAA;AAAA;AAAA;AAAA,SAUA;AAEJ;",
+  "names": []
+}

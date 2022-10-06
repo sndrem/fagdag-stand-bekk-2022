@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/constants.ts", "../../../app/components/PhotoAttribution.tsx"],
+  "sourcesContent": ["export const APP_NAME = \"fagdagstand\";\n", "import { APP_NAME } from \"../constants\";\n\ninterface Props {\n  userProfileLink: string;\n  photoBy: string;\n  attributionLink: string;\n}\n\nfunction utmQueries() {\n  return `?utm_source=${APP_NAME}&utm_medium=referral`;\n}\n\nexport function PhotoAttribution({\n  userProfileLink,\n  photoBy,\n  attributionLink,\n}: Props) {\n  return (\n    <small>\n      Foto av{\" \"}\n      <a className=\"underline\" href={`${userProfileLink}${utmQueries()}`}>\n        {\" \"}\n        {photoBy}{\" \"}\n      </a>{\" \"}\n      fra{\" \"}\n      <a className=\"underline\" href={`${attributionLink}${utmQueries()}`}>\n        Unsplash\n      </a>{\" \"}\n    </small>\n  );\n}\n"],
+  "mappings": ";;;;;;;;AAAO,IAAM,WAAW;;;ACAxB;AAQA,SAAS,aAAa;AACpB,SAAO,eAAe;AACxB;AAEO,SAAS,iBAAiB;AAAA,EAC/B;AAAA,EACA;AAAA,EACA;AACF,GAAU;AACR,SACE,mDAAC;AAAA,IAAM;AAAA;AAAA,MACG;AAAA,MACR,mDAAC;AAAA,QAAE,WAAU;AAAA,QAAY,MAAM,GAAG,kBAAkB,WAAW;AAAA,QAC5D;AAAA;AAAA,UACA;AAAA,UAAS;AAAA;AAAA,SAFZ;AAAA;AAAA;AAAA;AAAA,aAGA;AAAA,MAAK;AAAA,MAAI;AAAA,MACL;AAAA,MACJ,mDAAC;AAAA,QAAE,WAAU;AAAA,QAAY,MAAM,GAAG,kBAAkB,WAAW;AAAA,QAAK;AAAA,SAApE;AAAA;AAAA;AAAA;AAAA,aAEA;AAAA,MAAK;AAAA;AAAA,KATP;AAAA;AAAA;AAAA;AAAA,SAUA;AAEJ;",
+  "names": []
+}

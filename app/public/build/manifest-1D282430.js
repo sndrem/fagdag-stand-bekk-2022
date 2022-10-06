@@ -1,0 +1,53 @@
+window.__remixManifest = {
+    version: "1d282430",
+    entry: {
+        module: "/build/entry.client-6K3RMV6Y.js",
+        imports: [
+            "/build/_shared/chunk-GZ2VOAX2.js",
+            "/build/_shared/chunk-42Z7WWMI.js",
+        ],
+    },
+    routes: {
+        root: {
+            id: "root",
+            path: "",
+            module: "/build/root-QXNRUBX6.js",
+            hasAction: false,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/healthcheck": {
+            id: "routes/healthcheck",
+            parentId: "root",
+            path: "healthcheck",
+            module: "/build/routes/healthcheck-VW3PL5WX.js",
+            hasAction: false,
+            hasLoader: true,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/index": {
+            id: "routes/index",
+            parentId: "root",
+            index: true,
+            module: "/build/routes/index-YKNERF2J.js",
+            hasAction: false,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/search/index": {
+            id: "routes/search/index",
+            parentId: "root",
+            path: "search",
+            index: true,
+            module: "/build/routes/search/index-JM3RMCBB.js",
+            hasAction: true,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+    },
+    url: "/build/manifest-1D282430.js",
+};

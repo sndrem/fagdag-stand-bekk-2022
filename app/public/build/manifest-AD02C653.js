@@ -1,0 +1,53 @@
+window.__remixManifest = {
+    version: "ad02c653",
+    entry: {
+        module: "/build/entry.client-JSQRSSVY.js",
+        imports: [
+            "/build/_shared/chunk-7KDHOSXL.js",
+            "/build/_shared/chunk-3CPB4T5C.js",
+            "/build/_shared/chunk-42Z7WWMI.js",
+        ],
+    },
+    routes: {
+        root: {
+            id: "root",
+            path: "",
+            module: "/build/root-4WZQMZAS.js",
+            hasAction: false,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/healthcheck": {
+            id: "routes/healthcheck",
+            parentId: "root",
+            path: "healthcheck",
+            module: "/build/routes/healthcheck-VW3PL5WX.js",
+            hasAction: false,
+            hasLoader: true,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/index": {
+            id: "routes/index",
+            parentId: "root",
+            index: true,
+            module: "/build/routes/index-W5QNDMXQ.js",
+            hasAction: false,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+        "routes/search/unsplashSearch": {
+            id: "routes/search/unsplashSearch",
+            parentId: "root",
+            path: "search/unsplashSearch",
+            module: "/build/routes/search/unsplashSearch-SPZO57JU.js",
+            hasAction: true,
+            hasLoader: false,
+            hasCatchBoundary: false,
+            hasErrorBoundary: false,
+        },
+    },
+    url: "/build/manifest-AD02C653.js",
+};

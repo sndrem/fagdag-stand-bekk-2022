@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/unsplash/$unsplashId.tsx"],
+  "sourcesContent": ["import { useParams } from \"@remix-run/react\";\nimport { LoaderFunction } from \"@remix-run/server-runtime\";\n\n// export const loader: LoaderFunction = async ({ params }) => {\n//   const unsplashUrl = params.unsplashUrl;\n\n//   const resultatFraKonvertering = await fetch(`/api/sqip/${unsplashUrl}`);\n// };\n\nexport default function UnsplashUrl() {\n  const url = useParams().unsplashUrl;\n  return <img className=\"h-1/3\" src={url} alt=\"Bilde\" />;\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;AASe,SAAR,cAA+B;AACpC,QAAM,MAAM,UAAU,EAAE;AACxB,SAAO,mDAAC;AAAA,IAAI,WAAU;AAAA,IAAQ,KAAK;AAAA,IAAK,KAAI;AAAA,KAArC;AAAA;AAAA;AAAA;AAAA,SAA6C;AACtD;",
+  "names": []
+}

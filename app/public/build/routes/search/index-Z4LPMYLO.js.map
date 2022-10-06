@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/search/index.tsx"],
+  "sourcesContent": ["import { Outlet } from \"@remix-run/react\";\n\nexport default function Search() {\n  return (\n    <>\n      <p>Hello World</p>\n      <Outlet />\n    </>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;AAAA;AAEe,SAAR,SAA0B;AAC/B,SACE;AAAA,IACE;AAAA,yDAAC;AAAA,QAAE;AAAA,SAAH;AAAA;AAAA;AAAA;AAAA,aAAc;AAAA,MACd,mDAAC,YAAD;AAAA;AAAA;AAAA;AAAA,aAAQ;AAAA;AAAA,KAFV;AAAA;AAAA;AAAA;AAAA,SAGA;AAEJ;",
+  "names": []
+}

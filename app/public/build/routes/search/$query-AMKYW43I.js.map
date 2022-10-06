@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/search/$query.tsx"],
+  "sourcesContent": ["import { json, LoaderFunction } from \"@remix-run/server-runtime\";\nimport { searchPhotos } from \"../../services/unsplash\";\n\nexport const loader: LoaderFunction = async ({ params }) => {\n  const { query } = params;\n\n  if (!query) {\n    throw json({\n      status: \"409\",\n      error: \"Bad request - 'query' is null or not provided\",\n    });\n  }\n\n  const results = await searchPhotos(query);\n\n  return json(results);\n};\n\nexport default function QueryResult() {\n  return <p>Hello World</p>;\n}\n"],
+  "mappings": ";;;;;;;;AAAA;AAkBe,SAAR,cAA+B;AACpC,SAAO,mDAAC;AAAA,IAAE;AAAA,KAAH;AAAA;AAAA;AAAA;AAAA,SAAc;AACvB;",
+  "names": []
+}
