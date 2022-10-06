@@ -5,6 +5,7 @@ node_modules
 /public/images
 .env
 .cache/*
+.DS_Store
 
 /app/styles/tailwind.css
 

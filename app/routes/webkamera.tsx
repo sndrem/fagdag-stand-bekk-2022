@@ -1,12 +1,8 @@
 import { json } from "@remix-run/server-runtime";
 import { useEffect, useRef, useState } from "react";
-import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
-import {
-    getLastConvertedImage,
-    uploadImageAndConvertToPrimitives,
-} from "~/services/sqip/fraWebkamera";
+import type { ActionFunction } from "@remix-run/server-runtime";
+import { uploadImageAndConvertToPrimitives } from "~/services/sqip/fraWebkamera";
 import styles from "~/styles/webkamera.css";
-import { useLoaderData } from "@remix-run/react";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
@@ -22,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const WebkameraRoute = () => {
-    const [width, setWidth] = useState<number>(1920);
+    const [width] = useState<number>(1920);
     const [height, setHeight] = useState<number>(0);
 
     const videoRef = useRef<HTMLVideoElement>(null);
