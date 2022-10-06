@@ -5,7 +5,10 @@ import { json } from "@remix-run/server-runtime";
 import { prisma } from "../lib/db.server";
 
 export const loader: LoaderFunction = async () => {
-  const tidligereBilder = await prisma.konvertering.findMany({ take: 50 });
+  const tidligereBilder = await prisma.konvertering.findMany({
+    take: 50,
+    where: { numberOfPrimitives: 500 },
+  });
 
   return json(tidligereBilder);
 };
@@ -25,7 +28,11 @@ export default function Index() {
             {loaderData?.map((data) => {
               const metadata = JSON.parse(data.metadata);
               return (
-                <Link key={data.id} to={`/unsplash/${data.unsplashId}`}>
+                <Link
+                  prefetch="intent"
+                  key={data.id}
+                  to={`/unsplash/${data.unsplashId}`}
+                >
                   <img
                     className="h-96 w-96 bg-black object-cover p-2 shadow-lg"
                     alt={
