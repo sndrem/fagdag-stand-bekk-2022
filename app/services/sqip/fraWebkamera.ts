@@ -1,5 +1,5 @@
 import path from "path";
-import { convertToPrimitives } from "./sqip";
+import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
 import fs from "fs";
 import { log } from "../log";
 
@@ -17,22 +17,24 @@ export const uploadImageAndConvertToPrimitives = async (
 
     log.success("Genererer primitiver for webkamera-bilde ...");
 
-    await convertToPrimitives(opplastetBildePath, generatedImagePath);
+    await convertToPrimitives(opplastetBildePath, generatedImagePath, {
+        ...defaultPrimitiveOptions,
+        numberOfPrimitives: 100,
+        rep: 50,
+    });
 
     return {
         generatedImagePath,
     };
 };
 
-export const getLastConvertedImage = async (): Promise<any> => {
+export const hentSisteBildeFraWebkamera = async (): Promise<Buffer> => {
     return new Promise((resolve, reject) => {
         const generatedImagePath = `${imagesPath}/webkamera.svg`;
 
         fs.readFile(generatedImagePath, null, (error, data) => {
             if (error === null) {
-                const base64Encoded =
-                    "data:image/svg;base64," + data.toString("base64");
-                resolve(base64Encoded);
+                resolve(data);
             } else {
                 reject(error);
             }

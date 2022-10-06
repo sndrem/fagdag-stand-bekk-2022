@@ -7,6 +7,7 @@ import {
 } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
+import Sauelaster from "~/components/Sauelaster";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 import { Soketips } from "../../components/Soketips";
 import type { UnsplashResponse } from "../../domain/UnsplashResponse";
@@ -32,19 +33,7 @@ export default function UnsplashSearchRoute() {
         transition.state === "loading" &&
         transition.location.pathname.includes("/unsplash")
     ) {
-        return (
-            <div className="flex flex-col items-center">
-                <p>
-                    Henter bilde fra Unsplash, knasker det gjennom Sqip og
-                    spytter ut svg. Vennligst vent...
-                </p>
-                <img
-                    className="mt-10 h-64 rounded-lg bg-white shadow-lg"
-                    src="/sauelaster.gif"
-                    alt=""
-                />
-            </div>
-        );
+        return <Sauelaster />;
     }
 
     return (
