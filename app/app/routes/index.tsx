@@ -15,8 +15,8 @@ export default function Index() {
 
   return (
     <main className="m-auto flex w-5/6 flex-col content-center items-center">
-      <Link className="underline" to="/search">
-        Søk via Unsplash
+      <Link className="rounded-lg bg-accent p-10" to="/search">
+        Generer et nytt bilde
       </Link>
       {loaderData.length ? (
         <>
