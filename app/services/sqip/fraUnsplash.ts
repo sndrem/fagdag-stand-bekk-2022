@@ -9,6 +9,7 @@ import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
 import type { Konvertering } from "@prisma/client";
 import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
+import type { PrimitiveOptions } from "./types";
 
 export interface Metadata {
     originalStorrelse: string;
@@ -19,56 +20,18 @@ export interface Metadata {
     unsplashResponse: ApiResponse<Full> | undefined;
 }
 
-export async function fetchFromUnsplashAndRunThroughSqip(
-    photoId: string
-): Promise<Konvertering> {
-    const metadataFinnesFraFor = await prisma.konvertering.findFirst({
-        where: { unsplashId: photoId },
-    });
-
-    if (metadataFinnesFraFor) {
-        const metadata = JSON.parse(metadataFinnesFraFor.metadata) as Metadata;
-        return {
-            ...metadataFinnesFraFor,
-            ...metadata,
-        };
-    }
-
-    log.success(`Søker etter bilder av: ${photoId}`);
-
-    const unsplashResponse = await getPhotoById(photoId);
-
-    const destUrl = (unsplashResponse?.response?.urls.raw ?? "") + ".png";
-    const bildePath = `${path.dirname(__dirname)}/public/images`;
-    const nedlastetBildePath = `${bildePath}/${photoId}.png`;
-
-    log.success("Laster ned bilde...");
-    await downloadImage(destUrl, nedlastetBildePath);
-    log.success(`Bilde er lastet ned og kan sees her: ${nedlastetBildePath}`);
-
-    let options = defaultPrimitiveOptions;
-    const resultatSvgPath = `${bildePath}/${photoId}-${options.numberOfPrimitives}.svg`;
-
-    log.success(
-        `Kjører bilde gjennom Sqip med følgende parameter: ${JSON.stringify(
-            options,
-            null,
-            2
-        )}`
-    );
-
-    await convertToPrimitives(nedlastetBildePath, resultatSvgPath);
-
-    log.success("Ferdig med konvertering i Sqip!");
+async function genererSqipBilde(
+    unsplashResponse: ApiResponse<Full>,
+    nedlastetBildePath: string,
+    resultatSvgPath: string,
+    options: PrimitiveOptions
+) {
+    await convertToPrimitives(nedlastetBildePath, resultatSvgPath, options);
 
     const { originalStørrelse, nyStørrelse, prosentSpart } =
         await beregnStatistikk(nedlastetBildePath, resultatSvgPath);
 
-    log.success(`Original størrelse i MB: ${originalStørrelse.toFixed(2)}`);
-    log.success(`Ny størrelse i MB: ${nyStørrelse.toFixed(10)}`);
-    log.success(`Du har spart: ${prosentSpart}%`);
-
-    const jsonResult = {
+    const jsonResult: Metadata = {
         originalStorrelse: originalStørrelse.toFixed(2),
         nyStorrelse: nyStørrelse.toFixed(10),
         prosentSpart,
@@ -80,17 +43,63 @@ export async function fetchFromUnsplashAndRunThroughSqip(
         unsplashResponse,
     };
 
-    const konverteringsresultater = await prisma.konvertering.create({
+    return jsonResult;
+}
+
+export async function fetchFromUnsplashAndRunThroughSqip(
+    photoId: string,
+    numberOfPrimitives: number = 500
+): Promise<Konvertering[]> {
+    // TODO Her må vi også sjekke mode, number of primitives og blur
+    const metadataFinnesFraFor = await prisma.konvertering.findMany({
+        where: { unsplashId: photoId, numberOfPrimitives },
+        orderBy: { numberOfPrimitives: "asc" },
+    });
+
+    if (metadataFinnesFraFor.length) {
+        return metadataFinnesFraFor.map<Konvertering>((meta) => {
+            const metadata = JSON.parse(meta.metadata) as Metadata;
+            return {
+                ...metadata,
+                ...meta,
+            };
+        });
+    }
+
+    log.success(`Søker etter bilder av: ${photoId}`);
+
+    const unsplashResponse = await getPhotoById(photoId);
+    const unsplashUrl = (unsplashResponse?.response?.urls.raw ?? "") + ".png";
+
+    const bildePath = `${path.dirname(__dirname)}/public/images`;
+    const nedlastetBildePath = `${bildePath}/${photoId}.png`;
+
+    await downloadImage(unsplashUrl, nedlastetBildePath);
+
+    let options = {
+        ...defaultPrimitiveOptions,
+        numberOfPrimitives,
+    };
+
+    const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-${options.numberOfPrimitives}.svg`;
+
+    const konvertering = await genererSqipBilde(
+        unsplashResponse!,
+        nedlastetBildePath,
+        resultatSvgPath,
+        options
+    );
+
+    const savedKonvertering = await prisma.konvertering.create({
         data: {
             unsplashId: unsplashResponse?.response?.id!!,
-            metadata: JSON.stringify(jsonResult),
+            metadata: JSON.stringify(konvertering),
             blur: 0,
             mode: options.mode,
             numberOfPrimitives: options.numberOfPrimitives,
-            pathOriginalbilde: jsonResult.nedlastetBildePath,
-            pathSvgBilde: jsonResult.resultatSvgPath,
+            pathOriginalbilde: konvertering.nedlastetBildePath,
+            pathSvgBilde: konvertering.resultatSvgPath,
         },
     });
-
-    return konverteringsresultater;
+    return [savedKonvertering];
 }

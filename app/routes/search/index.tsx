@@ -5,7 +5,8 @@ import {
     useSearchParams,
     useTransition,
 } from "@remix-run/react";
-import { json, LoaderFunction } from "@remix-run/server-runtime";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 import { Soketips } from "../../components/Soketips";
 import type { UnsplashResponse } from "../../domain/UnsplashResponse";

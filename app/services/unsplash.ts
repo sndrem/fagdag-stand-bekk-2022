@@ -8,7 +8,7 @@ const searchPhotos = async (query: string) => {
     try {
         const result = await serverApi.search.getPhotos({
             query,
-            perPage: 8,
+            perPage: 20,
         });
         return result;
     } catch (error) {
