@@ -1,29 +1,36 @@
-import { Link, useActionData, useTransition } from "@remix-run/react";
-import { json } from "@remix-run/server-runtime";
-import type { ActionFunction } from "@remix-run/server-runtime";
-import { searchPhotos } from "../../services/unsplash";
-import type { UnsplashResponse } from "../../domain/UnsplashResponse";
+import {
+    Form,
+    Link,
+    useLoaderData,
+    useSearchParams,
+    useTransition,
+} from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/server-runtime";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
+import { Soketips } from "../../components/Soketips";
+import type { UnsplashResponse } from "../../domain/UnsplashResponse";
+import { searchPhotos } from "../../services/unsplash";
 
-export const action: ActionFunction = async ({ request }) => {
-    const formData = await request.formData();
-    const query = formData.get("query")?.toString();
-    if (!query) {
-        throw json({
-            status: "409",
-            error: "Bad request - 'query' is null or not provided",
-        });
-    }
+export const loader: LoaderFunction = async ({ request }) => {
+    const url = new URL(request.url);
+    const search = new URLSearchParams(url.search);
+    const query = search.get("query");
+    if (!query) return json([], 200);
+
     const results = await searchPhotos(query);
 
     return json(results);
 };
 
 export default function UnsplashSearchRoute() {
-    const actionData = useActionData<UnsplashResponse>();
+    const actionData = useLoaderData<UnsplashResponse>();
     const transition = useTransition();
+    const [search] = useSearchParams();
 
-    if (transition.state === "loading") {
+    if (
+        transition.state === "loading" &&
+        transition.location.pathname.includes("/unsplash")
+    ) {
         return (
             <div className="flex flex-col items-center">
                 <p>
@@ -41,7 +48,7 @@ export default function UnsplashSearchRoute() {
 
     return (
         <div className="flex flex-col items-center">
-            <form method="post" action="/search?index" className="w-3/5">
+            <Form method="get" className="w-3/5">
                 <div className="my-5 flex flex-col items-center">
                     <label htmlFor="query" className="my-2">
                         Søk via{" "}
@@ -54,6 +61,7 @@ export default function UnsplashSearchRoute() {
                         name="query"
                         placeholder="Søk på engelsk"
                         className="w-full rounded-lg p-2"
+                        defaultValue={search.get("query") ?? ""}
                     />
                     <button
                         type="submit"
@@ -62,7 +70,9 @@ export default function UnsplashSearchRoute() {
                         Søk
                     </button>
                 </div>
-            </form>
+            </Form>
+            <Soketips />
+
             <div className="grid grid-cols-4 gap-5">
                 {/* <ImageLink
           id={""}
