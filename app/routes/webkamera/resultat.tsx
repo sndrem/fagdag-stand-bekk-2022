@@ -1,8 +1,12 @@
 import { json } from "@remix-run/server-runtime";
-import { Link } from "@remix-run/react";
-import { uploadImageAndConvertToPrimitives } from "~/services/sqip/fraWebkamera";
+import { Link, useLoaderData } from "@remix-run/react";
+import {
+    hentSisteBildeFraWebkamera,
+    uploadImageAndConvertToPrimitives,
+} from "~/services/sqip/fraWebkamera";
 import styles from "~/styles/webkamera.css";
-import type { ActionFunction } from "@remix-run/server-runtime";
+import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
+import { useEffect, useRef } from "react";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
@@ -17,10 +21,62 @@ export const action: ActionFunction = async ({ request }) => {
     }
 };
 
+export const loader: LoaderFunction = async () => {
+    const dataBuffer = await hentSisteBildeFraWebkamera();
+    const inlineSvg = dataBuffer.toString("utf-8");
+
+    return json(inlineSvg);
+};
+
 const ResultatFraWebkamera = () => {
+    const svgContainerRef = useRef<HTMLDivElement>(null);
+    const inlineSvg = useLoaderData();
+
+    useEffect(() => {
+        let timeouts: Array<NodeJS.Timeout> = [];
+
+        const animerTegningAvSvg = (svg: SVGSVGElement) => {
+            const pathElements = Array.from(svg.getElementsByTagName("path"));
+            console.log(`Animerer ${pathElements.length + 1} primitiver ...`);
+
+            pathElements.slice(1).forEach((primitive, index) => {
+                primitive.setAttribute("style", "display: none;");
+
+                const intervall = 5000 / pathElements.length;
+                const delayTilTegningIMs = index * intervall;
+
+                timeouts.push(
+                    setTimeout(() => {
+                        primitive.setAttribute("style", "display: unset;");
+                    }, delayTilTegningIMs)
+                );
+            });
+        };
+
+        if (svgContainerRef.current) {
+            const svgNodes =
+                svgContainerRef.current.getElementsByTagName("svg");
+
+            if (svgNodes.length === 0) {
+                console.log("Fant ikke SVG-element på skjerm ...");
+            } else {
+                animerTegningAvSvg(svgNodes[0]);
+            }
+        }
+
+        return () => {
+            timeouts.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        };
+    }, []);
+
     return (
         <div className="webkamera-resultat">
-            <img src="/images/webkamera.svg" alt="Generert bilde" />
+            <div
+                dangerouslySetInnerHTML={{ __html: inlineSvg }}
+                ref={svgContainerRef}
+            />
             <Link className="nytt-bilde-knapp" to="/webkamera">
                 Generer nytt bilde ♻️
             </Link>

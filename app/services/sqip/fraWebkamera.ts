@@ -20,7 +20,7 @@ export const uploadImageAndConvertToPrimitives = async (
     await convertToPrimitives(opplastetBildePath, generatedImagePath, {
         ...defaultPrimitiveOptions,
         numberOfPrimitives: 100,
-        rep: 1,
+        rep: 50,
     });
 
     return {
@@ -28,15 +28,13 @@ export const uploadImageAndConvertToPrimitives = async (
     };
 };
 
-export const getLastConvertedImage = async (): Promise<any> => {
+export const hentSisteBildeFraWebkamera = async (): Promise<Buffer> => {
     return new Promise((resolve, reject) => {
         const generatedImagePath = `${imagesPath}/webkamera.svg`;
 
         fs.readFile(generatedImagePath, null, (error, data) => {
             if (error === null) {
-                const base64Encoded =
-                    "data:image/svg;base64," + data.toString("base64");
-                resolve(base64Encoded);
+                resolve(data);
             } else {
                 reject(error);
             }
