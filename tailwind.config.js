@@ -10,7 +10,9 @@ module.exports = {
             colors: {
                 regn: "#BCCEDD",
                 background: "#E7E7E7",
-                accent: "#FF9999",
+                accent: "#FF8034",
+                bekkRod: "#FF5B5B",
+                soloppgang: "#FFB88D",
             },
         },
     },

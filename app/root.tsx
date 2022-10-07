@@ -11,6 +11,7 @@ import {
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import appStylesheetUrl from "./styles/app.css";
+import { Header } from "./components/Header";
 
 export const links: LinksFunction = () => {
     return [
@@ -28,18 +29,14 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
     return (
-        <html lang="no" className="h-full bg-background">
+        <html lang="no" className="min-h-full">
             <head>
                 <Meta />
                 <Links />
             </head>
-            <body className="h-full font-din text-lg">
-                <header className="mb-10 w-full bg-regn py-10 px-5">
-                    <Link to="/">
-                        <p>Bildeoptimalisering med trekanter</p>
-                    </Link>
-                </header>
-                <main className="m-auto h-full w-5/6">
+            <body className="mb-10 bg-gradient-to-b from-regn to-soloppgang font-din text-lg">
+                <Header />
+                <main className="m-auto w-5/6">
                     <Outlet />
                     <ScrollRestoration />
                     <Scripts />

@@ -17,16 +17,23 @@ export default function Index() {
     const loaderData = useLoaderData<Konvertering[]>();
 
     return (
-        <main className="m-auto flex w-5/6 flex-col content-center items-center">
-            <Link className="rounded-lg bg-accent p-10" to="/search">
-                Generer et nytt bilde
-            </Link>
-            <Link className="underline" to="/webkamera">
-                Bruk webkamera
-            </Link>
+        <main className="m-auto flex w-5/6 flex-col content-center items-center ">
+            <div className="flex flex-col text-center">
+                <Link className="mb-5 rounded-lg bg-accent p-5" to="/search">
+                    Generer et nytt bilde
+                </Link>
+                <Link
+                    className="mb-5 rounded-lg bg-bekkRod p-5"
+                    to="/webkamera"
+                >
+                    Bruk webkamera
+                </Link>
+            </div>
             {loaderData.length ? (
                 <>
-                    <h2 className="mt-20 mb-5">Tidligere konverteringer</h2>
+                    <h2 className="mt-20 mb-5 uppercase">
+                        Tidligere konverteringer
+                    </h2>
                     <div className="grid grid-cols-4 gap-5">
                         {loaderData?.map((data) => {
                             const metadata = JSON.parse(data.metadata);
@@ -37,7 +44,7 @@ export default function Index() {
                                     to={`/unsplash/${data.unsplashId}`}
                                 >
                                     <img
-                                        className="h-96 w-96 bg-black object-cover p-2 shadow-lg"
+                                        className="h-96 w-96 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                                         alt={
                                             metadata?.alt_description ??
                                             "Bilde av en tidligere konvertering"

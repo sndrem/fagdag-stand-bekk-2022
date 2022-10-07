@@ -50,7 +50,7 @@ export default function UnsplashUrl() {
                 {parseInt(metadata.originalStorrelse).toFixed(2)} MB
             </p>
             <img
-                className="w-2/5"
+                className="mb-5 max-h-96  bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                 src={`/${metadata.nedlastetBildePath}`}
                 alt="Originalbilde"
             />
@@ -68,13 +68,13 @@ export default function UnsplashUrl() {
                     SVG etter konvertering
                 </h1>
 
-                <div className="grid grid-cols-3 gap-10">
+                <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
                     {data.result.map((result) => {
                         const metadata = JSON.parse(
                             result.metadata
                         ) as Metadata;
                         return (
-                            <div className="mb-10" key={result.id}>
+                            <div className="mb-10 text-center" key={result.id}>
                                 <p>
                                     Ny størrelse på bilde:{" "}
                                     {metadata.nyStorrelse} MB
@@ -82,6 +82,7 @@ export default function UnsplashUrl() {
                                 <img
                                     src={`/${metadata.resultatSvgPath}`}
                                     alt="SVG av originalbilde"
+                                    className="bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                                 />
                                 <p>
                                     Antall primitives:{" "}

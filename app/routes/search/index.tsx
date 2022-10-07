@@ -163,7 +163,7 @@ function ImageLink({
     userProfileLink: string;
 }) {
     return (
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col gap-10 bg-slate-50 p-2 shadow-2xl drop-shadow-2xl">
             <Link to={`/unsplash/${encodeURIComponent(id)}`}>
                 <img
                     className="h-96 w-96 object-cover shadow-lg"
