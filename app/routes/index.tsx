@@ -37,7 +37,7 @@ export default function Index() {
             </div>
             {loaderData.length ? (
                 <>
-                    <h2 className="mt-20 mb-5 uppercase">
+                    <h2 className="mt-5 mb-5 uppercase">
                         Tidligere konverteringer
                     </h2>
                     <div className="grid grid-cols-4 gap-5">

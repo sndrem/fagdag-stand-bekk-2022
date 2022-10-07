@@ -99,11 +99,14 @@ const WebkameraRoute = () => {
             <canvas ref={canvasRef} />
 
             <div className="feed">
-                <video ref={videoRef} className={videoClassName}>
+                <video
+                    ref={videoRef}
+                    className={`${videoClassName} m-auto max-w-4xl  `}
+                >
                     Webkamera er ikke tilgjengelig 😭
                 </video>
 
-                <div className={bildeClassName}>
+                <div className={`${bildeClassName} m-auto max-w-4xl`}>
                     <img ref={imageRef} alt="Bilde tatt med webkamera" />
                 </div>
             </div>
