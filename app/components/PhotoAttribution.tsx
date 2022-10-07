@@ -16,7 +16,7 @@ export function PhotoAttribution({
     attributionLink,
 }: Props) {
     return (
-        <small>
+        <small className="text-center">
             Foto av{" "}
             <a className="underline" href={`${userProfileLink}${utmQueries()}`}>
                 {" "}
