@@ -72,7 +72,7 @@ const ResultatFraWebkamera = () => {
     }, []);
 
     return (
-        <div className="webkamera-resultat">
+        <div className="webkamera-resultat m-auto max-w-4xl">
             <div
                 dangerouslySetInnerHTML={{ __html: inlineSvg }}
                 ref={svgContainerRef}

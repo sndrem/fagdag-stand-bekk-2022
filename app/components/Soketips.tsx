@@ -10,6 +10,9 @@ const tips = [
     { emoji: "🐢", query: "turtles" },
     { emoji: "🦄", query: "unicorns" },
     { emoji: "🐿", query: "chipmunks" },
+    { emoji: "🎄", query: "christmas" },
+    { emoji: "🌅", query: "sunset" },
+    { emoji: "⛰", query: "mountains" },
 ];
 
 export function Soketips() {

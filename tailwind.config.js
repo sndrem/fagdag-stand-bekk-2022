@@ -13,8 +13,9 @@ module.exports = {
                 accent: "#FF8034",
                 bekkRod: "#FF5B5B",
                 soloppgang: "#FFB88D",
+                gronn: "#16DBC4",
             },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/typography")],
 };
