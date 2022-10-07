@@ -4,7 +4,7 @@ export function Header() {
     return (
         <header className="mb-10 w-full  py-10 px-5 text-center uppercase tracking-widest">
             <Link to="/">
-                <p>Bildeoptimalisering med trekanter</p>
+                <p>Bildeoptimalisering med geometriske former</p>
             </Link>
         </header>
     );

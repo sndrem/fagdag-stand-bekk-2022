@@ -18,15 +18,21 @@ export default function Index() {
 
     return (
         <main className="m-auto flex w-5/6 flex-col content-center items-center ">
-            <div className="flex flex-col text-center">
-                <Link className="mb-5 rounded-lg bg-accent p-5" to="/search">
-                    Generer et nytt bilde
+            <div className="flex flex-row gap-5 text-center">
+                <Link
+                    className="mb-5 w-72 rounded-lg bg-accent p-5"
+                    to="/search"
+                >
+                    Generer et nytt bilde <br /> 🦄
                 </Link>
                 <Link
-                    className="mb-5 rounded-lg bg-bekkRod p-5"
+                    className="mb-5  w-72 rounded-lg bg-bekkRod p-5"
                     to="/webkamera"
                 >
-                    Bruk webkamera
+                    Bruk webkamera <br /> 📸
+                </Link>
+                <Link className="mb-5  w-72 rounded-lg bg-gronn p-5" to="/om">
+                    Om løsningen <br /> ℹ️
                 </Link>
             </div>
             {loaderData.length ? (
