@@ -14,6 +14,7 @@ module.exports = {
                 bekkRod: "#FF5B5B",
                 soloppgang: "#FFB88D",
                 gronn: "#16DBC4",
+                skyfriKontrast: "#43CBFF",
             },
         },
     },

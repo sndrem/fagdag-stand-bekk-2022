@@ -1,0 +1,13 @@
+import path from "path";
+import sharp from "sharp";
+
+export async function konverterFraSvgTilPng(svgPath: string) {
+    const bildePath = `${path.dirname(__dirname)}/public/images`;
+
+    try {
+        const buffer = await sharp(`${bildePath}/${svgPath}`).png().toBuffer();
+        return buffer;
+    } catch (error) {
+        throw new Error("Klarte ikke konvertere svg til png");
+    }
+}

@@ -20,7 +20,7 @@ export function Soketips() {
         <div className="text-center">
             <p>Usikker på hva du skal søke etter?</p>
             <p>Trykk på en av emojiene og se hva som skjer...</p>
-            <div className="my-10 grid grid-cols-3 gap-5 text-4xl">
+            <div className="my-10 grid grid-cols-3 gap-5 text-4xl lg:grid-cols-12">
                 {tips.map(({ emoji, query }) => {
                     return (
                         <Link key={query} to={`/search?query=${query}`}>
