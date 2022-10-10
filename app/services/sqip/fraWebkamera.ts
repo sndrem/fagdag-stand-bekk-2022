@@ -1,5 +1,5 @@
 import path from "path";
-import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
+import { convertToPrimitives } from "./primitive";
 import fs from "fs";
 import { log } from "../log";
 
@@ -8,23 +8,29 @@ const imagesPath = `${path.dirname(__dirname)}/public/images`;
 export const uploadImageAndConvertToPrimitives = async (
     base64EncodedImage: string
 ): Promise<{ generatedImagePath: string }> => {
-    const opplastetBildePath = `${imagesPath}/webkamera.png`;
-    const generatedImagePath = `${imagesPath}/webkamera.svg`;
-
+    const sourcePath = `${imagesPath}/webkamera.png`;
+    const imagePath = `${imagesPath}/webkamera-%d.svg`;
     log.success("Mottok bilde fra webkamera. Laster opp ...");
 
-    await lastOppBilde(base64EncodedImage, opplastetBildePath);
-
+    await lastOppBilde(base64EncodedImage, sourcePath);
     log.success("Genererer primitiver for webkamera-bilde ...");
 
-    await convertToPrimitives(opplastetBildePath, generatedImagePath, {
-        ...defaultPrimitiveOptions,
-        numberOfPrimitives: 100,
-        rep: 50,
+    await convertToPrimitives(sourcePath, imagePath, {
+        numberOfPrimitives: 50,
+        rep: 1,
+        nth: 10,
     });
 
+    await convertToPrimitives(sourcePath, imagePath, {
+        numberOfPrimitives: 300,
+        rep: 1,
+        nth: 100,
+    });
+
+    const finalImagePath = imagesPath.replace("-%d", "");
+
     return {
-        generatedImagePath,
+        generatedImagePath: finalImagePath,
     };
 };
 
