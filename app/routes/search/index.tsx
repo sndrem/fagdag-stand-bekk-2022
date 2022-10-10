@@ -31,7 +31,7 @@ export default function UnsplashSearchRoute() {
 
     if (
         transition.state === "loading" &&
-        transition.location.pathname.includes("/unsplash")
+        transition?.location?.pathname.includes("/unsplash")
     ) {
         return <Sauelaster />;
     }

@@ -1,11 +1,11 @@
 import type { Konvertering } from "@prisma/client";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
+import path from "path";
 import type { Metadata } from "~/services/sqip/fraUnsplash";
 import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
-import path from "path";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const photoId = params.photoId;
@@ -56,10 +56,15 @@ export default function UnsplashUrl() {
                     src={`/${metadata.nedlastetBildePath}`}
                     alt="Originalbilde"
                 />
-                <p>
-                    {unsplash?.exif.aperture} / {unsplash?.exif.exposure_time} -{" "}
-                    {unsplash?.exif.model}
-                </p>
+                {unsplash?.exif.aperture &&
+                unsplash?.exif.exposure_time &&
+                unsplash?.exif.model ? (
+                    <p>
+                        {unsplash?.exif.aperture} /{" "}
+                        {unsplash?.exif.exposure_time} - {unsplash?.exif.model}
+                    </p>
+                ) : null}
+
                 <PhotoAttribution
                     attributionLink={unsplash?.links.html ?? ""}
                     photoBy={unsplash?.user.name ?? ""}
