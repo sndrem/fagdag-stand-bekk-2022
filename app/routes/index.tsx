@@ -50,7 +50,7 @@ export default function Index() {
                                 <Link
                                     prefetch="intent"
                                     key={data.id}
-                                    to={`/unsplash/${data.unsplashId}`}
+                                    to={`/${data.unsplashId}`}
                                 >
                                     <img
                                         className="h-96 w-96 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"

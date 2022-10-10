@@ -9,7 +9,7 @@ import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
 import type { Konvertering } from "@prisma/client";
 import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
-import type { PrimitiveOptions } from "./types";
+import type { PrimitiveMode, PrimitiveOptions } from "./types";
 
 export interface Metadata {
     originalStorrelse: string;
@@ -48,11 +48,12 @@ async function genererSqipBilde(
 
 export async function fetchFromUnsplashAndRunThroughSqip(
     photoId: string,
+    geometriMode: number,
     numberOfPrimitives: number = 500
 ): Promise<Konvertering[]> {
     // TODO Her må vi også sjekke mode, number of primitives og blur
     const metadataFinnesFraFor = await prisma.konvertering.findMany({
-        where: { unsplashId: photoId, numberOfPrimitives },
+        where: { unsplashId: photoId, numberOfPrimitives, mode: geometriMode },
         orderBy: { numberOfPrimitives: "asc" },
     });
 
@@ -79,6 +80,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
     let options = {
         ...defaultPrimitiveOptions,
         numberOfPrimitives,
+        mode: geometriMode,
     };
 
     const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-${options.numberOfPrimitives}.svg`;

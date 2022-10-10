@@ -1,14 +1,30 @@
 import type { Konvertering } from "@prisma/client";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/server-runtime";
-import type { Metadata } from "~/services/sqip/fraUnsplash";
+import {
+    Form,
+    Link,
+    useActionData,
+    useLoaderData,
+    useTransition,
+} from "@remix-run/react";
+import {
+    ActionFunction,
+    json,
+    LoaderFunction,
+    redirect,
+} from "@remix-run/server-runtime";
+import { ApiResponse } from "unsplash-js/dist/helpers/response";
+import { Full } from "unsplash-js/dist/methods/photos/types";
 import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
-import path from "path";
+import Sauelaster from "../../components/Sauelaster";
+import { prisma } from "../../lib/db.server";
+import { getPhotoById } from "../../services/unsplash";
 
-export const loader: LoaderFunction = async ({ params }) => {
-    const photoId = params.photoId;
+export const action: ActionFunction = async ({ request }) => {
+    const body = await request.formData();
+
+    const photoId = body.get("photoId")?.toString();
+    const geometriMode = body.get("geometri")?.toString() ?? "1";
 
     if (!photoId) {
         throw json({ message: "Unsplash id er tom" }, 409);
@@ -22,112 +38,123 @@ export const loader: LoaderFunction = async ({ params }) => {
             const resultatFraKonvertering =
                 await fetchFromUnsplashAndRunThroughSqip(
                     photoId,
+                    parseInt(geometriMode, 10),
                     numOfPrimitive
                 );
             result.push(...resultatFraKonvertering);
         })
     );
 
-    return json(
-        {
-            result: result.sort(
-                (a, b) => a.numberOfPrimitives - b.numberOfPrimitives
-            ),
+    return redirect(`/${photoId}`);
+};
+
+export const loader: LoaderFunction = async ({ params }) => {
+    const { photoId } = params;
+    const bildeFraUnsplash = await getPhotoById(photoId ?? "");
+
+    const tidligereKonverteringer = await prisma.konvertering.findMany({
+        where: {
+            unsplashId: photoId,
+            numberOfPrimitives: 500,
         },
-        200
-    );
+    });
+
+    return json({ bildeFraUnsplash, tidligereKonverteringer });
 };
 
 export default function UnsplashUrl() {
-    const data = useLoaderData<{ result: Konvertering[] }>();
-    const metadata = JSON.parse(data.result[0].metadata) as Metadata;
-    const unsplash = metadata.unsplashResponse?.response;
+    const { bildeFraUnsplash: unsplashData, tidligereKonverteringer } =
+        useLoaderData<{
+            bildeFraUnsplash: ApiResponse<Full | undefined>;
+            tidligereKonverteringer: Konvertering[];
+        }>();
+    const data = useActionData<{ result: Konvertering[] }>();
+    const transition = useTransition();
 
-    return (
-        <>
+    if (
+        transition.state === "submitting" &&
+        transition.location.pathname.includes("/unsplash")
+    ) {
+        return <Sauelaster />;
+    }
+
+    if (!data && unsplashData.type === "success") {
+        return (
             <div className="flex flex-col items-center">
                 <h1 className="font-bold">Originalbilde</h1>
-                <p>
-                    Original størrelse på bilde:{" "}
-                    {parseInt(metadata.originalStorrelse).toFixed(2)} MB
-                </p>
+
                 <img
                     className="mb-5 max-h-96  bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
-                    src={`/${metadata.nedlastetBildePath}`}
+                    src={unsplashData?.response?.urls.regular}
                     alt="Originalbilde"
                 />
-                <p>
-                    {unsplash?.exif.aperture} / {unsplash?.exif.exposure_time} -{" "}
-                    {unsplash?.exif.model}
-                </p>
+
                 <PhotoAttribution
-                    attributionLink={unsplash?.links.html ?? ""}
-                    photoBy={unsplash?.user.name ?? ""}
-                    userProfileLink={unsplash?.user.links.html ?? ""}
+                    attributionLink={unsplashData.response?.links.html ?? ""}
+                    photoBy={unsplashData.response?.user.name ?? ""}
+                    userProfileLink={
+                        unsplashData.response?.user.links.html ?? ""
+                    }
                 />
-                <div className="mt-10">
-                    <h1 className="mb-5 text-center font-bold">
-                        SVG etter konvertering
-                    </h1>
+                <Form method="post">
+                    <input
+                        type="text"
+                        name="photoId"
+                        hidden
+                        value={unsplashData?.response?.id}
+                        readOnly
+                    />
 
-                    <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
-                        {data.result.map((result) => {
-                            const metadata = JSON.parse(
-                                result.metadata
-                            ) as Metadata;
-                            return (
-                                <div
-                                    className="prose mb-10 text-center"
-                                    key={result.id}
-                                >
-                                    <p className="m-0 p-0">
-                                        Antall primitives:{" "}
-                                    </p>
-                                    <p className="m-0 p-0">
-                                        {result.numberOfPrimitives}
-                                    </p>
-                                    <Link
-                                        className="mt-5 block rounded-xl bg-skyfriKontrast no-underline "
-                                        to={`../unsplash/view/${
-                                            metadata.unsplashResponse?.response
-                                                ?.id
-                                        }/${path.basename(
-                                            metadata.resultatSvgPath
-                                        )}`}
-                                    >
-                                        <img
-                                            src={`/${metadata.resultatSvgPath}`}
-                                            alt="SVG av originalbilde"
-                                            className="m-0 bg-slate-50 object-cover p-2 p-0 shadow-2xl drop-shadow-2xl"
-                                        />
-                                    </Link>
-                                    <p className="mt-5 mb-0">
-                                        {metadata.nyStorrelse} MB
-                                    </p>
-                                    <p className="m-0 p-0">
-                                        Du sparer {metadata.prosentSpart} %
-                                    </p>
-                                    <Link
-                                        className="mt-5 block rounded-xl bg-skyfriKontrast p-2 no-underline "
-                                        to={`../unsplash/view/${
-                                            metadata.unsplashResponse?.response
-                                                ?.id
-                                        }/${path.basename(
-                                            metadata.resultatSvgPath
-                                        )}`}
-                                    >
-                                        Print meg som klistremerke
-                                    </Link>
-                                </div>
-                            );
-                        })}
+                    <div className="flex flex-col">
+                        <div className="my-10">
+                            <label htmlFor="geometri" className="block">
+                                Velg geometriske former
+                            </label>
+                            <select
+                                className="mt-2 block p-2"
+                                name="geometri"
+                                id="geometri"
+                            >
+                                <option value="0">Kombinasjon av alle</option>
+                                <option value="1">Triangler</option>
+                                <option value="2">Rektangler </option>
+                                <option value="3">Ellipser</option>
+                                <option value="4">Sirkler</option>
+                                <option value="5">Roterte rektangler</option>
+                                <option value="6">Bézier-kurve</option>
+                                <option value="7">Roterte ellipser</option>
+                                <option value="8">Polygoner</option>
+                            </select>
+                        </div>
+                        <button className="rounded-lg bg-accent " type="submit">
+                            Generer bilde
+                        </button>
                     </div>
+                </Form>
+                <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
+                    {tidligereKonverteringer.map((konv) => {
+                        return (
+                            <div
+                                className="prose mb-10 text-center"
+                                key={konv.id}
+                            >
+                                <p className="m-0 p-0">Modus: </p>
+                                <p className="m-0 p-0">{konv.mode}</p>
+                                <Link to={`/${konv.unsplashId}`}>
+                                    <img
+                                        className="m-0 h-80 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
+                                        key={konv.id}
+                                        src={`/${konv.pathSvgBilde}`}
+                                        alt="aiaiai"
+                                    />
+                                </Link>
+                            </div>
+                        );
+                    })}
                 </div>
-
-                <Link className="rounded-md bg-accent py-5 px-10" to="/search">
-                    Nytt søk
-                </Link>
             </div>
-        </>
-    );
+        );
+    }
+
+    if (!data) return null;
 }

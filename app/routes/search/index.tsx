@@ -1,13 +1,6 @@
-import {
-    Form,
-    Link,
-    useLoaderData,
-    useSearchParams,
-    useTransition,
-} from "@remix-run/react";
+import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import Sauelaster from "~/components/Sauelaster";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 import { Soketips } from "../../components/Soketips";
 import type { UnsplashResponse } from "../../domain/UnsplashResponse";
@@ -26,15 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function UnsplashSearchRoute() {
     const actionData = useLoaderData<UnsplashResponse>();
-    const transition = useTransition();
     const [search] = useSearchParams();
-
-    if (
-        transition.state === "loading" &&
-        transition.location.pathname.includes("/unsplash")
-    ) {
-        return <Sauelaster />;
-    }
 
     return (
         <div className="flex flex-col items-center">
