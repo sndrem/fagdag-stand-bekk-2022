@@ -83,7 +83,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
         mode: geometriMode,
     };
 
-    const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-${options.numberOfPrimitives}.svg`;
+    const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-${options.numberOfPrimitives}-${options.mode}.svg`;
 
     const konvertering = await genererSqipBilde(
         unsplashResponse!,

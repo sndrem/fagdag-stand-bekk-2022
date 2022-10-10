@@ -1,10 +1,11 @@
-import { Konvertering } from "@prisma/client";
+import type { Konvertering } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
-import { json, LoaderFunction } from "@remix-run/server-runtime";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import path from "path";
 import { PhotoAttribution } from "../components/PhotoAttribution";
 import { prisma } from "../lib/db.server";
-import { Metadata } from "../services/sqip/fraUnsplash";
+import type { Metadata } from "../services/sqip/fraUnsplash";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { id } = params;
@@ -12,6 +13,14 @@ export const loader: LoaderFunction = async ({ params }) => {
         where: {
             unsplashId: id,
         },
+        orderBy: [
+            {
+                numberOfPrimitives: "asc",
+            },
+            {
+                mode: "asc",
+            },
+        ],
     });
 
     return json({ result: bilderFraDb });

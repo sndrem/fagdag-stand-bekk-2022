@@ -6,19 +6,16 @@ import {
     useLoaderData,
     useTransition,
 } from "@remix-run/react";
-import {
-    ActionFunction,
-    json,
-    LoaderFunction,
-    redirect,
-} from "@remix-run/server-runtime";
-import { ApiResponse } from "unsplash-js/dist/helpers/response";
-import { Full } from "unsplash-js/dist/methods/photos/types";
+import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
+import { json, redirect } from "@remix-run/server-runtime";
+import type { ApiResponse } from "unsplash-js/dist/helpers/response";
+import type { Full } from "unsplash-js/dist/methods/photos/types";
 import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 import Sauelaster from "../../components/Sauelaster";
 import { prisma } from "../../lib/db.server";
 import { getPhotoById } from "../../services/unsplash";
+import { oversettMode } from "../../utils/oversetter";
 
 export const action: ActionFunction = async ({ request }) => {
     const body = await request.formData();
@@ -126,7 +123,7 @@ export default function UnsplashUrl() {
                                 <option value="8">Polygoner</option>
                             </select>
                         </div>
-                        <button className="rounded-lg bg-accent " type="submit">
+                        <button className="rounded-lg bg-accent" type="submit">
                             Generer bilde
                         </button>
                     </div>
@@ -139,13 +136,15 @@ export default function UnsplashUrl() {
                                 key={konv.id}
                             >
                                 <p className="m-0 p-0">Modus: </p>
-                                <p className="m-0 p-0">{konv.mode}</p>
+                                <p className="m-0 p-0">
+                                    {oversettMode(konv.mode)}
+                                </p>
                                 <Link to={`/${konv.unsplashId}`}>
                                     <img
                                         className="m-0 h-80 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                                         key={konv.id}
                                         src={`/${konv.pathSvgBilde}`}
-                                        alt="aiaiai"
+                                        alt="SVG-bilde"
                                     />
                                 </Link>
                             </div>
