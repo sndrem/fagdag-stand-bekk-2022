@@ -1,20 +1,19 @@
-import type { Konvertering } from "@prisma/client";
+import { Konvertering } from "@prisma/client";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { prisma } from "../lib/db.server";
 
 export const loader: LoaderFunction = async () => {
-    /*const tidligereBilder = await prisma.konvertering.findMany({
+    const tidligereBilder = await prisma.konvertering.findMany({
         take: 50,
         where: { numberOfPrimitives: 500 },
         orderBy: {
-            id: "desc",
+            createdAt: "desc",
         },
     });
-    */
 
-    return json([]);
+    return json(tidligereBilder);
 };
 
 export default function Index() {
