@@ -68,6 +68,7 @@ export type PrimitiveOptions = {
     alpha?: number;
     background?: string;
     cores?: number;
+    nth?: number;
 };
 
 export type SvgoOptions = {
