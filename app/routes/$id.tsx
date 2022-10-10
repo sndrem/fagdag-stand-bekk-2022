@@ -6,6 +6,7 @@ import path from "path";
 import { PhotoAttribution } from "../components/PhotoAttribution";
 import { prisma } from "../lib/db.server";
 import type { Metadata } from "../services/sqip/fraUnsplash";
+import { oversettMode } from "../utils/oversetter";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { id } = params;
@@ -15,10 +16,10 @@ export const loader: LoaderFunction = async ({ params }) => {
         },
         orderBy: [
             {
-                numberOfPrimitives: "asc",
+                mode: "asc",
             },
             {
-                mode: "asc",
+                numberOfPrimitives: "asc",
             },
         ],
     });
@@ -73,6 +74,10 @@ export default function VisBilde() {
                                     </p>
                                     <p className="m-0 p-0">
                                         {result.numberOfPrimitives}
+                                    </p>
+                                    <p className="m-0 p-0">Modus: </p>
+                                    <p className="m-0 p-0">
+                                        {oversettMode(result.mode)}
                                     </p>
                                     <Link
                                         className="mt-5 block rounded-xl bg-skyfriKontrast no-underline "
