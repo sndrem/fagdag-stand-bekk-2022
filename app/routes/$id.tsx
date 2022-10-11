@@ -95,7 +95,8 @@ export default function VisBilde() {
                                         />
                                     </Link>
                                     <p className="mt-5 mb-0">
-                                        {metadata.nyStorrelse} MB
+                                        {metadata.nyStorrelse?.substring(0, 5)}{" "}
+                                        MB
                                     </p>
                                     <p className="m-0 p-0">
                                         Du sparer {metadata.prosentSpart} %

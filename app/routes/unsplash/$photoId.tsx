@@ -114,7 +114,7 @@ export default function UnsplashUrl() {
                             >
                                 <option value="0">Kombinasjon av alle</option>
                                 <option value="1">Triangler</option>
-                                <option value="2">Rektangler </option>
+                                <option value="2">Rektangler</option>
                                 <option value="3">Ellipser</option>
                                 <option value="4">Sirkler</option>
                                 <option value="5">Roterte rektangler</option>
@@ -128,6 +128,9 @@ export default function UnsplashUrl() {
                         </button>
                     </div>
                 </Form>
+                <h2 className="mt-10">
+                    Tidligere konverteringer av dette bilde
+                </h2>
                 <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
                     {tidligereKonverteringer.map((konv) => {
                         return (
