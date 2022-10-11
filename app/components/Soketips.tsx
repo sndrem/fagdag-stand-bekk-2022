@@ -6,7 +6,7 @@ const tips = [
     { emoji: "🍁", query: "fall" },
     { emoji: "🍕", query: "pizza" },
     { emoji: "🐠", query: "fish" },
-    { emoji: "📸", query: "photography" },
+    { emoji: "🎃", query: "halloween" },
     { emoji: "🐢", query: "turtles" },
     { emoji: "🦄", query: "unicorns" },
     { emoji: "🐿", query: "chipmunks" },

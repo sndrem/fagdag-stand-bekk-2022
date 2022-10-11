@@ -1,13 +1,6 @@
-import {
-    Form,
-    Link,
-    useLoaderData,
-    useSearchParams,
-    useTransition,
-} from "@remix-run/react";
+import { Form, Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import Sauelaster from "~/components/Sauelaster";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
 import { Soketips } from "../../components/Soketips";
 import type { UnsplashResponse } from "../../domain/UnsplashResponse";
@@ -26,15 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function UnsplashSearchRoute() {
     const actionData = useLoaderData<UnsplashResponse>();
-    const transition = useTransition();
     const [search] = useSearchParams();
-
-    if (
-        transition.state === "loading" &&
-        transition.location.pathname.includes("/unsplash")
-    ) {
-        return <Sauelaster />;
-    }
 
     return (
         <div className="flex flex-col items-center">
@@ -64,71 +49,6 @@ export default function UnsplashSearchRoute() {
             <Soketips />
 
             <div className="grid grid-cols-4 gap-5">
-                {/* <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1604537529586-87ac173f4310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=988&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        />
-        <ImageLink
-          id={""}
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
-          altText={"img.alt_description"}
-          photoBy={"img.user.name"}
-          attributionLink={"img.links.download"}
-          userProfileLink={"testing.com"}
-        /> */}
-
                 {actionData?.response?.results.map((img) => {
                     return (
                         <ImageLink

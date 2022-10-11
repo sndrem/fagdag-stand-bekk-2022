@@ -1,8 +1,9 @@
-import { Konvertering } from "@prisma/client";
+import type { Konvertering } from "@prisma/client";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { prisma } from "../lib/db.server";
+import { oversettMode } from "../utils/oversetter";
 
 export const loader: LoaderFunction = async () => {
     const tidligereBilder = await prisma.konvertering.findMany({
@@ -50,9 +51,12 @@ export default function Index() {
                                 <Link
                                     prefetch="intent"
                                     key={data.id}
-                                    to={`/unsplash/${data.unsplashId}`}
+                                    to={`/${data.unsplashId}`}
                                 >
                                     <img
+                                        title={`Modus: ${oversettMode(
+                                            data.mode
+                                        )}`}
                                         className="h-96 w-96 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                                         alt={
                                             metadata?.alt_description ??

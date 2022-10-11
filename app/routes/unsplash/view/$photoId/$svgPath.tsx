@@ -6,7 +6,7 @@ export default function View() {
     return (
         <>
             <main className="flex flex-col items-center">
-                <Link to={`/unsplash/${photoId}`}>Tilbake</Link>
+                <Link to={`/${photoId}`}>Tilbake</Link>
                 <img className="max-w-4xl" src={`/images/${svgPath}`} alt="" />
                 <form method="post" action={`/convert`}>
                     <input
