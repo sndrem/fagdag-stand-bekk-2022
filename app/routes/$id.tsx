@@ -54,6 +54,13 @@ export default function VisBilde() {
                     photoBy={unsplash?.user.name ?? ""}
                     userProfileLink={unsplash?.user.links.html ?? ""}
                 />
+                <Link
+                    className="rounded-lg bg-regn p-2"
+                    to={`/unsplash/${metadata?.unsplashResponse?.response?.id}`}
+                >
+                    Konverter på nytt
+                </Link>
+
                 <div className="mt-10">
                     <h1 className="mb-5 text-center font-bold">
                         SVG etter konvertering

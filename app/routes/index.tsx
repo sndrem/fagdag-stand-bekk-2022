@@ -53,17 +53,25 @@ export default function Index() {
                                     key={data.id}
                                     to={`/${data.unsplashId}`}
                                 >
-                                    <img
-                                        title={`Modus: ${oversettMode(
-                                            data.mode
-                                        )}`}
-                                        className="h-96 w-96 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
-                                        alt={
-                                            metadata?.alt_description ??
-                                            "Bilde av en tidligere konvertering"
-                                        }
-                                        src={data.pathSvgBilde}
-                                    />
+                                    <div className="bg-slate-50 p-2 text-center shadow-2xl drop-shadow-2xl">
+                                        <img
+                                            title={`Modus: ${oversettMode(
+                                                data.mode
+                                            )}`}
+                                            className="h-96 w-96 object-cover "
+                                            alt={
+                                                metadata?.alt_description ??
+                                                "Bilde av en tidligere konvertering"
+                                            }
+                                            src={data.pathSvgBilde}
+                                        />
+                                        <p className="prose">
+                                            Konvertert som:{" "}
+                                            {oversettMode(
+                                                data.mode
+                                            ).toLowerCase()}
+                                        </p>
+                                    </div>
                                 </Link>
                             );
                         })}

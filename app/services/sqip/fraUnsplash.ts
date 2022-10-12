@@ -1,15 +1,16 @@
-import { downloadImage } from "../imageDownloadService";
-import { getPhotoById } from "../unsplash";
-import { prisma } from "../../lib/db.server";
 import path from "path";
-import { beregnStatistikk } from "./statistikk";
+import { prisma } from "../../lib/db.server";
+import { downloadImage } from "../imageDownloadService";
 import { log } from "../log";
+import { getPhotoById } from "../unsplash";
+import { beregnStatistikk } from "./statistikk";
 
+import type { Konvertering } from "@prisma/client";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
-import type { Konvertering } from "@prisma/client";
-import { convertToPrimitives, defaultPrimitiveOptions } from "./sqip";
-import type { PrimitiveMode, PrimitiveOptions } from "./types";
+import { convertToPrimitives } from "./primitive";
+import { defaultPrimitiveOptions } from "./sqip";
+import type { PrimitiveOptions } from "./types";
 
 export interface Metadata {
     originalStorrelse: string;
