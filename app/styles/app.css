@@ -25,7 +25,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+input {
     font-family: "newzald";
 }
 
@@ -39,19 +40,22 @@ h2 {
 
 p,
 span,
+small,
 a {
     font-family: "din";
 }
 
-.hjem {
+.hjem,
+.søkeside {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 5rem;
+    gap: 2rem;
 }
 
-.hjem h1 {
+.hjem h1,
+.søkeside h1 {
     margin-top: 2rem;
     align-self: flex-start;
 }
@@ -61,16 +65,19 @@ a {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    margin: 10rem 0;
 }
 
 footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 5rem;
 }
 
 footer a {
     text-decoration: underline;
+    font-size: 1.5rem;
 }
 
 .hovedknapp {
@@ -86,25 +93,47 @@ footer a {
     background-color: white;
 }
 
-.tidligere-konverteringer {
+.bilderutenett {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(4, 1fr);
 }
 
-.konvertering {
-    display: inline-block;
-    aspect-ratio: 3 / 4;
-    width: 15rem;
+.bilderutenett h2 {
+    text-align: center;
 }
 
-.konvertering img {
+.bilderute {
+    display: inline-block;
+    aspect-ratio: 3 / 4;
+    width: 25rem;
+}
+
+.bilderute img {
     height: 100%;
+    width: 100%;
     object-fit: cover;
 }
 
-.tidligere-konverteringer h2 {
-    text-align: center;
+.søk-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.søk-wrapper input {
+    font-size: 2.5rem;
+    background: none;
+    border-bottom: 2px solid white;
+}
+
+.søk-wrapper input:focus {
+    outline: none;
+}
+
+.søk-wrapper img {
+    filter: brightness(100%);
+    filter: invert();
 }
 
 @media (min-width: 1000px) {

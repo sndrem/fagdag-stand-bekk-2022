@@ -27,7 +27,7 @@ export const action: ActionFunction = async ({ request }) => {
         throw json({ message: "Unsplash id er tom" }, 409);
     }
 
-    const alternativeImages = [10, 50, 100, 300, 500, 1000];
+    const alternativeImages = [10, 50, 100];
 
     const result: Konvertering[] = [];
     await Promise.all(

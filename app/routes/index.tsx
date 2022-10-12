@@ -8,13 +8,13 @@ import { oversettMode } from "../utils/oversetter";
 export const loader: LoaderFunction = async () => {
     const tidligereBilder = await prisma.konvertering.findMany({
         take: 50,
-        where: { numberOfPrimitives: 500 },
+        where: { numberOfPrimitives: 100 },
         orderBy: {
             createdAt: "desc",
         },
     });
 
-    return json(tidligereBilder);
+    return json([...tidligereBilder, ...tidligereBilder, ...tidligereBilder]);
 };
 
 export default function Index() {
@@ -34,7 +34,7 @@ export default function Index() {
             {loaderData.length && (
                 <>
                     <h2>Tidligere konverteringer</h2>
-                    <div className="tidligere-konverteringer">
+                    <div className="bilderutenett">
                         {loaderData?.map((data) => {
                             const metadata = JSON.parse(data.metadata);
 
@@ -42,7 +42,7 @@ export default function Index() {
                                 <Link
                                     prefetch="intent"
                                     key={data.id}
-                                    className="konvertering"
+                                    className="bilderute"
                                     to={`/${data.unsplashId}`}
                                 >
                                     <img

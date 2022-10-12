@@ -22,33 +22,23 @@ export default function UnsplashSearchRoute() {
     const [search] = useSearchParams();
 
     return (
-        <div className="flex flex-col items-center">
-            <Form method="get" className="w-3/5">
-                <div className="my-5 flex flex-col items-center">
-                    <label htmlFor="query" className="my-2">
-                        Søk via{" "}
-                        <a className="underline" href="https://unsplash.com/">
-                            Unsplash
-                        </a>
-                    </label>
+        <div className="søkeside">
+            <h1>Bruk høykvalitets bilder</h1>
+            <Form method="get">
+                <div className="søk-wrapper">
+                    <img src="/icons/søk.svg" alt="Søk" />
                     <input
                         type="text"
                         name="query"
-                        placeholder="Søk på engelsk"
-                        className="w-full rounded-lg p-2"
+                        aria-label="Søk etter bilder"
+                        placeholder="Søk etter bilder ..."
                         defaultValue={search.get("query") ?? ""}
                     />
-                    <button
-                        type="submit"
-                        className="mt-5 block rounded-lg bg-accent px-52 py-2"
-                    >
-                        Søk
-                    </button>
                 </div>
             </Form>
             <Soketips />
 
-            <div className="grid grid-cols-4 gap-5">
+            <div className="bilderutenett">
                 {actionData?.response?.results.map((img) => {
                     return (
                         <ImageLink
@@ -83,13 +73,9 @@ function ImageLink({
     userProfileLink: string;
 }) {
     return (
-        <div className="flex flex-1 flex-col gap-10 bg-slate-50 p-2 shadow-2xl drop-shadow-2xl">
+        <div className="bilderute">
             <Link to={`/unsplash/${encodeURIComponent(id)}`}>
-                <img
-                    className="mb-0 h-96 w-96 object-cover shadow-lg"
-                    alt={altText}
-                    src={src}
-                />
+                <img alt={altText} src={src} />
             </Link>
             <PhotoAttribution
                 attributionLink={attributionLink}
