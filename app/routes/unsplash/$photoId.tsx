@@ -81,6 +81,7 @@ export default function UnsplashUrl() {
                 <h1>Konverter bilde</h1>
 
                 <img
+                    className="stort-bilde"
                     src={unsplashData?.response?.urls.regular}
                     alt="Originalbilde"
                 />
