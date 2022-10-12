@@ -22,12 +22,13 @@ export default function UnsplashSearchRoute() {
     const [search] = useSearchParams();
 
     return (
-        <div className="søkeside">
+        <div className="side">
             <h1>Bruk høykvalitets bilder</h1>
             <Form method="get">
                 <div className="søk-wrapper">
                     <img src="/icons/søk.svg" alt="Søk" />
                     <input
+                        autoFocus
                         type="text"
                         name="query"
                         aria-label="Søk etter bilder"

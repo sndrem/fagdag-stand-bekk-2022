@@ -21,7 +21,7 @@ export default function Index() {
     const loaderData = useLoaderData<Konvertering[]>();
 
     return (
-        <div className="hjem">
+        <div className="side">
             <h1>Geometrisk bildeoptimalisering</h1>
             <div className="hjem-knapper">
                 <Link to="/search" className="hovedknapp">

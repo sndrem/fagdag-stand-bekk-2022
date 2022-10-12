@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const tidligereKonverteringer = await prisma.konvertering.findMany({
         where: {
             unsplashId: photoId,
-            numberOfPrimitives: 500,
+            numberOfPrimitives: 100,
         },
     });
 
@@ -77,11 +77,10 @@ export default function UnsplashUrl() {
 
     if (!data && unsplashData.type === "success") {
         return (
-            <div className="flex flex-col items-center">
-                <h1 className="font-bold">Originalbilde</h1>
+            <div className="side">
+                <h1>Konverter bilde</h1>
 
                 <img
-                    className="mb-5 max-h-96  bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                     src={unsplashData?.response?.urls.regular}
                     alt="Originalbilde"
                 />
@@ -93,7 +92,7 @@ export default function UnsplashUrl() {
                         unsplashData.response?.user.links.html ?? ""
                     }
                 />
-                <Form method="post">
+                <Form method="post" className="konvertering-form">
                     <input
                         type="text"
                         name="photoId"
@@ -102,49 +101,38 @@ export default function UnsplashUrl() {
                         readOnly
                     />
 
-                    <div className="flex flex-col">
-                        <div className="my-10">
-                            <label htmlFor="geometri" className="block">
-                                Velg geometriske former
-                            </label>
-                            <select
-                                className="mt-2 block p-2"
-                                name="geometri"
-                                id="geometri"
-                            >
-                                <option value="0">Kombinasjon av alle</option>
-                                <option value="1">Triangler</option>
-                                <option value="2">Rektangler</option>
-                                <option value="3">Ellipser</option>
-                                <option value="4">Sirkler</option>
-                                <option value="5">Roterte rektangler</option>
-                                <option value="6">Bézier-kurve</option>
-                                <option value="7">Roterte ellipser</option>
-                                <option value="8">Polygoner</option>
-                            </select>
-                        </div>
-                        <button className="rounded-lg bg-accent" type="submit">
-                            Generer bilde
+                    <div className="geometrivelger">
+                        <label htmlFor="geometri">Bruk</label>
+                        <select name="geometri" id="geometri">
+                            <option value="1">Triangler</option>
+                            <option value="0">Kombinasjon av alle</option>
+                            <option value="2">Rektangler</option>
+                            <option value="3">Ellipser</option>
+                            <option value="4">Sirkler</option>
+                            <option value="5">Roterte rektangler</option>
+                            <option value="6">Bézier-kurve</option>
+                            <option value="7">Roterte ellipser</option>
+                            <option value="8">Polygoner</option>
+                        </select>
+                        <span>og</span>
+                        <button className="hovedknapp" type="submit">
+                            Tegn bilde
                         </button>
                     </div>
                 </Form>
-                <h2 className="mt-10">
+                <h2 className="mt-20 mb-10">
                     Tidligere konverteringer av dette bilde
                 </h2>
-                <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
+                <div className="bilderutenett">
                     {tidligereKonverteringer.map((konv) => {
                         return (
-                            <div
-                                className="prose mb-10 text-center"
-                                key={konv.id}
-                            >
-                                <p className="m-0 p-0">Modus: </p>
-                                <p className="m-0 p-0">
-                                    {oversettMode(konv.mode)}
-                                </p>
+                            <div className="bilderute" key={konv.id}>
+                                <h3>
+                                    <span>{konv.numberOfPrimitives} </span>
+                                    <span>{oversettMode(konv.mode)}</span>
+                                </h3>
                                 <Link to={`/${konv.unsplashId}`}>
                                     <img
-                                        className="m-0 h-80 bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
                                         key={konv.id}
                                         src={`/${konv.pathSvgBilde}`}
                                         alt="SVG-bilde"
