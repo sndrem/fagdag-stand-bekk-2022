@@ -23,16 +23,6 @@ canvas {
     display: none;
 }
 
-.webkamera button,
-.webkamera-resultat .nytt-bilde-knapp {
-    align-self: center;
-    font-family: "DIN OT";
-    font-size: 2rem;
-    padding: 1rem 2rem;
-    background-color: peachpuff;
-    border-radius: 0.25rem;
-}
-
 .webkamera form {
     display: flex;
     justify-content: center;
