@@ -12,9 +12,9 @@ import { defaultPrimitiveOptions } from "./sqip";
 import type { PrimitiveOptions } from "./types";
 
 export interface Metadata {
-    originalStorrelse: string;
-    nyStorrelse: string;
-    prosentSpart: string;
+    originalStorrelse: number;
+    nyStorrelse: number;
+    prosentSpart: number;
     nedlastetBildePath: string;
     resultatSvgPath: string;
     unsplashResponse: ApiResponse<Full> | undefined;
@@ -43,8 +43,8 @@ async function genererSqipBilde(
                 await beregnStatistikk(nedlastetBildePath, outputImage);
 
             return {
-                originalStorrelse: originalStørrelse.toFixed(2),
-                nyStorrelse: nyStørrelse.toFixed(10),
+                originalStorrelse: originalStørrelse,
+                nyStorrelse: nyStørrelse,
                 prosentSpart,
                 nedlastetBildePath: path.join(
                     "images",
@@ -70,7 +70,7 @@ export async function fetchFromUnsplashAndRunThroughSqip(
         ...primitiveOptions,
     };
 
-    const { numberOfPrimitives, rep, nth, mode } = allOptions;
+    const { numberOfPrimitives, nth, mode } = allOptions;
     console.log(
         `Kjører primitive med ${numberOfPrimitives}, lagrer hvert ${nth}. steg ...`
     );

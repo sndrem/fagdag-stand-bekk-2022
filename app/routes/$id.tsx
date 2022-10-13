@@ -37,18 +37,22 @@ export default function VisBilde() {
 
     const metadata = JSON.parse(data[0].metadata) as Metadata;
     const unsplash = metadata.unsplashResponse?.response;
+
     return (
         <>
             <div className="side">
                 <h1>Resultat</h1>
                 <p>
                     Original størrelse på bilde:{" "}
-                    {parseInt(metadata.originalStorrelse).toFixed(2)} MB
+                    {formaterBytes(metadata.originalStorrelse)}
                 </p>
                 <img
                     className="stort-bilde"
                     src={`/${metadata.nedlastetBildePath}`}
-                    alt="Originalbilde"
+                    alt={
+                        metadata.unsplashResponse?.response?.alt_description ||
+                        "originalbilde"
+                    }
                 />
                 <p>
                     {unsplash?.exif.aperture} / {unsplash?.exif.exposure_time} -{" "}
@@ -95,17 +99,24 @@ export default function VisBilde() {
                                         <span>
                                             {result.numberOfPrimitives}{" "}
                                         </span>
-                                        <span>{oversettMode(result.mode)}</span>
+                                        <span>
+                                            {oversettMode(
+                                                result.mode
+                                            ).toLowerCase()}
+                                        </span>
                                         <span> på </span>
                                         <span>
-                                            {formaterStørrelse(
+                                            {formaterBytes(
                                                 metadata.nyStorrelse
                                             )}
                                         </span>
                                     </h3>
 
                                     <small>
-                                        Du sparer {metadata.prosentSpart} %
+                                        {formaterProsentSpart(
+                                            metadata.prosentSpart
+                                        )}
+                                        % av originalbildet
                                     </small>
                                 </div>
                             </div>
@@ -121,6 +132,22 @@ export default function VisBilde() {
     );
 }
 
-const formaterStørrelse = (størrelse: string) => {
-    return `${størrelse.substring(0, 5)} MB`;
+export const formaterBytes = (bytes: number) => {
+    if (bytes > 1000000) {
+        return `${(bytes / 1000000).toFixed(2)} megabytes`;
+    } else if (bytes > 1000) {
+        const kilobytes = bytes / 1000;
+        const avrundet =
+            kilobytes > 5 ? Math.round(kilobytes) : kilobytes.toFixed(2);
+
+        return `${avrundet} kilobytes`;
+    } else {
+        return `${bytes} bytes`;
+    }
+};
+
+export const formaterProsentSpart = (desimal: number) => {
+    const prosent = desimal * 100;
+
+    return prosent > 98 ? prosent.toFixed(1) : Math.round(prosent);
 };
