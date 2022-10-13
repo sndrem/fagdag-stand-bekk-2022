@@ -147,7 +147,7 @@ export const formaterBytes = (bytes: number) => {
 };
 
 export const formaterProsentSpart = (desimal: number) => {
-    const prosent = desimal * 100;
+    const prosent = (1 - desimal) * 100;
 
-    return prosent > 98 ? prosent.toFixed(1) : Math.round(prosent);
+    return prosent < 1 ? prosent.toFixed(2) : Math.round(prosent);
 };
