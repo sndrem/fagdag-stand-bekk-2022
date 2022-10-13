@@ -44,6 +44,7 @@ small,
 label,
 select,
 option,
+button,
 a {
     font-family: "din";
 }
@@ -58,6 +59,10 @@ a {
 
 .side h1 {
     align-self: flex-start;
+}
+
+.side-topptung h1 {
+    margin-bottom: -3rem;
 }
 
 .hjem-knapper {
@@ -133,6 +138,7 @@ footer a {
 
 .søk-wrapper {
     display: flex;
+    margin-top: 5rem;
     align-items: center;
     gap: 1rem;
 }
@@ -163,6 +169,10 @@ footer a {
     background: none;
     border-bottom: 2px solid white;
     appearance: none;
+}
+
+.geometrivelger select:focus {
+    outline: none;
 }
 
 .konvertering-form {

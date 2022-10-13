@@ -11,7 +11,7 @@ export default function View() {
 
     return (
         <>
-            <main className="side">
+            <main className="side side-topptung">
                 <h1>Se bilde</h1>
                 <div className="horisontalt stor-tekst">
                     <label htmlFor="blur">Blur bildet</label>

@@ -99,11 +99,7 @@ export default function VisBilde() {
                                         <span>
                                             {result.numberOfPrimitives}{" "}
                                         </span>
-                                        <span>
-                                            {oversettMode(
-                                                result.mode
-                                            ).toLowerCase()}
-                                        </span>
+                                        <span>{oversettMode(result.mode)}</span>
                                         <span> på </span>
                                         <span>
                                             {formaterBytes(
