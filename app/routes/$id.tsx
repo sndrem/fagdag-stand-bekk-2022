@@ -55,6 +55,7 @@ export default function VisBilde() {
                     userProfileLink={unsplash?.user.links.html ?? ""}
                 />
                 <Link
+                    className="hovedknapp"
                     to={`/unsplash/${metadata?.unsplashResponse?.response?.id}`}
                 >
                     Tegn på nytt

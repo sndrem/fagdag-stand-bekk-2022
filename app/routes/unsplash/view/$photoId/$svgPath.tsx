@@ -21,7 +21,7 @@ export default function View() {
                     name="blur"
                     id="blir"
                     min={0}
-                    max={10}
+                    max={30}
                     value={blur}
                     onChange={onBlurChange}
                 />

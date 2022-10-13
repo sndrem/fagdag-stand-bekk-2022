@@ -172,6 +172,7 @@ footer a {
 
 .stort-bilde {
     max-width: 80rem;
+    max-height: 70vh;
 }
 
 .bildestats p {
