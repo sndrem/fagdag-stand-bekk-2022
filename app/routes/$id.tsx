@@ -98,11 +98,9 @@ export default function VisBilde() {
                                         <span>{oversettMode(result.mode)}</span>
                                         <span> på </span>
                                         <span>
-                                            {metadata.nyStorrelse?.substring(
-                                                0,
-                                                5
-                                            )}{" "}
-                                            MB
+                                            {formaterStørrelse(
+                                                metadata.nyStorrelse
+                                            )}
                                         </span>
                                     </h3>
 
@@ -122,3 +120,7 @@ export default function VisBilde() {
         </>
     );
 }
+
+const formaterStørrelse = (størrelse: string) => {
+    return `${størrelse.substring(0, 5)} MB`;
+};
