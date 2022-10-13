@@ -95,7 +95,9 @@ const WebkameraRoute = () => {
     const videoClassName = mode === Mode.TaBilde ? undefined : "skjult";
 
     return (
-        <div className="webkamera">
+        <div className="side">
+            <h1>Bruk webkamera</h1>
+
             <canvas ref={canvasRef} />
 
             <div className="feed">
@@ -112,7 +114,7 @@ const WebkameraRoute = () => {
             </div>
 
             {mode === Mode.TaBilde && (
-                <button className="webkamera-ta-bilde" onClick={onTakePicture}>
+                <button className="hovedknapp" onClick={onTakePicture}>
                     Knips bilde 📸
                 </button>
             )}
@@ -125,10 +127,18 @@ const WebkameraRoute = () => {
                             name="image"
                             defaultValue={imageSrc || ""}
                         />
-                        <button type="submit">Bruk bilde ✅</button>
-                        <button type="button" onClick={taNyttBilde}>
-                            Ta nytt bilde 😉
-                        </button>
+                        <div className="søk-wrapper">
+                            <button className="hovedknapp" type="submit">
+                                Bruk bilde
+                            </button>
+                            <button
+                                className="hovedknapp"
+                                type="button"
+                                onClick={taNyttBilde}
+                            >
+                                Ta nytt bilde
+                            </button>
+                        </div>
                     </Form>
                 </>
             )}

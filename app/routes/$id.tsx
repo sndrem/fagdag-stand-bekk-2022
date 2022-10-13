@@ -3,8 +3,8 @@ import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import path from "path";
+import { oversettMode } from "~/utils/oversetter";
 import { PhotoAttribution } from "../components/PhotoAttribution";
-import { SvgImage } from "../components/SvgImage";
 import { prisma } from "../lib/db.server";
 import type { Metadata } from "../services/sqip/fraUnsplash";
 
@@ -34,14 +34,14 @@ export default function VisBilde() {
     const unsplash = metadata.unsplashResponse?.response;
     return (
         <>
-            <div className="flex flex-col items-center">
-                <h1 className="font-bold">Originalbilde</h1>
+            <div className="side">
+                <h1>Resultat</h1>
                 <p>
                     Original størrelse på bilde:{" "}
                     {parseInt(metadata.originalStorrelse).toFixed(2)} MB
                 </p>
                 <img
-                    className="mb-5 max-h-96  bg-slate-50 object-cover p-2 shadow-2xl drop-shadow-2xl"
+                    className="stort-bilde"
                     src={`/${metadata.nedlastetBildePath}`}
                     alt="Originalbilde"
                 />
@@ -55,62 +55,62 @@ export default function VisBilde() {
                     userProfileLink={unsplash?.user.links.html ?? ""}
                 />
                 <Link
-                    className="rounded-lg bg-regn p-2"
+                    className="hovedknapp"
                     to={`/unsplash/${metadata?.unsplashResponse?.response?.id}`}
                 >
-                    Konverter på nytt
+                    Tegn på nytt
                 </Link>
 
-                <div className="mt-10">
-                    <h1 className="mb-5 text-center font-bold">
-                        SVG etter konvertering
-                    </h1>
+                <h1>Tegnede bilder</h1>
+                <div className="bilderutenett bilderutenett--stort">
+                    {data?.map((result) => {
+                        const metadata = JSON.parse(
+                            result.metadata
+                        ) as Metadata;
 
-                    <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
-                        {data.map((result) => {
-                            const metadata = JSON.parse(
-                                result.metadata
-                            ) as Metadata;
-                            return (
-                                <div
-                                    className="prose mb-10 text-center"
-                                    key={result.id}
+                        return (
+                            <div
+                                className="bilderute bilderute--behold-ratio"
+                                key={result.id}
+                            >
+                                <Link
+                                    to={`../unsplash/view/${
+                                        metadata.unsplashResponse?.response?.id
+                                    }/${path.basename(
+                                        metadata.resultatSvgPath
+                                    )}`}
                                 >
-                                    <Link
-                                        className="mt-5 block rounded-xl bg-skyfriKontrast no-underline "
-                                        to={`../unsplash/view/${
-                                            metadata.unsplashResponse?.response
-                                                ?.id
-                                        }/${path.basename(
-                                            metadata.resultatSvgPath
-                                        )}`}
-                                    >
-                                        <SvgImage
-                                            metadata={metadata}
-                                            result={
-                                                result as unknown as Konvertering
-                                            }
-                                        />
-                                    </Link>
+                                    <img
+                                        src={`/${metadata.resultatSvgPath}`}
+                                        alt="SVG av originalbilde"
+                                    />
+                                </Link>
+                                <div className="bildestats">
+                                    <h3>
+                                        <span>
+                                            {result.numberOfPrimitives}{" "}
+                                        </span>
+                                        <span>{oversettMode(result.mode)}</span>
+                                        <span> på </span>
+                                        <span>
+                                            {metadata.nyStorrelse?.substring(
+                                                0,
+                                                5
+                                            )}{" "}
+                                            MB
+                                        </span>
+                                    </h3>
 
-                                    <Link
-                                        className="mt-5 block rounded-xl bg-skyfriKontrast p-2 no-underline "
-                                        to={`../unsplash/view/${
-                                            metadata.unsplashResponse?.response
-                                                ?.id
-                                        }/${path.basename(
-                                            metadata.resultatSvgPath
-                                        )}`}
-                                    >
-                                        Print meg som klistremerke
-                                    </Link>
+                                    <small>
+                                        Du sparer {metadata.prosentSpart} %
+                                    </small>
                                 </div>
-                            );
-                        })}
-                    </div>
+                            </div>
+                        );
+                    })}
                 </div>
 
-                <Link className="rounded-md bg-accent py-5 px-10" to="/search">
+                <Link className="hovedknapp" to="/search">
                     Nytt søk
                 </Link>
             </div>

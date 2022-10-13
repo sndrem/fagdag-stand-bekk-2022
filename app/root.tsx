@@ -29,19 +29,24 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
     return (
-        <html lang="no" className="min-h-full">
+        <html lang="no">
             <head>
                 <Meta />
                 <Links />
             </head>
-            <body className="mb-10 bg-gradient-to-b from-regn to-soloppgang font-din text-lg">
-                <Header />
-                <main className="m-auto w-5/6">
-                    <Outlet />
-                    <ScrollRestoration />
-                    <Scripts />
-                    <LiveReload />
-                </main>
+            <body>
+                <div>
+                    <Header />
+                    <main>
+                        <Outlet />
+                        <ScrollRestoration />
+                        <Scripts />
+                        <LiveReload />
+                    </main>
+                </div>
+                <footer>
+                    <Link to="/om">Om løsningen</Link>
+                </footer>
             </body>
         </html>
     );
