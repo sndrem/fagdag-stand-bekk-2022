@@ -23,7 +23,7 @@ export default function UnsplashSearchRoute() {
 
     return (
         <div className="side">
-            <h1>Bruk høykvalitets bilder</h1>
+            <h1>Bruk høykvalitetsbilder</h1>
             <Form method="get">
                 <div className="søk-wrapper">
                     <img src="/icons/søk.svg" alt="Søk" />
