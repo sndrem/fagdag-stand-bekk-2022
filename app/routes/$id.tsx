@@ -4,9 +4,9 @@ import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import path from "path";
 import { PhotoAttribution } from "../components/PhotoAttribution";
+import { SvgImage } from "../components/SvgImage";
 import { prisma } from "../lib/db.server";
 import type { Metadata } from "../services/sqip/fraUnsplash";
-import { oversettMode } from "../utils/oversetter";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { id } = params;
@@ -24,13 +24,13 @@ export const loader: LoaderFunction = async ({ params }) => {
         ],
     });
 
-    return json({ result: bilderFraDb });
+    return json(bilderFraDb);
 };
 
 export default function VisBilde() {
-    const data = useLoaderData<{ result: Konvertering[] }>();
+    const data = useLoaderData<Konvertering[]>();
 
-    const metadata = JSON.parse(data.result[0].metadata) as Metadata;
+    const metadata = JSON.parse(data[0].metadata) as Metadata;
     const unsplash = metadata.unsplashResponse?.response;
     return (
         <>
@@ -54,13 +54,20 @@ export default function VisBilde() {
                     photoBy={unsplash?.user.name ?? ""}
                     userProfileLink={unsplash?.user.links.html ?? ""}
                 />
+                <Link
+                    className="rounded-lg bg-regn p-2"
+                    to={`/unsplash/${metadata?.unsplashResponse?.response?.id}`}
+                >
+                    Konverter på nytt
+                </Link>
+
                 <div className="mt-10">
                     <h1 className="mb-5 text-center font-bold">
                         SVG etter konvertering
                     </h1>
 
                     <div className="grid gap-10 sm:grid-cols-3 lg:grid-cols-6">
-                        {data?.result.map((result) => {
+                        {data.map((result) => {
                             const metadata = JSON.parse(
                                 result.metadata
                             ) as Metadata;
@@ -69,16 +76,6 @@ export default function VisBilde() {
                                     className="prose mb-10 text-center"
                                     key={result.id}
                                 >
-                                    <p className="m-0 p-0">
-                                        Antall primitives:{" "}
-                                    </p>
-                                    <p className="m-0 p-0">
-                                        {result.numberOfPrimitives}
-                                    </p>
-                                    <p className="m-0 p-0">Modus: </p>
-                                    <p className="m-0 p-0">
-                                        {oversettMode(result.mode)}
-                                    </p>
                                     <Link
                                         className="mt-5 block rounded-xl bg-skyfriKontrast no-underline "
                                         to={`../unsplash/view/${
@@ -88,19 +85,14 @@ export default function VisBilde() {
                                             metadata.resultatSvgPath
                                         )}`}
                                     >
-                                        <img
-                                            src={`/${metadata.resultatSvgPath}`}
-                                            alt="SVG av originalbilde"
-                                            className="m-0 bg-slate-50 object-cover p-2 p-0 shadow-2xl drop-shadow-2xl"
+                                        <SvgImage
+                                            metadata={metadata}
+                                            result={
+                                                result as unknown as Konvertering
+                                            }
                                         />
                                     </Link>
-                                    <p className="mt-5 mb-0">
-                                        {metadata.nyStorrelse?.substring(0, 5)}{" "}
-                                        MB
-                                    </p>
-                                    <p className="m-0 p-0">
-                                        Du sparer {metadata.prosentSpart} %
-                                    </p>
+
                                     <Link
                                         className="mt-5 block rounded-xl bg-skyfriKontrast p-2 no-underline "
                                         to={`../unsplash/view/${
