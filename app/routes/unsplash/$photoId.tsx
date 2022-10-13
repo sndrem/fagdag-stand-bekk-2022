@@ -29,18 +29,14 @@ export const action: ActionFunction = async ({ request }) => {
 
     const alternativeImages = [10, 50, 100];
 
-    const result: Konvertering[] = [];
-    await Promise.all(
-        alternativeImages.map(async (numOfPrimitive) => {
-            const resultatFraKonvertering =
-                await fetchFromUnsplashAndRunThroughSqip(
-                    photoId,
-                    parseInt(geometriMode, 10),
-                    numOfPrimitive
-                );
-            result.push(...resultatFraKonvertering);
-        })
+    const promises = alternativeImages.map((numOfPrimitive) =>
+        fetchFromUnsplashAndRunThroughSqip(
+            photoId,
+            parseInt(geometriMode, 10),
+            numOfPrimitive
+        )
     );
+    await Promise.all(promises);
 
     return redirect(`/${photoId}`);
 };

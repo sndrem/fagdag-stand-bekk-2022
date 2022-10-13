@@ -45,16 +45,24 @@ export default function Index() {
                                     className="bilderute"
                                     to={`/${data.unsplashId}`}
                                 >
-                                    <img
-                                        title={`Modus: ${oversettMode(
-                                            data.mode
-                                        )}`}
-                                        alt={
-                                            metadata?.alt_description ??
-                                            "Bilde av en tidligere konvertering"
-                                        }
-                                        src={data.pathSvgBilde}
-                                    />
+                                    <div>
+                                        <img
+                                            title={`Modus: ${oversettMode(
+                                                data.mode
+                                            )}`}
+                                            alt={
+                                                metadata?.alt_description ??
+                                                "Bilde av en tidligere konvertering"
+                                            }
+                                            src={data.pathSvgBilde}
+                                        />
+                                        <p className="prose">
+                                            Konvertert som:{" "}
+                                            {oversettMode(
+                                                data.mode
+                                            ).toLowerCase()}
+                                        </p>
+                                    </div>
                                 </Link>
                             );
                         })}

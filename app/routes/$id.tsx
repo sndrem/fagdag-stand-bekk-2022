@@ -3,10 +3,10 @@ import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import path from "path";
+import { oversettMode } from "~/utils/oversetter";
 import { PhotoAttribution } from "../components/PhotoAttribution";
 import { prisma } from "../lib/db.server";
 import type { Metadata } from "../services/sqip/fraUnsplash";
-import { oversettMode } from "../utils/oversetter";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { id } = params;
@@ -24,18 +24,18 @@ export const loader: LoaderFunction = async ({ params }) => {
         ],
     });
 
-    return json({ result: bilderFraDb });
+    return json(bilderFraDb);
 };
 
 export default function VisBilde() {
-    const data = useLoaderData<{ result: Konvertering[] }>();
+    const data = useLoaderData<Konvertering[]>();
 
-    const metadata = JSON.parse(data.result[0].metadata) as Metadata;
+    const metadata = JSON.parse(data[0].metadata) as Metadata;
     const unsplash = metadata.unsplashResponse?.response;
     return (
         <>
             <div className="side">
-                <h1 className="font-bold">Resultat</h1>
+                <h1>Resultat</h1>
                 <p>
                     Original størrelse på bilde:{" "}
                     {parseInt(metadata.originalStorrelse).toFixed(2)} MB
@@ -54,10 +54,15 @@ export default function VisBilde() {
                     photoBy={unsplash?.user.name ?? ""}
                     userProfileLink={unsplash?.user.links.html ?? ""}
                 />
+                <Link
+                    to={`/unsplash/${metadata?.unsplashResponse?.response?.id}`}
+                >
+                    Tegn på nytt
+                </Link>
 
                 <h1>Tegnede bilder</h1>
                 <div className="bilderutenett bilderutenett--stort">
-                    {data?.result.map((result) => {
+                    {data?.map((result) => {
                         const metadata = JSON.parse(
                             result.metadata
                         ) as Metadata;
@@ -99,18 +104,6 @@ export default function VisBilde() {
                                         Du sparer {metadata.prosentSpart} %
                                     </small>
                                 </div>
-                                {/* TODO: Flytt til bildeside
-                                <Link
-                                    className="mt-5 block rounded-xl bg-skyfriKontrast p-2 no-underline "
-                                    to={`../unsplash/view/${
-                                        metadata.unsplashResponse?.response?.id
-                                    }/${path.basename(
-                                        metadata.resultatSvgPath
-                                    )}`}
-                                >
-                                    Print meg som klistremerke
-                                </Link>
-                                */}
                             </div>
                         );
                     })}
