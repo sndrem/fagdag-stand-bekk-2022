@@ -8,13 +8,13 @@ import { oversettMode } from "../utils/oversetter";
 export const loader: LoaderFunction = async () => {
     const tidligereBilder = await prisma.konvertering.findMany({
         take: 50,
-        where: { numberOfPrimitives: 100 },
+        where: { numberOfPrimitives: 500 },
         orderBy: {
             createdAt: "desc",
         },
     });
 
-    return json([...tidligereBilder, ...tidligereBilder, ...tidligereBilder]);
+    return json(tidligereBilder);
 };
 
 export default function Index() {
