@@ -11,45 +11,57 @@ export default function View() {
 
     return (
         <>
-            <main className="flex flex-col items-center">
-                <Link className="mb-10" to={`/${photoId}`}>
-                    ⬅️ Tilbake
-                </Link>
-                <label htmlFor="blur">Prøv med blur: {blur}</label>
-                <input
-                    type="range"
-                    name="blur"
-                    id="blir"
-                    min={0}
-                    max={30}
-                    value={blur}
-                    onChange={onBlurChange}
-                />
-                <div className={`mt-10 max-w-4xl overflow-hidden`}>
+            <main className="side">
+                <h1>Se bilde</h1>
+                <div className="horisontalt stor-tekst">
+                    <label htmlFor="blur">Blur bildet</label>
+                    <input
+                        type="range"
+                        name="blur"
+                        id="blir"
+                        min={0}
+                        max={30}
+                        value={blur}
+                        onChange={onBlurChange}
+                    />
+                    <span>{blur}</span>
+                </div>
+                <div className="overflow-hidden">
                     <img
+                        className="stort-bilde"
                         style={{
                             filter: `blur(${blur}px)`,
-                            transform: `scale(1.${String(
-                                blur * (1 / 4)
-                            ).padStart(2, "0")})`,
+                            transition: "200ms",
+                            transform: justerBlur(blur),
                         }}
                         src={`/images/${svgPath}`}
                         alt=""
                     />
                 </div>
-                <form method="post" action={`/convert`}>
-                    <input
-                        type="text"
-                        name="svgPath"
-                        hidden
-                        value={svgPath}
-                        readOnly
-                    />
-                    <button className="hovedknapp mt-10" type="submit">
-                        Print 🖨
-                    </button>
-                </form>
+                <div className="horisontalt">
+                    <Link className="hovedknapp" to={`/${photoId}`}>
+                        Tilbake
+                    </Link>
+                    <form method="post" action={`/convert`}>
+                        <input
+                            type="text"
+                            name="svgPath"
+                            hidden
+                            value={svgPath}
+                            readOnly
+                        />
+                        <button className="hovedknapp" type="submit">
+                            Print 🖨
+                        </button>
+                    </form>
+                </div>
             </main>
         </>
     );
 }
+
+const justerBlur = (blur: number): string => {
+    const rate = blur * (1 / 4);
+
+    return `scale(1.${String(rate).padStart(2, "0")})`;
+};
