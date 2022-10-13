@@ -25,12 +25,18 @@ export default function View() {
                     value={blur}
                     onChange={onBlurChange}
                 />
-                <img
-                    style={{ filter: `blur(${blur}px)` }}
-                    className={`max-w-4xl`}
-                    src={`/images/${svgPath}`}
-                    alt=""
-                />
+                <div className={`mt-10 max-w-4xl overflow-hidden`}>
+                    <img
+                        style={{
+                            filter: `blur(${blur}px)`,
+                            transform: `scale(1.${String(
+                                blur * (1 / 4)
+                            ).padStart(2, "0")})`,
+                        }}
+                        src={`/images/${svgPath}`}
+                        alt=""
+                    />
+                </div>
                 <form method="post" action={`/convert`}>
                     <input
                         type="text"
@@ -39,12 +45,8 @@ export default function View() {
                         value={svgPath}
                         readOnly
                     />
-                    <button
-                        className="mt-5 rounded-xl bg-skyfriKontrast p-5 text-2xl uppercase"
-                        type="submit"
-                    >
-                        Print <br />
-                        🖨
+                    <button className="hovedknapp mt-10" type="submit">
+                        Print 🖨
                     </button>
                 </form>
             </main>

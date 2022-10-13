@@ -42,20 +42,10 @@ const runSvgo = (
     options: Partial<PrimitiveOptions>
 ): Promise<void> => {
     let input = imagePath;
-    if (
-        options.numberOfPrimitives &&
-        options.nth &&
-        options.nth > 0 &&
-        input.includes("%d")
-    ) {
-        const numberOfInputs = options.numberOfPrimitives / options.nth;
-        const allSteps = Array(numberOfInputs)
-            .fill(0)
-            .map((_, index) => {
-                return (index + 1) * (options.nth || 1);
-            });
+    const { numberOfPrimitives, nth } = options;
 
-        input = allSteps
+    if (numberOfPrimitives && nth && nth > 0 && input.includes("%d")) {
+        input = getAllSteps(numberOfPrimitives, nth)
             .map((step) => imagePath.replace("%d", String(step)))
             .join(" ");
     }
@@ -64,6 +54,16 @@ const runSvgo = (
 
     console.log(`Optimaliserer bilder med SVGO "${command}"`);
     return runCommand(command);
+};
+
+export const getAllSteps = (numberOfPrimitives: number, nth: number) => {
+    const numberOfInputs = numberOfPrimitives / nth;
+
+    return Array(numberOfInputs)
+        .fill(0)
+        .map((_, index) => {
+            return (index + 1) * (nth || 1);
+        });
 };
 
 const copyFinalImage = (

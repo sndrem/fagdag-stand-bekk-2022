@@ -10,9 +10,14 @@ import type { Metadata } from "../services/sqip/fraUnsplash";
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { id } = params;
+
+    const stegSomSkalVises = [10, 30, 50, 100, 300, 500];
     const bilderFraDb = await prisma.konvertering.findMany({
         where: {
             unsplashId: id,
+            OR: stegSomSkalVises.map((numberOfPrimitives) => ({
+                numberOfPrimitives,
+            })),
         },
         orderBy: [
             {

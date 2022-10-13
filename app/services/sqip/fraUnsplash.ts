@@ -1,14 +1,13 @@
 import path from "path";
 import { prisma } from "../../lib/db.server";
 import { downloadImage } from "../imageDownloadService";
-import { log } from "../log";
 import { getPhotoById } from "../unsplash";
 import { beregnStatistikk } from "./statistikk";
 
 import type { Konvertering } from "@prisma/client";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
-import { convertToPrimitives } from "./primitive";
+import { convertToPrimitives, getAllSteps } from "./primitive";
 import { defaultPrimitiveOptions } from "./sqip";
 import type { PrimitiveOptions } from "./types";
 
@@ -19,6 +18,7 @@ export interface Metadata {
     nedlastetBildePath: string;
     resultatSvgPath: string;
     unsplashResponse: ApiResponse<Full> | undefined;
+    numberOfPrimitives: number;
 }
 
 async function genererSqipBilde(
@@ -26,35 +26,57 @@ async function genererSqipBilde(
     nedlastetBildePath: string,
     resultatSvgPath: string,
     options: PrimitiveOptions
-) {
+): Promise<Metadata[]> {
     await convertToPrimitives(nedlastetBildePath, resultatSvgPath, options);
+    const { numberOfPrimitives, nth } = options;
 
-    const { originalStørrelse, nyStørrelse, prosentSpart } =
-        await beregnStatistikk(nedlastetBildePath, resultatSvgPath);
+    let allSteps = [numberOfPrimitives];
+    if (nth && nth > 0) {
+        allSteps = getAllSteps(numberOfPrimitives, nth);
+    }
 
-    const jsonResult: Metadata = {
-        originalStorrelse: originalStørrelse.toFixed(2),
-        nyStorrelse: nyStørrelse.toFixed(10),
-        prosentSpart,
-        nedlastetBildePath: path.join(
-            "images",
-            path.basename(nedlastetBildePath)
-        ),
-        resultatSvgPath: path.join("images", path.basename(resultatSvgPath)),
-        unsplashResponse,
-    };
+    return Promise.all(
+        allSteps.map(async (step: number) => {
+            const outputImage = resultatSvgPath.replace("%d", String(step));
 
-    return jsonResult;
+            const { originalStørrelse, nyStørrelse, prosentSpart } =
+                await beregnStatistikk(nedlastetBildePath, outputImage);
+
+            return {
+                originalStorrelse: originalStørrelse.toFixed(2),
+                nyStorrelse: nyStørrelse.toFixed(10),
+                prosentSpart,
+                nedlastetBildePath: path.join(
+                    "images",
+                    path.basename(nedlastetBildePath)
+                ),
+                resultatSvgPath: path.join(
+                    "images",
+                    path.basename(outputImage)
+                ),
+                numberOfPrimitives: step,
+                unsplashResponse,
+            };
+        })
+    );
 }
 
 export async function fetchFromUnsplashAndRunThroughSqip(
     photoId: string,
-    geometriMode: number,
-    numberOfPrimitives: number = 500
+    primitiveOptions: Partial<PrimitiveOptions>
 ): Promise<Konvertering[]> {
-    // TODO Her må vi også sjekke mode, number of primitives og blur
+    const allOptions = {
+        ...defaultPrimitiveOptions,
+        ...primitiveOptions,
+    };
+
+    const { numberOfPrimitives, rep, nth, mode } = allOptions;
+    console.log(
+        `Kjører primitive med ${numberOfPrimitives}, lagrer hvert ${nth}. steg ...`
+    );
+
     const metadataFinnesFraFor = await prisma.konvertering.findMany({
-        where: { unsplashId: photoId, numberOfPrimitives, mode: geometriMode },
+        where: { unsplashId: photoId, numberOfPrimitives, mode },
         orderBy: { numberOfPrimitives: "asc" },
     });
 
@@ -68,8 +90,6 @@ export async function fetchFromUnsplashAndRunThroughSqip(
         });
     }
 
-    log.success(`Søker etter bilder av: ${photoId}`);
-
     const unsplashResponse = await getPhotoById(photoId);
     const unsplashUrl = (unsplashResponse?.response?.urls.raw ?? "") + ".png";
 
@@ -78,31 +98,28 @@ export async function fetchFromUnsplashAndRunThroughSqip(
 
     await downloadImage(unsplashUrl, nedlastetBildePath);
 
-    let options = {
-        ...defaultPrimitiveOptions,
-        numberOfPrimitives,
-        mode: geometriMode,
-    };
+    const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-%d-${mode}.svg`;
 
-    const resultatSvgPath = `${bildePath}/${unsplashResponse?.response?.id}-${options.numberOfPrimitives}-${options.mode}.svg`;
-
-    const konvertering = await genererSqipBilde(
+    const konverteringer = await genererSqipBilde(
         unsplashResponse!,
         nedlastetBildePath,
         resultatSvgPath,
-        options
+        allOptions
     );
 
-    const savedKonvertering = await prisma.konvertering.create({
-        data: {
-            unsplashId: unsplashResponse?.response?.id!!,
-            metadata: JSON.stringify(konvertering),
-            blur: 0,
-            mode: options.mode,
-            numberOfPrimitives: options.numberOfPrimitives,
-            pathOriginalbilde: konvertering.nedlastetBildePath,
-            pathSvgBilde: konvertering.resultatSvgPath,
-        },
+    const lagredeKonverteringer = konverteringer.map(async (konvertering) => {
+        return await prisma.konvertering.create({
+            data: {
+                unsplashId: unsplashResponse?.response?.id!!,
+                metadata: JSON.stringify(konvertering),
+                blur: 0,
+                mode,
+                numberOfPrimitives: konvertering.numberOfPrimitives,
+                pathOriginalbilde: konvertering.nedlastetBildePath,
+                pathSvgBilde: konvertering.resultatSvgPath,
+            },
+        });
     });
-    return [savedKonvertering];
+
+    return Promise.all(lagredeKonverteringer);
 }

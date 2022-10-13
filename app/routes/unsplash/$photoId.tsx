@@ -27,16 +27,19 @@ export const action: ActionFunction = async ({ request }) => {
         throw json({ message: "Unsplash id er tom" }, 409);
     }
 
-    const alternativeImages = [10, 50, 100];
+    const mode = parseInt(geometriMode, 10);
 
-    const promises = alternativeImages.map((numOfPrimitive) =>
-        fetchFromUnsplashAndRunThroughSqip(
-            photoId,
-            parseInt(geometriMode, 10),
-            numOfPrimitive
-        )
-    );
-    await Promise.all(promises);
+    await fetchFromUnsplashAndRunThroughSqip(photoId, {
+        numberOfPrimitives: 50,
+        nth: 10,
+        mode,
+    });
+
+    await fetchFromUnsplashAndRunThroughSqip(photoId, {
+        numberOfPrimitives: 500,
+        nth: 100,
+        mode,
+    });
 
     return redirect(`/${photoId}`);
 };

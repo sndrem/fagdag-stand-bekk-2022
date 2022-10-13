@@ -6,7 +6,7 @@ import type { SqipResult } from "sqip";
 export const defaultPrimitiveOptions: PrimitiveOptions = {
     numberOfPrimitives: 500,
     mode: 1,
-    rep: 100,
+    rep: 1,
 };
 
 export const convertToPrimitives = async (

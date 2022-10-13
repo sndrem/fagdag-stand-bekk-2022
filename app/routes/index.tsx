@@ -31,7 +31,7 @@ export default function Index() {
                     Bruk webkamera
                 </Link>
             </div>
-            {loaderData.length && (
+            {loaderData.length > 0 && (
                 <>
                     <h2>Tidligere konverteringer</h2>
                     <div className="bilderutenett">
