@@ -21,11 +21,11 @@ export default function Index() {
     const loaderData = useLoaderData<Konvertering[]>();
 
     return (
-        <div className="side">
+        <div className="side side-topptung">
             <h1>Geometrisk bildeoptimalisering</h1>
             <div className="hjem-knapper">
                 <Link to="/search" className="hovedknapp">
-                    Generer et nytt bilde
+                    Bruk et fotografi
                 </Link>
                 <Link to="/webkamera" className="hovedknapp">
                     Bruk webkamera
@@ -33,7 +33,7 @@ export default function Index() {
             </div>
             {loaderData.length > 0 && (
                 <>
-                    <h2>Tidligere konverteringer</h2>
+                    <h2>Andre tegnede bilder</h2>
                     <div className="bilderutenett">
                         {loaderData?.map((data) => {
                             const metadata = JSON.parse(data.metadata);

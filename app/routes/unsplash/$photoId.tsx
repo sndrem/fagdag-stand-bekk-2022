@@ -104,25 +104,27 @@ export default function UnsplashUrl() {
                     <div className="geometrivelger">
                         <label htmlFor="geometri">Bruk</label>
                         <select name="geometri" id="geometri">
-                            <option value="1">Triangler</option>
-                            <option value="0">Kombinasjon av alle</option>
-                            <option value="2">Rektangler</option>
-                            <option value="3">Ellipser</option>
-                            <option value="4">Sirkler</option>
-                            <option value="5">Roterte rektangler</option>
-                            <option value="6">Bézier-kurve</option>
-                            <option value="7">Roterte ellipser</option>
-                            <option value="8">Polygoner</option>
+                            <option value="1">{oversettMode(1)}</option>
+                            <option value="0">{oversettMode(0)}</option>
+                            <option value="2">{oversettMode(2)}</option>
+                            <option value="3">{oversettMode(3)}</option>
+                            <option value="4">{oversettMode(4)}</option>
+                            <option value="5">{oversettMode(5)}</option>
+                            <option value="6">{oversettMode(6)}</option>
+                            <option value="7">{oversettMode(7)}</option>
+                            <option value="8">{oversettMode(8)}</option>
                         </select>
                         <span>og</span>
                         <button className="hovedknapp" type="submit">
-                            Tegn bilde
+                            tegn bilde
                         </button>
                     </div>
                 </Form>
-                <h2 className="mt-20 mb-10">
-                    Tidligere konverteringer av dette bilde
-                </h2>
+                {tidligereKonverteringer.length > 0 && (
+                    <h2 className="mt-20 mb-10">
+                        Andre tegninger av dette bildet
+                    </h2>
+                )}
                 <div className="bilderutenett">
                     {tidligereKonverteringer.map((konv) => {
                         return (

@@ -1,24 +1,24 @@
 export function oversettMode(mode: number): string {
     switch (mode) {
         case 0:
-            return "Kombinasjon av alle";
+            return "kombinasjon av alle";
         case 1:
-            return "Triangler";
+            return "triangler";
         case 2:
-            return "Rektangler";
+            return "rektangler";
         case 3:
-            return "Ellipser";
+            return "ellipser";
         case 4:
-            return "Sirkler";
+            return "sirkler";
         case 5:
-            return "Roterte rektangler";
+            return "roterte rektangler";
         case 6:
-            return "Bézier-kurve";
+            return "bézier-kurve";
         case 7:
-            return "Roterte ellipser";
+            return "roterte ellipser";
         case 8:
-            return "Polygoner";
+            return "polygoner";
         default:
-            return "Ukjent mode";
+            return "ukjent mode";
     }
 }
