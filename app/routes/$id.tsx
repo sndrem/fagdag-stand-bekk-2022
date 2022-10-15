@@ -2,7 +2,6 @@ import type { Konvertering } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import path from "path";
 import { oversettMode } from "~/utils/oversetter";
 import { PhotoAttribution } from "../components/PhotoAttribution";
 import { prisma } from "../lib/db.server";
@@ -77,18 +76,16 @@ export default function VisBilde() {
                             result.metadata
                         ) as Metadata;
 
+                        const link = `/unsplash/view/${
+                            metadata.unsplashResponse?.response?.id
+                        }/${metadata.resultatSvgPath.split(/[\\//]+/).at(-1)}`;
+
                         return (
                             <div
                                 className="bilderute bilderute--behold-ratio"
                                 key={result.id}
                             >
-                                <Link
-                                    to={`../unsplash/view/${
-                                        metadata.unsplashResponse?.response?.id
-                                    }/${path.basename(
-                                        metadata.resultatSvgPath
-                                    )}`}
-                                >
+                                <Link to={link}>
                                     <img
                                         src={`/${metadata.resultatSvgPath}`}
                                         alt="SVG av originalbilde"
