@@ -1,19 +1,21 @@
 import type { Konvertering } from "@prisma/client";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useParams } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
+import Ikon from "~/components/Ikon";
 import { oversettMode } from "~/utils/oversetter";
-import { PhotoAttribution } from "../components/PhotoAttribution";
-import { prisma } from "../lib/db.server";
-import type { Metadata } from "../services/sqip/fraUnsplash";
+import { PhotoAttribution } from "../../../../components/PhotoAttribution";
+import { prisma } from "../../../../lib/db.server";
+import type { Metadata } from "../../../../services/sqip/fraUnsplash";
 
 export const loader: LoaderFunction = async ({ params }) => {
-    const { id } = params;
+    const { id, mode } = params;
 
     const stegSomSkalVises = [10, 30, 50, 100, 300, 500];
     const bilderFraDb = await prisma.konvertering.findMany({
         where: {
             unsplashId: id,
+            mode: parseInt(mode || "0"),
             OR: stegSomSkalVises.map((numberOfPrimitives) => ({
                 numberOfPrimitives,
             })),
@@ -32,6 +34,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function VisBilde() {
+    const { id, mode } = useParams();
     const data = useLoaderData<Konvertering[]>();
 
     const metadata = JSON.parse(data[0].metadata) as Metadata;
@@ -41,10 +44,16 @@ export default function VisBilde() {
         <>
             <div className="side">
                 <h1>Resultat</h1>
-                <p>
-                    Original størrelse på bilde:{" "}
-                    {formaterBytes(metadata.originalStorrelse)}
-                </p>
+                <div className="side-header">
+                    <Link className="tilbakelenke" to={`/unsplash/${id}`}>
+                        ← Tegn bilde
+                    </Link>
+                    <p className="stor-tekst">
+                        Original størrelse på bilde:{" "}
+                        {formaterBytes(metadata.originalStorrelse)}
+                    </p>
+                    <span />
+                </div>
                 <img
                     className="stort-bilde"
                     src={`/${metadata.nedlastetBildePath}`}
@@ -69,23 +78,21 @@ export default function VisBilde() {
                     Tegn på nytt
                 </Link>
 
-                <h1>Tegnede bilder</h1>
+                <h1>Tegnet med {oversettMode(parseInt(mode || "0"))}</h1>
                 <div className="bilderutenett bilderutenett--stort">
                     {data?.map((result) => {
                         const metadata = JSON.parse(
                             result.metadata
                         ) as Metadata;
 
-                        const link = `/unsplash/view/${
-                            metadata.unsplashResponse?.response?.id
-                        }/${metadata.resultatSvgPath.split(/[\\//]+/).at(-1)}`;
-
                         return (
                             <div
                                 className="bilderute bilderute--behold-ratio"
                                 key={result.id}
                             >
-                                <Link to={link}>
+                                <Link
+                                    to={`/result/${id}/${mode}/${metadata.numberOfPrimitives}`}
+                                >
                                     <img
                                         src={`/${metadata.resultatSvgPath}`}
                                         alt="SVG av originalbilde"

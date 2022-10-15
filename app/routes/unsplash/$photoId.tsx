@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
         mode,
     });
 
-    return redirect(`/${photoId}`);
+    return redirect(`/result/${photoId}/${mode}`);
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -79,7 +79,12 @@ export default function UnsplashUrl() {
     if (!data && unsplashData.type === "success") {
         return (
             <div className="side">
-                <h1>Konverter bilde</h1>
+                <h1>Tegn bilde</h1>
+                <div className="side-header">
+                    <Link className="tilbakelenke" to="/search">
+                        ← Til søket
+                    </Link>
+                </div>
 
                 <img
                     className="stort-bilde"
@@ -134,12 +139,17 @@ export default function UnsplashUrl() {
                 <div className="bilderutenett">
                     {tidligereKonverteringer.map((konv) => {
                         return (
-                            <div className="bilderute" key={konv.id}>
+                            <div
+                                className="bilderute bilderute--behold-ratio"
+                                key={konv.id}
+                            >
                                 <h3>
                                     <span>{konv.numberOfPrimitives} </span>
                                     <span>{oversettMode(konv.mode)}</span>
                                 </h3>
-                                <Link to={`/${konv.unsplashId}`}>
+                                <Link
+                                    to={`/result/${konv.unsplashId}/${konv.mode}`}
+                                >
                                     <img
                                         key={konv.id}
                                         src={`/${konv.pathSvgBilde}`}
