@@ -5,60 +5,58 @@ import { Link } from "@remix-run/react";
 
 export default function Om() {
     return (
-        <main className="m-auto flex max-w-6xl flex-col items-center">
-            <section className="prose mb-10 text-black">
-                <section className="grid grid-cols-2 gap-20">
-                    <div>
-                        <h3>Utfordring 🤔</h3>
-                        <p>
-                            Bilder på nett er vanskelig å få til riktig, og det
-                            kan ofte være en årsak til at nettsidene dine lastes
-                            sakte. Vi bør strebe etter å lage så raske og
-                            effektive nettsider som mulig. En rask nettside er
-                            ofte en bærekraft og solid nettside.
-                        </p>
-                    </div>
-                    <div>
-                        <h3>En mulig løsning 💡</h3>
-                        <p>
-                            Dersom man har mye bilder på nettsiden sin kan man
-                            ved noen enkle grep redusere lastetiden betraktelig
-                            ved å vise en plassholder bestående av geometriske
-                            former. Ved å bruke et verktøy som{" "}
-                            <a href="https://github.com/axe312ger/sqip">Sqip</a>{" "}
-                            kan man genere disse plassholder-bildene på en enkel
-                            måte.
-                        </p>
-                        <p>Prøv det ut da vel!</p>
-                        <Link
-                            className="mb-5 rounded-lg bg-accent p-5"
-                            to="/search"
-                        >
-                            Generer et nytt bilde
-                        </Link>
-                    </div>
-                </section>
-            </section>
+        <div className="side">
+            <h1>Hva er utfordringen? </h1>
+            <div style={{ color: "#b3b3b3" }}>
+                <h2>
+                    Bilder på en nettside er ofte store, og dermed en årsak til
+                    at nettsiden lastes sakte. En treg nettside kan føre til
+                    færre brukere, og mange vil forlate nettsiden før den er
+                    ferdig lastet. Store bilder krever også mer ressurser i form
+                    av økt lagringsplass og overføring av data, noe som gir økt
+                    energibruk. Vi bør derfor strebe etter å lage så raske og
+                    effektive nettsider som mulig. En rask nettside er ofte en
+                    bærekraftig og solid nettside.
+                </h2>
+            </div>
+            <h1>Hva kan du gjøre selv?</h1>
+            <div style={{ color: "#b3b3b3" }}>
+                <h2>
+                    Det finnes heldigvis enkle grep man kan ta for å redusere
+                    lastetiden betraktelig, og dermed også redusere
+                    energibruken. Et eksempel er å komprimere bilder, da man
+                    ofte ikke trenger full oppløsning på en nettside. Et annet
+                    tiltak kan være å bruke SVG-bilder der det er mulig, da
+                    disse tar mye mindre plass enn et piksel-bilde i høy
+                    oppløsning. SVG-bilder som plassholdere vil også kunne
+                    forbedre brukeropplevelsen på en nettside.
+                </h2>
+            </div>
+            <div>
+                <Link className="lenke stor-tekst" to="/search">
+                    <p>Prøv vår bildeoptimaliserings-løsning her</p>
+                </Link>
+            </div>
             <aside className="flex flex-row text-center">
                 <Profilbilde src={Lena} navn="Lena Tørresdal" />
                 <Profilbilde src={Kjetil} navn="Kjetil Svalestuen" />
                 <Profilbilde src={Sindre} navn="Sindre Moldeklev" />
             </aside>
-            <p className="prose mt-10">
-                Denne standen er utviklet av Lena Tørresdal, Kjetil Svalestuen
-                og Sindre Moldeklev. De er alle tre med i faggruppen{" "}
-                <b>Bunnsolide webløsninger</b> der et av årets tema har vært{" "}
-                <b>bildeoptimalisering</b>.
+
+            <p className="flex text-center" style={{ color: "#b3b3b3" }}>
+                Denne standen er laget av Lena Tørresdal, Kjetil Svalestuen og
+                Sindre Moldeklev. <br /> De er alle med i faggruppen Bunnsolide
+                webløsninger der et av årets tema har vært bildeoptimalisering.
             </p>
-        </main>
+        </div>
     );
 }
 
 function Profilbilde({ src, navn }: { src: string; navn: string }) {
     return (
-        <div className="w-72">
-            <img className="m-10 rounded-full" src={src} alt="" />
-            <small className="prose text-center tracking-wide">{navn}</small>
+        <div className="w-80">
+            <img className="mx-10 mb-2" src={src} alt="" />
+            <p style={{ color: "#b3b3b3" }}>{navn}</p>
         </div>
     );
 }
