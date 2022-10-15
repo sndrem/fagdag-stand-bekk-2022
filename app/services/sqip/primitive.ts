@@ -5,8 +5,8 @@ const { exec } = require("child_process");
 export const defaultPrimitiveOptions: PrimitiveOptions = {
     numberOfPrimitives: 500,
     mode: 1,
-    rep: 100,
-    nth: 0,
+    rep: 1,
+    nth: 10,
 };
 
 export const convertToPrimitives = async (
@@ -30,7 +30,7 @@ const runPrimitive = (
     };
 
     const { mode, numberOfPrimitives, rep, nth } = allRequiredOptions;
-    const command = `primitive -i ${imagePath} -o ${outputImagePath} -n ${numberOfPrimitives} -m ${mode} -rep ${rep} -nth ${nth}`;
+    const command = `primitive -r 256 -i ${imagePath} -o ${outputImagePath} -n ${numberOfPrimitives} -m ${mode} -rep ${rep} -nth ${nth}`;
 
     console.log(`Kjører Primitive med kommando "${command}"`);
 

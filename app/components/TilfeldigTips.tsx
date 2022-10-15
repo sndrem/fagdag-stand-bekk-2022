@@ -20,9 +20,5 @@ export function TilfeldigTips() {
         return () => clearInterval(id);
     }, [tilfeldigTips]);
 
-    return (
-        <div className="mt-50 absolute bottom-0 m-auto block w-full rounded-b-lg bg-white pt-2 pb-2 text-center text-black opacity-70">
-            <p className="">{tilfeldigTips}</p>
-        </div>
-    );
+    return <p className="stor-tekst">{tilfeldigTips}</p>;
 }

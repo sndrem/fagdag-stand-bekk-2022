@@ -8,11 +8,12 @@ import {
 } from "@remix-run/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
 import { json, redirect } from "@remix-run/server-runtime";
+import { useState } from "react";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
+import TegnerBilde from "~/components/TegnerBilde";
 import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
-import Sauelaster from "../../components/Sauelaster";
 import { prisma } from "../../lib/db.server";
 import { getPhotoById } from "../../services/unsplash";
 import { oversettMode } from "../../utils/oversetter";
@@ -66,12 +67,13 @@ export default function UnsplashUrl() {
         }>();
     const data = useActionData<{ result: Konvertering[] }>();
     const transition = useTransition();
+    const [mode, setMode] = useState<number>(1);
 
     if (
         transition.state === "submitting" &&
         transition.location.pathname.includes("/unsplash")
     ) {
-        return <Sauelaster />;
+        return <TegnerBilde mode={mode} />;
     }
 
     if (!data && unsplashData.type === "success") {
@@ -103,7 +105,11 @@ export default function UnsplashUrl() {
 
                     <div className="geometrivelger">
                         <label htmlFor="geometri">Bruk</label>
-                        <select name="geometri" id="geometri">
+                        <select
+                            onChange={(e) => setMode(parseInt(e.target.value))}
+                            name="geometri"
+                            id="geometri"
+                        >
                             <option value="1">{oversettMode(1)}</option>
                             <option value="0">{oversettMode(0)}</option>
                             <option value="2">{oversettMode(2)}</option>

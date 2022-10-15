@@ -8,7 +8,7 @@ import type { Konvertering } from "@prisma/client";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
 import { convertToPrimitives, getAllSteps } from "./primitive";
-import { defaultPrimitiveOptions } from "./sqip";
+import { defaultPrimitiveOptions } from "./primitive";
 import type { PrimitiveOptions } from "./types";
 
 export interface Metadata {
@@ -123,3 +123,6 @@ export async function fetchFromUnsplashAndRunThroughSqip(
 
     return Promise.all(lagredeKonverteringer);
 }
+
+const delay = async (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
