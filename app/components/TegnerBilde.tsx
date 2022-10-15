@@ -22,36 +22,24 @@ const TegnerBilde = ({ mode }: { mode: number }) => {
             const nextNumberOfPrimitivesToLoad =
                 allVariants[allVariants.indexOf(numberOfPrimitives) + 1];
 
-            console.log("");
-
-            const ventetid =
-                nextNumberOfPrimitivesToLoad < 20
-                    ? 2000
-                    : nextNumberOfPrimitivesToLoad > 50
-                    ? 1000
-                    : 250;
-
             if (image.ok) {
                 setLoaderImageSrc(
                     `/images/${unsplashId}-${numberOfPrimitives}-${mode}.svg`
                 );
 
                 setNumberOfPrimitives(nextNumberOfPrimitivesToLoad);
-                timeout = setTimeout(() => {}, ventetid);
-            } else if (image.status === 404) {
-                timeout = setTimeout(() => {
-                    fetchImage();
-                }, ventetid);
             }
         };
 
         if (numberOfPrimitives < (allVariants.at(-1) || 0)) {
-            fetchImage();
+            timeout = setInterval(() => {
+                fetchImage();
+            }, 1000);
         }
 
         return () => {
             if (timeout) {
-                clearTimeout(timeout);
+                clearInterval(timeout);
             }
         };
     }, [numberOfPrimitives]);
