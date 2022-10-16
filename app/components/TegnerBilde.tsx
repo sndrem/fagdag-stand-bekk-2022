@@ -42,9 +42,7 @@ const TegnerBilde = ({ mode }: { mode: number }) => {
                 clearInterval(timeout);
             }
         };
-    }, [numberOfPrimitives]);
-
-    console.log("Bruker bilde:", loaderImageSrc);
+    }, [numberOfPrimitives, mode, unsplashId]);
 
     if (unsplashId === undefined) {
         return null;
