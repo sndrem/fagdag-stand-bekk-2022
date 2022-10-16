@@ -116,14 +116,14 @@ export default function UnsplashUrl() {
                             id="geometri"
                         >
                             <option value="1">{oversettMode(1)}</option>
-                            <option value="0">{oversettMode(0)}</option>
                             <option value="2">{oversettMode(2)}</option>
-                            <option value="3">{oversettMode(3)}</option>
-                            <option value="4">{oversettMode(4)}</option>
                             <option value="5">{oversettMode(5)}</option>
                             <option value="6">{oversettMode(6)}</option>
-                            <option value="7">{oversettMode(7)}</option>
                             <option value="8">{oversettMode(8)}</option>
+                            <option value="4">{oversettMode(4)}</option>
+                            <option value="3">{oversettMode(3)}</option>
+                            <option value="7">{oversettMode(7)}</option>
+                            <option value="0">{oversettMode(0)}</option>
                         </select>
                         <span>og</span>
                         <button className="hovedknapp" type="submit">
@@ -143,10 +143,6 @@ export default function UnsplashUrl() {
                                 className="bilderute bilderute--behold-ratio"
                                 key={konv.id}
                             >
-                                <h3>
-                                    <span>{konv.numberOfPrimitives} </span>
-                                    <span>{oversettMode(konv.mode)}</span>
-                                </h3>
                                 <Link
                                     to={`/result/${konv.unsplashId}/${konv.mode}`}
                                 >
@@ -156,6 +152,9 @@ export default function UnsplashUrl() {
                                         alt="SVG-bilde"
                                     />
                                 </Link>
+                                <h3>
+                                    <span>Med {oversettMode(konv.mode)}</span>
+                                </h3>
                             </div>
                         );
                     })}

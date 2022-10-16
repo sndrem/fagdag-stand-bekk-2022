@@ -50,7 +50,7 @@ const runSvgo = (
             .join(" ");
     }
 
-    const command = `svgo ${input} -o ${input}`;
+    const command = `svgo --multipass -p 1 ${input} -o ${input}`;
 
     console.log(`Optimaliserer bilder med SVGO "${command}"`);
     return runCommand(command);

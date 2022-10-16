@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const tips = [
-    "Innhold som hopper rundt på skjermen vil gi dårlig Lighthouse-score",
+    "Innhold som hopper rundt på skjermen vil gi en dårlig brukeropplevelse",
     "Vær kritisk til bildestørrelser",
     "Må du laste bilder på mobil?",
     "En nettside som laster tregt kan skade kundens omdømme",
-    "Lazy-load bilder under folden",
+    "Lazy-load bilder som ikke umiddelbart er synlige",
 ];
 
 export function TilfeldigTips() {
@@ -20,5 +20,5 @@ export function TilfeldigTips() {
         return () => clearInterval(id);
     }, [tilfeldigTips]);
 
-    return <p className="stor-tekst">{tilfeldigTips}</p>;
+    return <p className="stor-tekst">💡 {tilfeldigTips}</p>;
 }

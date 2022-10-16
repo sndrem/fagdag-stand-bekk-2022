@@ -187,6 +187,10 @@ footer a {
     object-fit: contain;
 }
 
+.bildestats {
+    margin-top: 0.5rem;
+}
+
 .bildestats p {
     font-size: 2rem;
 }
