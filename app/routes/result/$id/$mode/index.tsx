@@ -48,7 +48,7 @@ export default function VisBilde() {
                     <Link className="tilbakelenke" to={`/unsplash/${id}`}>
                         ← Tegn bilde
                     </Link>
-                    <p className="stor-tekst">
+                    <p>
                         Original størrelse på bilde:{" "}
                         {formaterBytes(metadata.originalStorrelse)}
                     </p>
