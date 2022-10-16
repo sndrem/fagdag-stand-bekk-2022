@@ -53,12 +53,11 @@ export default function View() {
                         value={blur}
                         onChange={onBlurChange}
                     />
-                    <span>{blur}</span>
+                    <span>{blur}px</span>
                 </div>
                 <div
                     className="overflow-hidden"
                     style={{ position: "relative" }}
-                    onClick={() => setVisOriginal(!visOriginal)}
                 >
                     <img
                         className="stort-bilde"
