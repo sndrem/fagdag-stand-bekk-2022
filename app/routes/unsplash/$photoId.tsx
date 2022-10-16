@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const tidligereKonverteringer = await prisma.konvertering.findMany({
         where: {
             unsplashId: photoId,
-            numberOfPrimitives: 500,
+            numberOfPrimitives: 100,
         },
     });
 
