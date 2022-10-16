@@ -31,3 +31,7 @@ Kjør også `npx prisma generate` for å få klienten oppdatert
 -   [image-downloader](https://www.npmjs.com/package/image-downloader) for å enkelt laste ned bilder fra internett
 -   [sqip](https://github.com/axe312ger/sqip) for konvertering til svg
 -   [unsplash-js](https://github.com/unsplash/unsplash-js) for enkel kommunikasjon med Unsplash sitt API
+
+## Les mer
+
+<img src="public/qr_code_info.svg">

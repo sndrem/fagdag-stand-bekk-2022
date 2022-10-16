@@ -1,6 +1,5 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
-    Link,
     Links,
     LiveReload,
     Meta,
@@ -12,6 +11,7 @@ import {
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import appStylesheetUrl from "./styles/app.css";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 
 export const links: LinksFunction = () => {
     return [
@@ -44,9 +44,7 @@ export default function App() {
                         <LiveReload />
                     </main>
                 </div>
-                <footer>
-                    <Link to="/om">Om løsningen</Link>
-                </footer>
+                <Footer />
             </body>
         </html>
     );
