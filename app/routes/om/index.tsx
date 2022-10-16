@@ -1,6 +1,7 @@
 import Lena from "../../styles/lena.svg";
 import Kjetil from "../../styles/kjetil.svg";
 import Sindre from "../../styles/sindre.svg";
+import QRcode from "../../../public/qr_code_info.svg";
 import { Link } from "@remix-run/react";
 
 export default function Om() {
@@ -48,6 +49,7 @@ export default function Om() {
                 Sindre Moldeklev. <br /> De er alle med i faggruppen Bunnsolide
                 webløsninger der et av årets tema har vært bildeoptimalisering.
             </p>
+            <img className="mt-10" src={QRcode} alt="QR-kode til info-side" />
         </div>
     );
 }
