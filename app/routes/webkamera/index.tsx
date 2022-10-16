@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Form, useTransition } from "@remix-run/react";
 import styles from "~/styles/webkamera.css";
 import Sauelaster from "~/components/Sauelaster";
+import TegnerBilde from "~/components/TegnerBilde";
 
 export const links = () => [{ rel: "stylesheet", href: styles }];
 
@@ -88,7 +89,7 @@ const WebkameraRoute = () => {
     };
 
     if (transition.state === "submitting") {
-        return <Sauelaster />;
+        return <TegnerBilde mode={mode} />;
     }
 
     const bildeClassName = mode === Mode.TaBilde ? "skjult" : undefined;

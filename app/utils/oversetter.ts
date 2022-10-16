@@ -13,7 +13,7 @@ export function oversettMode(mode: number): string {
         case 5:
             return "roterte rektangler";
         case 6:
-            return "bézier-kurve";
+            return "bézier-kurver";
         case 7:
             return "roterte ellipser";
         case 8:

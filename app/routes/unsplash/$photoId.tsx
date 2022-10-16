@@ -8,11 +8,12 @@ import {
 } from "@remix-run/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
 import { json, redirect } from "@remix-run/server-runtime";
+import { useState } from "react";
 import type { ApiResponse } from "unsplash-js/dist/helpers/response";
 import type { Full } from "unsplash-js/dist/methods/photos/types";
+import TegnerBilde from "~/components/TegnerBilde";
 import { fetchFromUnsplashAndRunThroughSqip } from "~/services/sqip/fraUnsplash";
 import { PhotoAttribution } from "../../components/PhotoAttribution";
-import Sauelaster from "../../components/Sauelaster";
 import { prisma } from "../../lib/db.server";
 import { getPhotoById } from "../../services/unsplash";
 import { oversettMode } from "../../utils/oversetter";
@@ -41,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
         mode,
     });
 
-    return redirect(`/${photoId}`);
+    return redirect(`/result/${photoId}/${mode}`);
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -51,7 +52,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const tidligereKonverteringer = await prisma.konvertering.findMany({
         where: {
             unsplashId: photoId,
-            numberOfPrimitives: 500,
+            numberOfPrimitives: 100,
         },
     });
 
@@ -66,18 +67,24 @@ export default function UnsplashUrl() {
         }>();
     const data = useActionData<{ result: Konvertering[] }>();
     const transition = useTransition();
+    const [mode, setMode] = useState<number>(1);
 
     if (
         transition.state === "submitting" &&
         transition.location.pathname.includes("/unsplash")
     ) {
-        return <Sauelaster />;
+        return <TegnerBilde mode={mode} />;
     }
 
     if (!data && unsplashData.type === "success") {
         return (
             <div className="side">
-                <h1>Konverter bilde</h1>
+                <h1>Tegn bilde</h1>
+                <div className="side-header">
+                    <Link className="tilbakelenke" to="/search">
+                        ← Til søket
+                    </Link>
+                </div>
 
                 <img
                     className="stort-bilde"
@@ -103,16 +110,20 @@ export default function UnsplashUrl() {
 
                     <div className="geometrivelger">
                         <label htmlFor="geometri">Bruk</label>
-                        <select name="geometri" id="geometri">
+                        <select
+                            onChange={(e) => setMode(parseInt(e.target.value))}
+                            name="geometri"
+                            id="geometri"
+                        >
                             <option value="1">{oversettMode(1)}</option>
-                            <option value="0">{oversettMode(0)}</option>
                             <option value="2">{oversettMode(2)}</option>
-                            <option value="3">{oversettMode(3)}</option>
-                            <option value="4">{oversettMode(4)}</option>
                             <option value="5">{oversettMode(5)}</option>
                             <option value="6">{oversettMode(6)}</option>
-                            <option value="7">{oversettMode(7)}</option>
                             <option value="8">{oversettMode(8)}</option>
+                            <option value="4">{oversettMode(4)}</option>
+                            <option value="3">{oversettMode(3)}</option>
+                            <option value="7">{oversettMode(7)}</option>
+                            <option value="0">{oversettMode(0)}</option>
                         </select>
                         <span>og</span>
                         <button className="hovedknapp" type="submit">
@@ -128,18 +139,22 @@ export default function UnsplashUrl() {
                 <div className="bilderutenett">
                     {tidligereKonverteringer.map((konv) => {
                         return (
-                            <div className="bilderute" key={konv.id}>
-                                <h3>
-                                    <span>{konv.numberOfPrimitives} </span>
-                                    <span>{oversettMode(konv.mode)}</span>
-                                </h3>
-                                <Link to={`/${konv.unsplashId}`}>
+                            <div
+                                className="bilderute bilderute--behold-ratio"
+                                key={konv.id}
+                            >
+                                <Link
+                                    to={`/result/${konv.unsplashId}/${konv.mode}`}
+                                >
                                     <img
                                         key={konv.id}
                                         src={`/${konv.pathSvgBilde}`}
                                         alt="SVG-bilde"
                                     />
                                 </Link>
+                                <h3>
+                                    <span>Med {oversettMode(konv.mode)}</span>
+                                </h3>
                             </div>
                         );
                     })}

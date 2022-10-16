@@ -17,8 +17,11 @@ const tips = [
 export function Soketips() {
     return (
         <div className="text-center">
-            <p>Usikker på hva du skal søke etter?</p>
-            <p>Trykk på en av emojiene og se hva som skjer...</p>
+            <p className="stor-tekst">Bruk engelsk – søket går mot Unsplash</p>
+            <p className="stor-tekst">
+                Usikker på hva du skal søke etter? Trykk på en av emojiene og se
+                hva som skjer...
+            </p>
             <div className="my-10 grid grid-cols-3 gap-5 text-5xl lg:grid-cols-12">
                 {tips.map(({ emoji, query }) => {
                     return (

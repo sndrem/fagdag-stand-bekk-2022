@@ -2,8 +2,10 @@ import { Link, useParams } from "@remix-run/react";
 import React, { useEffect, useState } from "react";
 
 export default function View() {
-    const { photoId, svgPath } = useParams();
-    const originalPath = svgPath?.split("-").slice(0, -2).join("-") + ".png";
+    const { id, mode, numberOfPrimitives } = useParams();
+    const pathToGeneratedImage = `/images/${id}-${numberOfPrimitives}-${mode}.svg`;
+    const pathToOriginalImage = `/images/${id}.png`;
+
     const [blur, setBlur] = useState(0);
 
     const [visOriginal, setVisOriginal] = useState<boolean>(false);
@@ -40,20 +42,26 @@ export default function View() {
 
     return (
         <>
-            <main className="side side-topptung">
+            <main className="side">
                 <h1>Se bilde</h1>
-                <div className="horisontalt stor-tekst">
-                    <label htmlFor="blur">Blur bildet</label>
-                    <input
-                        type="range"
-                        name="blur"
-                        id="blir"
-                        min={0}
-                        max={30}
-                        value={blur}
-                        onChange={onBlurChange}
-                    />
-                    <span>{blur}px</span>
+                <div className="side-header">
+                    <Link className="tilbakelenke" to={`/result/${id}/${mode}`}>
+                        ← Til resultat
+                    </Link>
+                    <div className="horisontalt stor-tekst">
+                        <label htmlFor="blur">Blur bildet</label>
+                        <input
+                            type="range"
+                            name="blur"
+                            id="blir"
+                            min={0}
+                            max={30}
+                            value={blur}
+                            onChange={onBlurChange}
+                        />
+                        <span>{blur}px</span>
+                    </div>
+                    <span />
                 </div>
                 <div
                     className="overflow-hidden"
@@ -66,7 +74,7 @@ export default function View() {
                             filter: `blur(${blur}px)`,
                             transform: justerBlur(blur),
                         }}
-                        src={`/images/${svgPath}`}
+                        src={pathToGeneratedImage}
                         alt=""
                     />
                     <img
@@ -78,7 +86,7 @@ export default function View() {
                             opacity: visOriginal ? 1 : 0,
                             transition: "400ms",
                         }}
-                        src={`/images/${originalPath}`}
+                        src={pathToOriginalImage}
                         alt=""
                     />
                 </div>
@@ -86,15 +94,12 @@ export default function View() {
                     Hold <code>space</code> for en «blur-up»-effekt
                 </p>
                 <div className="horisontalt">
-                    <Link className="hovedknapp" to={`/${photoId}`}>
-                        Tilbake
-                    </Link>
                     <form method="post" action={`/convert`}>
                         <input
                             type="text"
                             name="svgPath"
                             hidden
-                            value={svgPath}
+                            value={pathToGeneratedImage}
                             readOnly
                         />
                         <button className="hovedknapp" type="submit">

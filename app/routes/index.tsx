@@ -8,7 +8,7 @@ import { oversettMode } from "../utils/oversetter";
 export const loader: LoaderFunction = async () => {
     const tidligereBilder = await prisma.konvertering.findMany({
         take: 50,
-        where: { numberOfPrimitives: 500 },
+        where: { numberOfPrimitives: 100 },
         orderBy: {
             createdAt: "desc",
         },
@@ -27,13 +27,10 @@ export default function Index() {
                 <Link to="/search" className="hovedknapp">
                     Bruk et fotografi
                 </Link>
-                <Link to="/webkamera" className="hovedknapp">
-                    Bruk webkamera
-                </Link>
             </div>
             {loaderData.length > 0 && (
                 <>
-                    <h2>Andre tegnede bilder</h2>
+                    <h2>Tegnede bilder</h2>
                     <div className="bilderutenett">
                         {loaderData?.map((data) => {
                             const metadata = JSON.parse(data.metadata);
@@ -43,7 +40,7 @@ export default function Index() {
                                     prefetch="intent"
                                     key={data.id}
                                     className="bilderute"
-                                    to={`/${data.unsplashId}`}
+                                    to={`/result/${data.unsplashId}/${data.mode}`}
                                 >
                                     <img
                                         title={`Modus: ${oversettMode(

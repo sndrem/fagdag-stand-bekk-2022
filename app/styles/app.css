@@ -112,6 +112,7 @@ footer a {
 .bilderute {
     display: inline-block;
     aspect-ratio: 3 / 4;
+    overflow: hidden;
 }
 
 .bilderute--behold-ratio {
@@ -132,7 +133,7 @@ footer a {
 }
 
 .bilderute h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
 
@@ -186,6 +187,10 @@ footer a {
     object-fit: contain;
 }
 
+.bildestats {
+    margin-top: 0.5rem;
+}
+
 .bildestats p {
     font-size: 2rem;
 }
@@ -201,7 +206,32 @@ footer a {
 .horisontalt {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
+}
+
+.side-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+    margin-top: -2rem;
+    text-align: center;
+}
+
+.side-header > * {
+    flex: 1;
+}
+
+.tilbakelenke {
+    align-self: flex-start;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.tilbakelenke:hover {
+    text-decoration: none;
 }
 
 .stor-tekst {
