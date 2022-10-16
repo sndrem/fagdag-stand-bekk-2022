@@ -2,7 +2,6 @@ import type { Konvertering } from "@prisma/client";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
-import Ikon from "~/components/Ikon";
 import { oversettMode } from "~/utils/oversetter";
 import { PhotoAttribution } from "../../../../components/PhotoAttribution";
 import { prisma } from "../../../../lib/db.server";
