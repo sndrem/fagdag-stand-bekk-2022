@@ -6,7 +6,7 @@ import { Link } from "@remix-run/react";
 
 export default function Om() {
     return (
-        <div className="side">
+        <div className="side lesebredde">
             <h1>Hva er utfordringen? </h1>
             <div style={{ color: "#b3b3b3" }}>
                 <h2>
