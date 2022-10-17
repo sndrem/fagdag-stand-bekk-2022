@@ -55,6 +55,11 @@ a {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    margin: 0 auto;
+}
+
+.lesebredde {
+    max-width: 70ch;
 }
 
 .side h1 {
@@ -71,6 +76,8 @@ a {
     flex-direction: column;
     gap: 2rem;
     margin: 10rem 0;
+    justify-content: center;
+    align-items: center;
 }
 
 footer {
@@ -249,10 +256,6 @@ footer a {
 }
 
 @media (min-width: 1000px) {
-    .hjem-knapper {
-        flex-direction: row;
-    }
-
     .bilderutenett {
         grid-template-columns: repeat(4, 1fr);
     }
