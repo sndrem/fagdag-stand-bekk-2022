@@ -12,4 +12,10 @@ Løsningen bruker [Primitive](https://github.com/fogleman/primitive) for å gene
 
 [SVGO](https://github.com/svg/svgo) brukes for å optimalisere vektor-bildene. Genererte SVG-filer kan inneholde mye unødvendig metadata og støy, og SVGO er et verktøy som fjerner denne unødvendige dataen uten å påvirke resultatet.
 
-## Andre nyttige ressurser:
+## Les/undersøk videre:
+- [The technology behind preview photos](https://engineering.fb.com/2015/08/06/android/the-technology-behind-preview-photos)
+- [Pinterest’s Colored Background Placeholders](https://blog.embed.ly/pinterests-colored-background-placeholders-4b4c9fb8bb77)
+- [How Medium does progressive image loading](https://jmperezperez.com/blog/medium-image-progressive-loading-placeholder/)
+- [Optimize your images, do not let your users download big images for nothing](https://medium.com/doctolib/optimize-your-images-do-not-let-your-users-download-big-image-for-nothing-d2fcd49b8845)
+- [SQIP - a pluggable image converter with vector support](https://github.com/axe312ger/sqip)
+- [lazysizes](https://github.com/aFarkas/lazysizes)
