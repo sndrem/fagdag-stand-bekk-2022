@@ -35,23 +35,21 @@ export default function Om() {
                     nettside.
                 </h2>
             </div>
-            <div>
-                <Link className="lenke stor-tekst" to="/search">
-                    <p>Prøv vår bildeoptimaliseringsløsning her</p>
-                </Link>
-            </div>
+            <Link className="lenke stor-tekst" to="/search">
+                <h2>Prøv vår bildeoptimaliseringsløsning her</h2>
+            </Link>
             <aside className="flex flex-row text-center">
                 <Profilbilde src={Lena} navn="Lena Tørresdal" />
                 <Profilbilde src={Kjetil} navn="Kjetil Svalestuen" />
                 <Profilbilde src={Sindre} navn="Sindre Moldeklev" />
             </aside>
-
-            <p className="flex text-center" style={{ color: "#b3b3b3" }}>
+            <p className="mb-5 flex text-center" style={{ color: "#b3b3b3" }}>
                 Denne standen er laget av Lena Tørresdal, Kjetil Svalestuen og
                 Sindre Moldeklev. <br /> De er alle med i faggruppen Bunnsolide
                 webløsninger der et av årets tema har vært bildeoptimalisering.
             </p>
-            <img className="mt-10" src={QRcode} alt="QR-kode til info-side" />
+            <h2>Ønsker du å lese mer? Scan koden under 👇🏻</h2>
+            <img src={QRcode} alt="QR-kode til info-side" />
         </div>
     );
 }
@@ -59,7 +57,7 @@ export default function Om() {
 function Profilbilde({ src, navn }: { src: string; navn: string }) {
     return (
         <div className="w-80">
-            <img className="mx-10 mb-2" src={src} alt="" />
+            <img className="mx-10 mb-2 mt-10" src={src} alt="" />
             <p style={{ color: "#b3b3b3" }}>{navn}</p>
         </div>
     );
