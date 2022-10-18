@@ -27,15 +27,17 @@ export default function Om() {
                     lastetiden betraktelig, og dermed også redusere
                     energibruken. Et eksempel er å komprimere bilder, da man
                     ofte ikke trenger full oppløsning på en nettside. Et annet
-                    tiltak kan være å bruke SVG-bilder der det er mulig, da
-                    disse tar mye mindre plass enn et piksel-bilde i høy
-                    oppløsning. SVG-bilder som plassholdere vil også kunne
-                    forbedre brukeropplevelsen på en nettside.
+                    tiltak kan være å bruke{" "}
+                    <abbr title="Scalable Vector Graphics">SVG</abbr>
+                    -bilder der det er mulig, da disse tar mye mindre plass enn
+                    et piksel-bilde i høy oppløsning. SVG-bilder som
+                    plassholdere vil også kunne forbedre brukeropplevelsen på en
+                    nettside.
                 </h2>
             </div>
             <div>
                 <Link className="lenke stor-tekst" to="/search">
-                    <p>Prøv vår bildeoptimaliserings-løsning her</p>
+                    <p>Prøv vår bildeoptimaliseringsløsning her</p>
                 </Link>
             </div>
             <aside className="flex flex-row text-center">
