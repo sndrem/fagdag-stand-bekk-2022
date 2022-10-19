@@ -1,4 +1,13 @@
 #!/bin/bash
+echo "Starter kjøring av oppstartsscript"
+read -p "Vil du fortsette? [Y/n]" -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Avslutter oppstartsscript"
+    exit 1
+fi
+
 IMAGE_FOLDER=public/images
 if [ ! -d "$IMAGE_FOLDER" ]; then
     echo "📸 Oppretter mappen '/public/images'"
@@ -16,7 +25,7 @@ else
     echo "UNSPLASH_ACCESS_KEY=<DITT ACCESS TOKEN>" >> .env
 fi
 
-echo "Sjekker om Brew er installert..."
+echo "🕵️‍♂️ Sjekker om Brew er installert..."
 if ! [ -x "$(command -v brew)" ]; 
 then
   echo '💥 Error: brew er ikke installert.' >&2
@@ -24,10 +33,10 @@ then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   brew update
 else
-    echo "Brew er installert 👍🏼"
+    echo "Brew er installert 👍"
 fi
 
-echo "Sjekker om Go er installert..."
+echo "🕵️‍♂️ Sjekker om Go er installert..."
 if ! [ -x "$(command -v go)" ]; 
 then
   echo '💥 Error: go er ikke installert.' >&2
@@ -40,10 +49,10 @@ then
   source $HOME/.bashrc
   source $HOME/.zshrc
 else
-    echo "Go er installert 👍🏼"
+    echo "Go er installert 👍"
 fi
 
-echo "Sjekker om Primitive er installert..."
+echo "🕵️‍♂️ Sjekker om Primitive er installert..."
 if ! [ -x "$(command -v primitive)" ]; 
 then
   echo '💥 Error: primitive er ikke installert.' >&2
@@ -51,5 +60,5 @@ then
   go install github.com/fogleman/primitive@latest
   export PATH=$PATH:$(go env GOPATH)/bin
 else
-    echo "Primitive er installert 👍🏼"
+    echo "Primitive er installert 👍"
 fi
