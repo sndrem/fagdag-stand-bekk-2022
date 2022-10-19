@@ -12,6 +12,7 @@ const tips = [
     { emoji: "🐿", query: "chipmunks" },
     { emoji: "🌅", query: "sunset" },
     { emoji: "⛰", query: "mountains" },
+    { emoji: "💐", query: "flower" },
 ];
 
 export function Soketips() {
