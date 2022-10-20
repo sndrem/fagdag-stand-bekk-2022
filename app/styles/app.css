@@ -105,6 +105,10 @@ footer a {
     background-color: white;
 }
 
+.sekundarknapp {
+    text-decoration: underline;
+}
+
 .bilderutenett {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

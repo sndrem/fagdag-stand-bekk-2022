@@ -106,6 +106,18 @@ export default function View() {
                             Print 🖨
                         </button>
                     </form>
+                    <form method="post" action={`/download`}>
+                        <input
+                            type="text"
+                            name="svgPath"
+                            hidden
+                            value={pathToGeneratedImage}
+                            readOnly
+                        />
+                        <button className="sekundarknapp" type="submit">
+                            Last ned SVG ⬇️
+                        </button>
+                    </form>
                 </div>
             </main>
         </>
