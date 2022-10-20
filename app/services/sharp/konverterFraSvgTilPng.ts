@@ -2,7 +2,7 @@ import path from "path";
 import sharp from "sharp";
 
 export async function konverterFraSvgTilPng(svgPath: string) {
-    const bildePath = `${path.dirname(__dirname)}/public/images`;
+    const bildePath = `${path.dirname(__dirname)}/public`;
 
     try {
         const buffer = await sharp(`${bildePath}/${svgPath}`)
