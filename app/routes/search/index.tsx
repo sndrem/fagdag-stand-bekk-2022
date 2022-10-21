@@ -19,6 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function UnsplashSearchRoute() {
     const actionData = useLoaderData<UnsplashResponse>();
+
     const [search] = useSearchParams();
 
     return (
@@ -37,6 +38,11 @@ export default function UnsplashSearchRoute() {
                     />
                 </div>
             </Form>
+            {actionData?.response?.results.length === 0 ? (
+                <p className="text-2xl text-red-400">
+                    Fant dessverre ingen bilder for søket ditt.
+                </p>
+            ) : null}
             <Soketips />
 
             <div className="bilderutenett">
