@@ -4,13 +4,13 @@ Kom i gang med `npm install` og `npm run dev`.
 
 ## Konvertering av bilder fra Unsplash via Primitive
 
-Applikasjonen tilbyr et søk mot Unsplash som viser 10 bilder. Velg et bilde og la magien ta over ved å transformere bilde til en svg som består av enkle former og farger.
+Applikasjonen tilbyr et søk mot Unsplash som viser resultatet av søket. Velg et bilde og la magien ta over ved å transformere bilde til en svg som består av enkle former og farger.
 
 ## Kom i gang
 
-For å kjøre koden trenger man et access token fra [Unsplash Developer](https://unsplash.com/developers). Når det er ordnet kjører du `./init.sh`. Når det er gjort legger du til access token for Unsplash-API'et i .env-filen.
+For å kjøre koden trenger man et access token fra [Unsplash Developer](https://unsplash.com/developers). Når det er ordnet kjører du `npm install`. Når det er gjort legger du til access token for Unsplash-API'et i .env-filen.
 
-Kjør så `npm install` og kjør koden med `ts-node index.ts`. Output blir tilgjengelig i terminalen. Du kan se konvertert bilde ved å åpne filen `result.svg`.
+Start opp løsningen i dev-mode med `npm run dev` eller som et produksjonsbygg med `npm run build` etterfulgt av `npm run start`.
 
 ## Prisma - databaseklient
 
